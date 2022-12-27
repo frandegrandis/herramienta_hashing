@@ -5,13 +5,13 @@ import hashlib
 
 class Hasher:
 
-    def __init__(self):
-        self.hasher = hashlib.md5()
+    def __init__(self, hasher):
+        self.hasher = hasher
 
     def hash(self, elemento):
-        if isinstance(elemento, str): #es string
+        if isinstance(elemento, str):  # es string
             self.hasher.update(self.bytes_de(elemento))
-        else: #es archivo
+        else:  # es archivo
             self._hash_archivo(elemento)
         return self.hasher.hexdigest()
 
@@ -21,3 +21,15 @@ class Hasher:
 
     def bytes_de(self, elemento):
         return bytes(elemento, 'utf-8')
+
+    @classmethod
+    def sha1(cls):
+        return cls(hashlib.sha1())
+
+    @classmethod
+    def md5(cls):
+        return cls(hashlib.md5())
+
+    @classmethod
+    def sha256(cls):
+        return cls(hashlib.sha256())
