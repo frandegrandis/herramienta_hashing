@@ -4,14 +4,20 @@ import hashlib
 # Puede recibir un archivo o un string y retorna el hash
 
 class Hasher:
-    def hash(self, element):
-        hasher = hashlib.md5()
-        if isinstance(element, str):
-            hasher.update(self.get_bytes_of(element))
-        else:
-            for line in iter(lambda: element.read(4096), b""):
-                hasher.update(line)
-        return hasher.hexdigest()
 
-    def get_bytes_of(self, element):
-        return bytes(element, 'utf-8')
+    def __init__(self):
+        self.hasher = hashlib.md5()
+
+    def hash(self, elemento):
+        if isinstance(elemento, str): #es string
+            self.hasher.update(self.bytes_de(elemento))
+        else: #es archivo
+            self._hash_archivo(elemento)
+        return self.hasher.hexdigest()
+
+    def _hash_archivo(self, archivo):
+        for line in iter(lambda: archivo.read(4096), b""):
+            self.hasher.update(line)
+
+    def bytes_de(self, elemento):
+        return bytes(elemento, 'utf-8')
