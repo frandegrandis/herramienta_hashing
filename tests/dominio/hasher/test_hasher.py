@@ -6,10 +6,8 @@ from dominio.hasher.hasher import Hasher
 
 class HasherTestCase(TestCase):
     def test_obtener_hash_md5_de_strings_distintos(self):
-        hasher = self.hasher_md5()
-
-        self.assertEqual("4d186321c1a7f0f354b297e8914ab240", hasher.hash("hola"))
-        self.assertEqual("d0a4a9d5eae1444b3285be84e98afcf8", hasher.hash("chau"))
+        self.assertEqual("4d186321c1a7f0f354b297e8914ab240", self.hasher_md5().hash("hola"))
+        self.assertEqual("d0a4a9d5eae1444b3285be84e98afcf8", self.hasher_md5().hash("chau"))
         return
 
     def test_obtener_hash_con_caracteres_especiales(self):
