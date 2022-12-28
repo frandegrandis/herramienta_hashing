@@ -32,18 +32,13 @@ class PantallaPrincipal(CTk):
         boton.pack()
 
     def calcular_hash_md5(self):
-        valor_a_hashear = self.input_a_hashear.get()
-        valor_hasheado = HasherController().calcular_hash_md5(valor_a_hashear)
-        self.resultado_de_hash.mostrar(valor_hasheado)
+        self._obtener_hash(HasherController().calcular_hash_md5)
+
     def calcular_hash_sha1(self):
-        valor_a_hashear = self.input_a_hashear.get()
-        valor_hasheado = HasherController().calcular_hash_sha1(valor_a_hashear)
-        self.resultado_de_hash.mostrar(valor_hasheado)
+        self._obtener_hash(HasherController().calcular_hash_sha1)
 
     def calcular_hash_sha256(self):
-        valor_a_hashear = self.input_a_hashear.get()
-        valor_hasheado = HasherController().calcular_hash_sha256(valor_a_hashear)
-        self.resultado_de_hash.mostrar(valor_hasheado)
+        self._obtener_hash(HasherController().calcular_hash_sha256)
 
     def configurar_grilla(self):
         alto_pantalla = self.alto_pantalla()
@@ -56,3 +51,8 @@ class PantallaPrincipal(CTk):
 
     def alto_pantalla(self):
         return self.winfo_width()
+
+    def _obtener_hash(self, calculo_hash):
+        valor_a_hashear = self.input_a_hashear.get()
+        valor_hasheado = calculo_hash(valor_a_hashear)
+        self.resultado_de_hash.mostrar(valor_hasheado)
