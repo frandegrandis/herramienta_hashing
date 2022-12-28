@@ -5,10 +5,12 @@ import hashlib
 
 class Hasher:
 
-    def __init__(self, hasher):
-        self.hasher = hasher
+    def __init__(self, hasher_creator):
+        self.hasher = hasher_creator()
+        self.new_hasher = hasher_creator
 
     def hash(self, elemento):
+        self.hasher = self.new_hasher()
         if isinstance(elemento, str):  # es string
             self.hasher.update(self.bytes_de(elemento))
         else:  # es archivo
@@ -24,12 +26,12 @@ class Hasher:
 
     @classmethod
     def sha1(cls):
-        return cls(hashlib.sha1())
+        return cls(hashlib.sha1)
 
     @classmethod
     def md5(cls):
-        return cls(hashlib.md5())
+        return cls(hashlib.md5)
 
     @classmethod
     def sha256(cls):
-        return cls(hashlib.sha256())
+        return cls(hashlib.sha256)
