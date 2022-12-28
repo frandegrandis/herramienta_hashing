@@ -1,3 +1,4 @@
+from sys import getsizeof
 from typing import Callable, Union
 
 from customtkinter import CTkFrame, CTkButton, CTkEntry
@@ -20,41 +21,41 @@ class FloatSpinbox(CTkFrame):
         self.grid_columnconfigure((0, 2), weight=0)  # buttons don't expand
         self.grid_columnconfigure(1, weight=1)  # entry expands
 
-        self.subtract_button = CTkButton(self, text="-", width=height - 6, height=height - 6,
+        self.subtract_button = CTkButton(self, text="-1 bit", width=height - 6, height=height - 6,
                                          command=self.subtract_button_callback)
         self.subtract_button.grid(row=0, column=0, padx=(3, 0), pady=3)
 
         self.entry = CTkEntry(self, width=width - (2 * height), height=height - 6, border_width=0)
         self.entry.grid(row=0, column=1, columnspan=1, padx=3, pady=3, sticky="ew")
 
-        self.add_button = CTkButton(self, text="+", width=height - 6, height=height - 6,
+        self.add_button = CTkButton(self, text="+1 bit", width=height - 6, height=height - 6,
                                     command=self.add_button_callback)
         self.add_button.grid(row=0, column=2, padx=(0, 3), pady=3)
 
         # default value
-        self.entry.insert(0, "0.0")
+        self.entry.insert(0, "")
 
     def add_button_callback(self):
-        if self.command is not None:
-            self.command()
         try:
-            value = float(self.entry.get()) + self.step_size
+            input = self.get()
+            a = int.from_bytes(bytes(input, 'utf-8'),'big') + 1
+            value = a.to_bytes(getsizeof(a)//8, 'big').decode()
             self.entry.delete(0, "end")
             self.entry.insert(0, value)
         except ValueError:
             return
 
     def subtract_button_callback(self):
-        if self.command is not None:
-            self.command()
         try:
-            value = float(self.entry.get()) - self.step_size
+            input = self.get()
+            a = int.from_bytes(bytes(input, 'utf-8'),'big') - 1
+            value = a.to_bytes(getsizeof(a)//8, 'big').decode()
             self.entry.delete(0, "end")
             self.entry.insert(0, value)
         except ValueError:
             return
 
-    def get(self) -> Union[float, None]:
+    def get(self):
         try:
             return self.entry.get()
         except ValueError:
