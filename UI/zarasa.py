@@ -1,7 +1,8 @@
-from sys import getsizeof
 from typing import Callable, Union
 
 from customtkinter import CTkFrame, CTkButton, CTkEntry
+
+from helpers.utilidades import aumentar_bits, reducir_bits
 
 
 class FloatSpinbox(CTkFrame):
@@ -37,21 +38,17 @@ class FloatSpinbox(CTkFrame):
 
     def add_button_callback(self):
         try:
-            input = self.get()
-            a = int.from_bytes(bytes(input, 'utf-8'),'big') + 1
-            value = a.to_bytes(getsizeof(a)//8, 'big').decode()
-            self.entry.delete(0, "end")
-            self.entry.insert(0, value)
+            self.mostrar(aumentar_bits(self.get(), 1))
         except ValueError:
             return
 
+    def mostrar(self, value):
+        self.entry.delete(0, "end")
+        self.entry.insert(0, value)
+
     def subtract_button_callback(self):
         try:
-            input = self.get()
-            a = int.from_bytes(bytes(input, 'utf-8'),'big') - 1
-            value = a.to_bytes(getsizeof(a)//8, 'big').decode()
-            self.entry.delete(0, "end")
-            self.entry.insert(0, value)
+            self.mostrar(reducir_bits(self.get(), 1))
         except ValueError:
             return
 
@@ -60,7 +57,3 @@ class FloatSpinbox(CTkFrame):
             return self.entry.get()
         except ValueError:
             return None
-
-    def set(self, value: float):
-        self.entry.delete(0, "end")
-        self.entry.insert(0, str(float(value)))
