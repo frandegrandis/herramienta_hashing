@@ -1,10 +1,10 @@
-from customtkinter import CTkFrame, CTkTextbox
+from customtkinter import CTkTextbox
 
 
 class CajaDeTexto(CTkTextbox):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args,state= 'disabled',  **kwargs)
-        
+        super().__init__(*args, state='disabled', **kwargs)
+
     def insert(self, index, text, tags=None):
         self.configure(state='normal')
         super().insert(index, text, tags)

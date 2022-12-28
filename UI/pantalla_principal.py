@@ -1,6 +1,4 @@
-from tkinter import Frame
-
-from customtkinter import CTk, CTkFrame, CTkButton, CTkTextbox
+from customtkinter import CTk, CTkFrame, CTkButton
 from math import ceil
 
 from UI.caja_de_texto import CajaDeTexto
@@ -25,10 +23,8 @@ class PantallaPrincipal(CTk):
 
         bottom_frame = CTkFrame(master=self, fg_color="blue")
         bottom_frame.grid(column=0, row=1, sticky='nsew')
-        boton = CTkButton(master= bottom_frame, text="Hash MD5", command=self.button_callback)
+        boton = CTkButton(master=bottom_frame, text="Hash MD5", command=self.button_callback)
         boton.pack()
-
-
 
     def button_callback(self):
         print(self.input_a_hashear.get())
