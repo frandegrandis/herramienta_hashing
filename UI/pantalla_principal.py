@@ -3,6 +3,7 @@ from math import ceil
 
 from UI.caja_de_texto import CajaDeTexto
 from UI.zarasa import FloatSpinbox
+from controllers.hasher_controller import HasherController
 
 
 class PantallaPrincipal(CTk):
@@ -23,12 +24,26 @@ class PantallaPrincipal(CTk):
 
         bottom_frame = CTkFrame(master=self, fg_color="blue")
         bottom_frame.grid(column=0, row=1, sticky='nsew')
-        boton = CTkButton(master=bottom_frame, text="Hash MD5", command=self.button_callback)
+        boton = CTkButton(master=bottom_frame, text="Hash MD5", command=self.calcular_hash_md5)
+        boton.pack()
+        boton = CTkButton(master=bottom_frame, text="Hash SHA1", command=self.calcular_hash_sha1)
+        boton.pack()
+        boton = CTkButton(master=bottom_frame, text="Hash SHA256", command=self.calcular_hash_sha256)
         boton.pack()
 
-    def button_callback(self):
-        print(self.input_a_hashear.get())
-        self.resultado_de_hash.mostrar(str(self.input_a_hashear.get()))
+    def calcular_hash_md5(self):
+        valor_a_hashear = self.input_a_hashear.get()
+        valor_hasheado = HasherController().calcular_hash_md5(valor_a_hashear)
+        self.resultado_de_hash.mostrar(valor_hasheado)
+    def calcular_hash_sha1(self):
+        valor_a_hashear = self.input_a_hashear.get()
+        valor_hasheado = HasherController().calcular_hash_sha1(valor_a_hashear)
+        self.resultado_de_hash.mostrar(valor_hasheado)
+
+    def calcular_hash_sha256(self):
+        valor_a_hashear = self.input_a_hashear.get()
+        valor_hasheado = HasherController().calcular_hash_sha256(valor_a_hashear)
+        self.resultado_de_hash.mostrar(valor_hasheado)
 
     def configurar_grilla(self):
         alto_pantalla = self.alto_pantalla()

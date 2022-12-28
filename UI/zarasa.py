@@ -56,7 +56,7 @@ class FloatSpinbox(CTkFrame):
 
     def get(self) -> Union[float, None]:
         try:
-            return float(self.entry.get())
+            return self.entry.get()
         except ValueError:
             return None
 
