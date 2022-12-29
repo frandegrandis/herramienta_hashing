@@ -53,6 +53,8 @@ class PantallaPrincipal(CTk):
         return self.winfo_width()
 
     def _obtener_hash(self, calculo_hash):
-        valor_a_hashear = self.input_a_hashear.get()
-        valor_hasheado = calculo_hash(valor_a_hashear)
-        self.resultado_de_hash.mostrar(valor_hasheado)
+        if self.input_a_hashear.archivo_seleccionado:
+            valor_a_hashear = open(self.input_a_hashear.get(), "rb")
+        else:
+            valor_a_hashear = self.input_a_hashear.get()
+        self.resultado_de_hash.mostrar(calculo_hash(valor_a_hashear))

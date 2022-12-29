@@ -76,7 +76,7 @@ class InputConAumentoDeBits(CTkFrame):
         self.add_button.configure(state="disabled")
         self.subtract_button.configure(state="disabled")
 
-    def _archivo_deseleccionado(self, _event = None):
+    def _archivo_deseleccionado(self, _event=None):
         if not self.archivo_seleccionado:
             return
         self.archivo_seleccionado = False
