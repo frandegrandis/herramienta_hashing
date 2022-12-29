@@ -5,7 +5,7 @@ from customtkinter import CTkFrame, CTkButton, CTkEntry
 from helpers.utilidades import aumentar_bits, reducir_bits
 
 
-class FloatSpinbox(CTkFrame):
+class InputConAumentoDeBits(CTkFrame):
     def __init__(self, *args,
                  width: int = 100,
                  height: int = 32,

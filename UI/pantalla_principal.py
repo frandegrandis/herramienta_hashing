@@ -2,7 +2,7 @@ from customtkinter import CTk, CTkFrame, CTkButton
 from math import ceil
 
 from UI.caja_de_texto import CajaDeTexto
-from UI.zarasa import FloatSpinbox
+from UI.input_con_aumento_de_bits import InputConAumentoDeBits
 from controllers.hasher_controller import HasherController
 
 
@@ -17,7 +17,7 @@ class PantallaPrincipal(CTk):
 
         top_frame = CTkFrame(master=self, fg_color="green")
         top_frame.grid(column=0, row=0, sticky='nsew')
-        self.input_a_hashear = FloatSpinbox(master=top_frame)
+        self.input_a_hashear = InputConAumentoDeBits(master=top_frame)
         self.input_a_hashear.pack(fill="x")
         self.resultado_de_hash = CajaDeTexto(master=top_frame)
         self.resultado_de_hash.pack()
