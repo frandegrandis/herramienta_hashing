@@ -3,6 +3,7 @@ from typing import Callable, Union
 
 from customtkinter import CTkFrame, CTkButton, CTkEntry
 
+from helpers.events import Events
 from helpers.utilidades import aumentar_bits, reducir_bits
 
 
@@ -29,7 +30,7 @@ class InputConAumentoDeBits(CTkFrame):
         self.subtract_button.grid(row=0, column=0, padx=(3, 0), pady=3)
 
         self.entry = CTkEntry(self, width=width - (2 * height), height=height - 6, border_width=0)
-        self.entry.bind("<Key>", self._archivo_deseleccionado)
+        self.entry.bind(Events.on_change.value, self._archivo_deseleccionado)
         self.entry.grid(row=0, column=1, columnspan=1, padx=3, pady=3, sticky="ew")
 
         self.add_button = CTkButton(self, text="+1 bit", width=height - 6, height=height - 6,
