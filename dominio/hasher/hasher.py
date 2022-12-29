@@ -1,7 +1,10 @@
 import hashlib
 
+from helpers.utilidades import bytes_de_string
+
 
 # Puede recibir un archivo o un string y retorna el hash
+
 
 class Hasher:
 
@@ -12,7 +15,7 @@ class Hasher:
     def hash(self, elemento):
         self.hasher = self.new_hasher()
         if isinstance(elemento, str):  # es string
-            self.hasher.update(self.bytes_de(elemento))
+            self.hasher.update(bytes_de_string(elemento))
         else:  # es archivo
             self._hash_archivo(elemento)
         return self.hasher.hexdigest()
@@ -20,9 +23,6 @@ class Hasher:
     def _hash_archivo(self, archivo):
         for line in iter(lambda: archivo.read(4096), b""):
             self.hasher.update(line)
-
-    def bytes_de(self, elemento):
-        return bytes(elemento, 'utf-8')
 
     @classmethod
     def sha1(cls):

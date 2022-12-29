@@ -2,7 +2,8 @@ from customtkinter import CTk, CTkFrame, CTkButton
 from math import ceil
 
 from UI.caja_de_texto import CajaDeTexto
-from UI.zarasa import FloatSpinbox
+from UI.input_con_aumento_de_bits import InputConAumentoDeBits
+from controllers.hasher_controller import HasherController
 
 
 class PantallaPrincipal(CTk):
@@ -16,19 +17,28 @@ class PantallaPrincipal(CTk):
 
         top_frame = CTkFrame(master=self, fg_color="green")
         top_frame.grid(column=0, row=0, sticky='nsew')
-        self.input_a_hashear = FloatSpinbox(master=top_frame)
-        self.input_a_hashear.pack()
+        self.input_a_hashear = InputConAumentoDeBits(master=top_frame)
+        self.input_a_hashear.pack(fill="x")
         self.resultado_de_hash = CajaDeTexto(master=top_frame)
         self.resultado_de_hash.pack()
 
         bottom_frame = CTkFrame(master=self, fg_color="blue")
         bottom_frame.grid(column=0, row=1, sticky='nsew')
-        boton = CTkButton(master=bottom_frame, text="Hash MD5", command=self.button_callback)
+        boton = CTkButton(master=bottom_frame, text="Hash MD5", command=self.calcular_hash_md5)
+        boton.pack()
+        boton = CTkButton(master=bottom_frame, text="Hash SHA1", command=self.calcular_hash_sha1)
+        boton.pack()
+        boton = CTkButton(master=bottom_frame, text="Hash SHA256", command=self.calcular_hash_sha256)
         boton.pack()
 
-    def button_callback(self):
-        print(self.input_a_hashear.get())
-        self.resultado_de_hash.mostrar(str(self.input_a_hashear.get()))
+    def calcular_hash_md5(self):
+        self._obtener_hash(HasherController().calcular_hash_md5)
+
+    def calcular_hash_sha1(self):
+        self._obtener_hash(HasherController().calcular_hash_sha1)
+
+    def calcular_hash_sha256(self):
+        self._obtener_hash(HasherController().calcular_hash_sha256)
 
     def configurar_grilla(self):
         alto_pantalla = self.alto_pantalla()
@@ -41,3 +51,8 @@ class PantallaPrincipal(CTk):
 
     def alto_pantalla(self):
         return self.winfo_width()
+
+    def _obtener_hash(self, calculo_hash):
+        valor_a_hashear = self.input_a_hashear.get()
+        valor_hasheado = calculo_hash(valor_a_hashear)
+        self.resultado_de_hash.mostrar(valor_hasheado)
