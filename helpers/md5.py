@@ -3,6 +3,7 @@ from typing import BinaryIO
 
 import numpy as np
 
+from helpers.md5_operations import MD5SelectorDeOperaciones
 from helpers.operaciones_bit_a_bit import rotar_izquierda, bit_not
 from helpers.utilidades import suma_modular
 
@@ -17,33 +18,7 @@ md5_block_size = 64
 md5_digest_size = 16
 
 """
-Mixing functions. 
-Each of F, G, H, I has the following property.
-Given: all the bits of all the inputs are independent and unbiased,
-Then: the bits of the output are also independent and unbiased.
-"""
-
-
-def F(b: int, c: int, d: int) -> int:
-    return d ^ (b & (c ^ d))
-
-
-def G(b: int, c: int, d: int) -> int:
-    return c ^ (d & (b ^ c))
-
-
-def H(b: int, c: int, d: int) -> int:
-    return b ^ c ^ d
-
-
-def I(b: int, c: int, d: int) -> int:
-    return c ^ (b | bit_not(d))
-
-
-mixer_for_step = [F for _ in range(16)] + [G for _ in range(16)] + [H for _ in range(16)] + [I for _ in range(16)]
-
-"""
-These are all permutations of [0, ..., 15].
+Defino las permutaciones para las 4 rondas
 """
 
 round_1_perm = [i for i in range(16)]  # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
@@ -51,7 +26,7 @@ round_2_perm = [(5 * i + 1) % 16 for i in range(16)]  # [1, 6, 11, 0, 5, 10, 15,
 round_3_perm = [(3 * i + 5) % 16 for i in range(16)]  # [5, 8, 11, 14, 1, 4, 7, 10, 13, 0, 3, 6, 9, 12, 15, 2]
 round_4_perm = [(7 * i) % 16 for i in range(16)]  # [0, 7, 14, 5, 12, 3, 10, 1, 8, 15, 6, 13, 4, 11, 2, 9]
 
-msg_idx_for_step = round_1_perm + round_2_perm + round_3_perm + round_4_perm
+permutaciones = round_1_perm + round_2_perm + round_3_perm + round_4_perm
 
 
 class MD5:
@@ -109,9 +84,9 @@ class MD5:
         a, b, c, d = self.state
 
         for i in range(md5_block_size):
-            bit_mixer = mixer_for_step[i]
-            msg_idx = msg_idx_for_step[i]
-            a = suma_modular(a + bit_mixer(b, c, d) + msg_ints[msg_idx], sine_randomness[i])
+            operacion = MD5SelectorDeOperaciones.operacion_para(i)
+            permutacion = permutaciones[i]
+            a = suma_modular(a + operacion.aplicar_a(b, c, d) + msg_ints[permutacion], sine_randomness[i])
             a = rotar_izquierda(a, shift[i])
             a = suma_modular(a, b)
             a, b, c, d = d, a, b, c
