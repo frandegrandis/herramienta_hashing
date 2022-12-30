@@ -9,3 +9,7 @@ def aumentar_bits(input, i):
 
 def reducir_bits(input, i):
     return aumentar_bits(input, -i)
+
+
+def suma_modular(a, b, modulo=(2 ** 32)):
+    return (a + b) % modulo
