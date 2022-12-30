@@ -21,8 +21,7 @@ class Hasher:
         return self.hasher.hexdigest()
 
     def _hash_archivo(self, archivo):
-        for line in iter(lambda: archivo.read(4096), b""):
-            self.hasher.update(line)
+        self.hasher.update(archivo.read())
 
     @classmethod
     def sha1(cls):
