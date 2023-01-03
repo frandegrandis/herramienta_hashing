@@ -1,6 +1,7 @@
 import unittest
 
 from helpers.md5 import MD5
+from helpers.md5_operations import F
 from helpers.utilidades import bytes_de_string
 
 
@@ -21,3 +22,21 @@ class TestMD5(unittest.TestCase):
                 hasher = MD5()
                 hasher.update(bytes_de_string(string))
                 self.assertEqual(hasher.hexdigest(), md5_hash)
+
+    def test_se_guardan_todos_los_pasos_luego_de_hashear(self):
+        hasher = MD5()
+        hasher.update(bytes_de_string("Hola"))
+
+        self.assertEqual(64, len(hasher.iteraciones))
+
+    def test_las_iteraciones_tienen_toda_la_info_necesaria(self):
+        hasher = MD5()
+        hasher.update(bytes_de_string("Hola"))
+        iteracion = hasher.iteraciones[1]
+
+        self.assertEqual([0x10325476, 0x5b578b25, 0xefcdab89, 0x98badcfe], iteracion.valores_iniciales())
+        self.assertTrue(isinstance(iteracion.operacion, F))
+        self.assertEqual(128, iteracion.palabra_a_sumar)
+        self.assertEqual(0xe8c7b756, iteracion.constante_s)
+        self.assertEqual(12, iteracion.bits_a_rotar)
+        self.assertEqual([0x98badcfe, 0xda1a0773, 0x5b578b25, 0xefcdab89], iteracion.valores_finales())
