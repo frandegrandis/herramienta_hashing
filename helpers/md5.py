@@ -106,3 +106,6 @@ class MD5:
 
     def hexdigest(self):
         return self.digest().hex()
+
+    def iteraciones_por_bloque(self):
+        return [self.iteraciones[x:x+64] for x in range(0, len(self.iteraciones), 64)]
