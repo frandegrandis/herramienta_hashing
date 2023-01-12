@@ -1,7 +1,16 @@
 from unittest import TestCase
 
 from controllers.hasher_controller import HasherController
+from helpers.debugger import Debugger
 from tests.helpers.hasher_stub import HasherStub
+
+
+class DebuggerStub:
+    def creado_con(self, parametro_de_inicializacion):
+        return self.string_a_hashear == parametro_de_inicializacion
+
+    def __call__(self, *args, **kwargs):
+        self.string_a_hashear = args[0]
 
 
 class HasherTestCase(TestCase):
@@ -34,3 +43,16 @@ class HasherTestCase(TestCase):
         self.assertEqual(controller.calcular_hash_sha256(valor_a_hashear), valor_de_hash)
         self.assertTrue(hasher_stub.recibio("sha256"))
         self.assertTrue(hasher_stub.recibio("hash", parametros=[valor_a_hashear]))
+
+    def test_el_debug_de_un_string_con_md5_retorna_un_debugger(self):
+        debugger = HasherController().debugguear_md5("hola")
+
+        self.assertTrue(isinstance(debugger, Debugger))
+
+    def test_el_debug_de_un_string_con_md5_se_realiza_correctamente(self):
+        string_a_hashear = "hola"
+        debugger_stub = DebuggerStub()
+
+        HasherController(debugger_md5=debugger_stub).debugguear_md5(string_a_hashear)
+
+        self.assertTrue(debugger_stub.creado_con(string_a_hashear))
