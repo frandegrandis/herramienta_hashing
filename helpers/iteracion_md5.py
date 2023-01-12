@@ -4,10 +4,6 @@ from helpers.utilidades import suma_modular
 
 class IteracionMD5:
     def __init__(self, a, b, c, d, bits_a_rotar, s, operacion, palabra_a_sumar):
-        self.d_final = None
-        self.c_final = None
-        self.b_final = None
-        self.a_final = None
         self.palabra_a_sumar = palabra_a_sumar
         self.operacion = operacion
         self.constante_s = s
@@ -30,4 +26,4 @@ class IteracionMD5:
         return [self.a_inicial, self.b_inicial, self.c_inicial, self.d_inicial]
 
     def valores_finales(self):
-        return [self.a_final, self.b_final, self.c_final, self.d_final]
+        return list(self.ejecutar())

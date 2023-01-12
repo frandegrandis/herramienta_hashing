@@ -24,6 +24,7 @@ class MD5:
         self.n_filled_bytes: int = 0
         self.buf: bytearray = bytearray(md5_block_size)
         self.iteraciones = []
+        self.palabras_por_bloque = []
 
     def digest(self) -> bytes:
         return b''.join(x.to_bytes(length=4, byteorder='little') for x in self.state)
@@ -81,6 +82,7 @@ class MD5:
         assert len(msg_chunk) == md5_block_size  # 64 bytes, 512 bits
         palabras_del_bloque = [int.from_bytes(msg_chunk[i:i + 4], byteorder='little') for i in
                                range(0, md5_block_size, 4)]
+        self.palabras_por_bloque.append(palabras_del_bloque)
         assert len(palabras_del_bloque) == 16
 
         a, b, c, d = self.state
@@ -109,3 +111,6 @@ class MD5:
 
     def iteraciones_por_bloque(self):
         return [self.iteraciones[x:x+64] for x in range(0, len(self.iteraciones), 64)]
+
+    def palabras_del_bloque(self, n):
+        return self.palabras_por_bloque[n - 1]
