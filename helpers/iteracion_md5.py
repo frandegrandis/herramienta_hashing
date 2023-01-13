@@ -14,13 +14,24 @@ class IteracionMD5:
         self.bits_a_rotar = bits_a_rotar
 
     def ejecutar(self):
-        a = suma_modular(self.a_inicial + self.operacion.aplicar_a(self.b_inicial, self.c_inicial,
-                                                                   self.d_inicial) + self.palabra_a_sumar,
-                         self.constante_s)
-        a = rotar_izquierda(a, self.bits_a_rotar)
-        a = suma_modular(a, self.b_inicial)
+        a = self.suma_final()
         self.a_final, self.b_final, self.c_final, self.d_final = self.d_inicial, a, self.b_inicial, self.c_inicial
         return self.a_final, self.b_final, self.c_final, self.d_final
+
+    def suma_final(self):
+        a = self.rotacion()
+        a = suma_modular(a, self.b_inicial)
+        return a
+
+    def rotacion(self):
+        a = self.suma_inicial()
+        a = rotar_izquierda(a, self.bits_a_rotar)
+        return a
+
+    def suma_inicial(self):
+        return suma_modular(self.a_inicial + self.operacion.aplicar_a(self.b_inicial, self.c_inicial,
+                                                                      self.d_inicial) + self.palabra_a_sumar,
+                            self.constante_s)
 
     def valores_iniciales(self):
         return [self.a_inicial, self.b_inicial, self.c_inicial, self.d_inicial]
