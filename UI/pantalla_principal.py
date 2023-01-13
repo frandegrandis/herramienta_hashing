@@ -42,7 +42,8 @@ class PantallaPrincipal(CTk):
         self._obtener_hash(HasherController().calcular_hash_sha256)
 
     def debuguear_hash_md5(self):
-        self.resultado_de_hash.mostrar_pasos(["lista de pasos"])
+        self.resultado_de_hash.mostrar_pasos(HasherController().debugguear_md5(self.valor_a_hashear()))
+        #TODO: Si lo hago con archivos no se si funciona
 
     def configurar_grilla(self):
         alto_pantalla = self.alto_pantalla()
@@ -57,8 +58,12 @@ class PantallaPrincipal(CTk):
         return self.winfo_width()
 
     def _obtener_hash(self, calculo_hash):
+        valor_a_hashear = self.valor_a_hashear()
+        self.resultado_de_hash.mostrar_texto(calculo_hash(valor_a_hashear))
+
+    def valor_a_hashear(self):
         if self.input_a_hashear.archivo_seleccionado:
             valor_a_hashear = open(self.input_a_hashear.get(), "rb")
         else:
             valor_a_hashear = self.input_a_hashear.get()
-        self.resultado_de_hash.mostrar_texto(calculo_hash(valor_a_hashear))
+        return valor_a_hashear

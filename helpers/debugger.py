@@ -10,13 +10,19 @@ class Debugger:
         return self.hasher.palabras_del_bloque(bloque)
 
     def valores_iniciales(self, paso, bloque):
-        return self.hasher.iteraciones_por_bloque()[bloque - 1][paso - 1].valores_iniciales()
+        return self.obtener_iteracion(bloque, paso).valores_iniciales()
+
+    def obtener_iteracion(self, bloque, paso):
+        return self.hasher.iteraciones_por_bloque()[bloque - 1][paso - 1]
 
     def valores_finales(self, paso, bloque):
-        return self.hasher.iteraciones_por_bloque()[bloque - 1][paso - 1].valores_finales()
+        return self.obtener_iteracion(bloque, paso).valores_finales()
 
     def resultado_final(self):
         return self.hasher.hexdigest()
+
+    def operacion(self, paso, bloque):
+        return self.obtener_iteracion(paso, bloque).operacion
 
     @classmethod
     def md5(cls, string_a_hashear):

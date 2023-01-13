@@ -1,6 +1,7 @@
 import unittest
 
 from helpers.debugger import Debugger
+from helpers.md5_operations import F
 
 
 def debugger():
@@ -29,6 +30,11 @@ class DebuggerTest(unittest.TestCase):
         serializer = debugger()
 
         self.assertEqual(valores_iniciales_paso_3(), serializer.valores_iniciales(paso=3, bloque=1))
+
+    def test_obtengo_la_operacion_paso_particular(self):
+        serializer = debugger()
+
+        self.assertTrue(isinstance(serializer.operacion(paso=1, bloque=1), F))
 
     def test_obtengo_los_valores_finales_paso_particular(self):
         serializer = debugger()
