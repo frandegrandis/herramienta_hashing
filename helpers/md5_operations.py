@@ -18,9 +18,6 @@ class F:
     def to_string(self):
         return "F(B, C, D) = (B and C) or ((not B) and D)"
 
-    def short_string(self):
-        return "F(B, C, D)"
-
 
 class G:
     def aplica_a(self, iteracion):
@@ -28,6 +25,9 @@ class G:
 
     def aplicar_a(self, b, c, d):
         return c ^ (d & (b ^ c))
+
+    def to_string(self):
+        return "G(B, C, D) = (B and D) or (C and (not D))"
 
 
 class H:
@@ -37,6 +37,9 @@ class H:
     def aplicar_a(self, b, c, d):
         return b ^ c ^ d
 
+    def to_string(self):
+        return "H(B, C, D) = (B xor C xor D)"
+
 
 class I:
     def aplica_a(self, iteracion):
@@ -44,6 +47,9 @@ class I:
 
     def aplicar_a(self, b, c, d):
         return c ^ (b | bit_not(d))
+
+    def to_string(self):
+        return "I(B, C, D) = C xor (B or (not D))"
 
 
 class MD5SelectorDeOperaciones:
