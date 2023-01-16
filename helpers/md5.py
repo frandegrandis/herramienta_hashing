@@ -117,3 +117,6 @@ class MD5:
 
         permutaciones = round_1_perm + round_2_perm + round_3_perm + round_4_perm
         return permutaciones[paso]
+
+    def cantidad_bloques(self):
+        return len(self.iteraciones_por_bloque())

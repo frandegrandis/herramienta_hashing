@@ -27,6 +27,9 @@ class Debugger:
     def numero_de_palabra_a_sumar_en_paso(self, paso):
         return self.hasher.numero_de_palabra_a_sumar_en_paso(paso - 1)
 
+    def cantidad_bloques(self):
+        return self.hasher.cantidad_bloques()
+
     @classmethod
     def md5(cls, string_a_hashear):
         hasher = MD5()
