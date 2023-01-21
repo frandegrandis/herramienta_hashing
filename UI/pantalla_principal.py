@@ -1,8 +1,8 @@
 from customtkinter import CTk, CTkFrame, CTkButton
 from math import ceil
 
-from UI.caja_de_texto import CajaDeTexto
-from UI.input_con_aumento_de_bits import InputConAumentoDeBits
+from UI.components.input_con_aumento_de_bits import InputConAumentoDeBits
+from UI.mostrador_hash import MostradorHash
 from controllers.hasher_controller import HasherController
 
 
@@ -19,9 +19,8 @@ class PantallaPrincipal(CTk):
         top_frame.grid(column=0, row=0, sticky='nsew')
         self.input_a_hashear = InputConAumentoDeBits(master=top_frame)
         self.input_a_hashear.pack(fill="x")
-        self.resultado_de_hash = CajaDeTexto(master=top_frame)
-        self.resultado_de_hash.pack()
-
+        self.resultado_de_hash = MostradorHash(master=top_frame)
+        self.resultado_de_hash.pack(fill="both", expand = 1)
         bottom_frame = CTkFrame(master=self, fg_color="blue")
         bottom_frame.grid(column=0, row=1, sticky='nsew')
         boton = CTkButton(master=bottom_frame, text="Hash MD5", command=self.calcular_hash_md5)
@@ -29,6 +28,8 @@ class PantallaPrincipal(CTk):
         boton = CTkButton(master=bottom_frame, text="Hash SHA1", command=self.calcular_hash_sha1)
         boton.pack()
         boton = CTkButton(master=bottom_frame, text="Hash SHA256", command=self.calcular_hash_sha256)
+        boton.pack()
+        boton = CTkButton(master=bottom_frame, text="Debug MD5", command=self.debuguear_hash_md5)
         boton.pack()
 
     def calcular_hash_md5(self):
@@ -39,6 +40,9 @@ class PantallaPrincipal(CTk):
 
     def calcular_hash_sha256(self):
         self._obtener_hash(HasherController().calcular_hash_sha256)
+
+    def debuguear_hash_md5(self):
+        self.resultado_de_hash.mostrar_pasos(HasherController().debugguear_md5(self.valor_a_hashear()))
 
     def configurar_grilla(self):
         alto_pantalla = self.alto_pantalla()
@@ -53,8 +57,12 @@ class PantallaPrincipal(CTk):
         return self.winfo_width()
 
     def _obtener_hash(self, calculo_hash):
+        valor_a_hashear = self.valor_a_hashear()
+        self.resultado_de_hash.mostrar_texto(calculo_hash(valor_a_hashear))
+
+    def valor_a_hashear(self):
         if self.input_a_hashear.archivo_seleccionado:
             valor_a_hashear = open(self.input_a_hashear.get(), "rb")
         else:
             valor_a_hashear = self.input_a_hashear.get()
-        self.resultado_de_hash.mostrar(calculo_hash(valor_a_hashear))
+        return valor_a_hashear

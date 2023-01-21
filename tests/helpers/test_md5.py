@@ -40,3 +40,12 @@ class TestMD5(unittest.TestCase):
         self.assertEqual(0xe8c7b756, iteracion.constante_s)
         self.assertEqual(12, iteracion.bits_a_rotar)
         self.assertEqual([0x98badcfe, 0xda1a0773, 0x5b578b25, 0xefcdab89], iteracion.valores_finales())
+
+    def test_puedo_pedir_las_iteraciones_por_bloque(self):
+        hasher = MD5()
+        hasher.update(bytes_de_string("12345678901234567890123456789012345678901234567890123456789012345678901234567890"))
+        iteraciones = hasher.iteraciones_por_bloque()
+
+        self.assertEqual(2, len(iteraciones))
+        self.assertEqual(64, len(iteraciones[0]))
+        self.assertEqual(64, len(iteraciones[1]))

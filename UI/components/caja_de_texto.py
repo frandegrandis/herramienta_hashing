@@ -3,7 +3,7 @@ from customtkinter import CTkTextbox
 
 class CajaDeTexto(CTkTextbox):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, state='disabled', **kwargs)
+        super().__init__(*args, state='disabled', font=('Courier New', 14), **kwargs)
 
     def insert(self, index, text, tags=None):
         self.configure(state='normal')

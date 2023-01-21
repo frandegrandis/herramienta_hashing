@@ -24,6 +24,7 @@ class MD5:
         self.n_filled_bytes: int = 0
         self.buf: bytearray = bytearray(md5_block_size)
         self.iteraciones = []
+        self.palabras_por_bloque = []
 
     def digest(self) -> bytes:
         return b''.join(x.to_bytes(length=4, byteorder='little') for x in self.state)
@@ -65,12 +66,6 @@ class MD5:
         self.iterar()
 
     def iterar(self) -> None:
-        round_1_perm = [i for i in range(16)]  # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-        round_2_perm = [(5 * i + 1) % 16 for i in range(16)]  # [1, 6, 11, 0, 5, 10, 15, 4, 9, 14, 3, 8, 13, 2, 7, 12]
-        round_3_perm = [(3 * i + 5) % 16 for i in range(16)]  # [5, 8, 11, 14, 1, 4, 7, 10, 13, 0, 3, 6, 9, 12, 15, 2]
-        round_4_perm = [(7 * i) % 16 for i in range(16)]  # [0, 7, 14, 5, 12, 3, 10, 1, 8, 15, 6, 13, 4, 11, 2, 9]
-
-        permutaciones = round_1_perm + round_2_perm + round_3_perm + round_4_perm
         shift = [7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
                  5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20,
                  4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
@@ -81,6 +76,7 @@ class MD5:
         assert len(msg_chunk) == md5_block_size  # 64 bytes, 512 bits
         palabras_del_bloque = [int.from_bytes(msg_chunk[i:i + 4], byteorder='little') for i in
                                range(0, md5_block_size, 4)]
+        self.palabras_por_bloque.append(palabras_del_bloque)
         assert len(palabras_del_bloque) == 16
 
         a, b, c, d = self.state
@@ -88,7 +84,7 @@ class MD5:
         for i in range(md5_block_size):
             iteracion = IteracionMD5(a=a, b=b, c=c, d=d, bits_a_rotar=(shift[i]), s=(sine_randomness[i]),
                                      operacion=(MD5SelectorDeOperaciones.operacion_para(i)),
-                                     palabra_a_sumar=(palabras_del_bloque[permutaciones[i]]))
+                                     palabra_a_sumar=(palabras_del_bloque[self.numero_de_palabra_a_sumar_en_paso(i)]))
             a, b, c, d = iteracion.ejecutar()
             self.iteraciones.append(iteracion)
 
@@ -106,3 +102,21 @@ class MD5:
 
     def hexdigest(self):
         return self.digest().hex()
+
+    def iteraciones_por_bloque(self):
+        return [self.iteraciones[x:x+64] for x in range(0, len(self.iteraciones), 64)]
+
+    def palabras_del_bloque(self, n):
+        return self.palabras_por_bloque[n - 1]
+
+    def numero_de_palabra_a_sumar_en_paso(self, paso):
+        round_1_perm = [i for i in range(16)]  # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        round_2_perm = [(5 * i + 1) % 16 for i in range(16)]  # [1, 6, 11, 0, 5, 10, 15, 4, 9, 14, 3, 8, 13, 2, 7, 12]
+        round_3_perm = [(3 * i + 5) % 16 for i in range(16)]  # [5, 8, 11, 14, 1, 4, 7, 10, 13, 0, 3, 6, 9, 12, 15, 2]
+        round_4_perm = [(7 * i) % 16 for i in range(16)]  # [0, 7, 14, 5, 12, 3, 10, 1, 8, 15, 6, 13, 4, 11, 2, 9]
+
+        permutaciones = round_1_perm + round_2_perm + round_3_perm + round_4_perm
+        return permutaciones[paso]
+
+    def cantidad_bloques(self):
+        return len(self.iteraciones_por_bloque())
