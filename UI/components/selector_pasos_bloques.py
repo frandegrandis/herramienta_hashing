@@ -16,7 +16,7 @@ class SelectorPasosBloques(CTkFrame):
     def set_up_bloques(self, opciones_bloques):
         self.selector_bloque = CTkOptionMenu(master=self,
                                              values=opciones_bloques,
-                                             command=self.cambio_paso)
+                                             command=self.cambio_bloque)
         self.selector_bloque.grid(row=0, column=1)
 
     def cambio_paso(self, choice):

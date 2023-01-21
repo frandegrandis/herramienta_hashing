@@ -1,6 +1,6 @@
 from customtkinter import CTkTabview
 
-from UI.caja_de_iteraciones import CajaDeIteraciones
+from UI.components.caja_de_iteraciones import CajaDeIteraciones
 from UI.components.caja_de_texto import CajaDeTexto
 
 Resultado = "Resultado"

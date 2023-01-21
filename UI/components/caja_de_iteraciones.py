@@ -2,7 +2,7 @@ from customtkinter import CTkFrame
 
 from UI.components.caja_de_texto import CajaDeTexto
 from helpers.serializador_md5 import serializar_iteracion_md5
-from UI.selector_pasos_bloques import SelectorPasosBloques
+from UI.components.selector_pasos_bloques import SelectorPasosBloques
 
 
 class CajaDeIteraciones(CTkFrame):
@@ -26,7 +26,7 @@ class CajaDeIteraciones(CTkFrame):
         self.recargar()
 
     def recargar(self):
-        resultado = serializar_iteracion_md5(self.debugger, paso=self.selector_pasos_bloques.paso(), bloque=1)
+        resultado = serializar_iteracion_md5(self.debugger, paso=self.selector_pasos_bloques.paso(), bloque=self.selector_pasos_bloques.bloque())
         self.caja_de_texto.mostrar(resultado)
 
     def bloques(self):
