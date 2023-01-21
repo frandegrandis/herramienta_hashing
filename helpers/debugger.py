@@ -31,7 +31,11 @@ class Debugger:
         return self.hasher.cantidad_bloques()
 
     @classmethod
-    def md5(cls, string_a_hashear):
+    def md5(cls, elemento_a_hashear):
+        if isinstance(elemento_a_hashear, str):
+            elemento_a_hashear = bytes_de_string(elemento_a_hashear)
+        else:
+            elemento_a_hashear = elemento_a_hashear.read()
         hasher = MD5()
-        hasher.update(bytes_de_string(string_a_hashear))
+        hasher.update(elemento_a_hashear)
         return cls(hasher)

@@ -43,7 +43,6 @@ class PantallaPrincipal(CTk):
 
     def debuguear_hash_md5(self):
         self.resultado_de_hash.mostrar_pasos(HasherController().debugguear_md5(self.valor_a_hashear()))
-        #TODO: Si lo hago con archivos no se si funciona
 
     def configurar_grilla(self):
         alto_pantalla = self.alto_pantalla()
