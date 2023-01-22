@@ -29,9 +29,14 @@ class MostradorHash(CTkTabview):
             self.pasos = CajaDeIteraciones(master=self.tab(PorPasos), debugger= debugger)
             self.pasos.pack(fill="both", expand=1)
             self.add(PorBloques)
+            self.bloques = CajaDeIteraciones(master=self.tab(PorBloques), debugger= debugger, mostrar_pasos = False)
+            self.bloques.pack(fill="both", expand=1)
+
         self.caja_resultado.mostrar(debugger.resultado_final())
 
         self.pasos.mostrar(debugger)
+
+        self.bloques.mostrar(debugger)
 
     def debo_mostrar_tabs(self):
         return not self.debo_borrar_tabs()
