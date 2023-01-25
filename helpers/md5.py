@@ -92,7 +92,7 @@ class MD5:
             suma_modular(self.state[3], d),
         )
 
-    def update(self, s: bytes) -> bytes:
+    def update(self, s: bytes) -> bytes: #actually, este update hashea y no es lo que representa! #FIXME
         self.process(BytesIO(s))
         self.finalize()
         return self.digest()
