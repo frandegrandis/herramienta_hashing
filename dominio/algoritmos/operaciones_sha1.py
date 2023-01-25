@@ -4,11 +4,10 @@ from helpers.utilidades import detectar
 
 class F:
     def aplica_a(self, iteracion):
-        return iteracion < 16
+        return iteracion < 21
 
     def aplicar_a(self, b, c, d):
         return (b & c) | ((~b) & d)
-        # return d ^ (b & (c ^ d))
 
     def to_string(self):
         return "F(B, C, D) = (B and C) or ((not B) and D)"
@@ -16,21 +15,21 @@ class F:
 
 class G:
     def aplica_a(self, iteracion):
-        return iteracion >= 16 and iteracion < 32
+        return iteracion >= 21 and iteracion < 41
 
     def aplicar_a(self, b, c, d):
-        return c ^ (d & (b ^ c))
+        return b ^ c ^ d
 
     def to_string(self):
-        return "G(B, C, D) = (B and D) or (C and (not D))"
+        return "G(B, C, D) = (B xor C xor D)"
 
 
 class H:
     def aplica_a(self, iteracion):
-        return iteracion >= 32 and iteracion < 48
+        return iteracion >= 41 and iteracion < 61
 
     def aplicar_a(self, b, c, d):
-        return b ^ c ^ d
+        return (b & c) | (b & d) | (c & d)
 
     def to_string(self):
         return "H(B, C, D) = (B xor C xor D)"
@@ -38,10 +37,10 @@ class H:
 
 class I:
     def aplica_a(self, iteracion):
-        return iteracion >= 48 and iteracion < 64
+        return iteracion >= 61 and iteracion < 81
 
     def aplicar_a(self, b, c, d):
-        return c ^ (b | bit_not(d))
+        return b ^ c ^ d
 
     def to_string(self):
         return "I(B, C, D) = C xor (B or (not D))"

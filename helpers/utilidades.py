@@ -13,3 +13,9 @@ def reducir_bits(input, i):
 
 def suma_modular(a, b, modulo=(2 ** 32)):
     return (a + b) % modulo
+
+
+def detectar(lista, condicion):
+    for elemento in lista:
+        if condicion(elemento):
+            return elemento
