@@ -1,8 +1,9 @@
+from dominio.algoritmos.iteracion import Iteracion
 from helpers.operaciones_bit_a_bit import rotar_izquierda
 from helpers.utilidades import suma_modular
 
 
-class IteracionMD5:
+class IteracionMD5(Iteracion):
     def __init__(self, a, b, c, d, bits_a_rotar, s, operacion, palabra_a_sumar):
         self.palabra_a_sumar = palabra_a_sumar
         self.operacion = operacion

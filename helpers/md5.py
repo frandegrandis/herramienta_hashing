@@ -5,8 +5,7 @@ import numpy as np
 
 from helpers.iteracion_md5 import IteracionMD5
 from helpers.md5_operations import MD5SelectorDeOperaciones
-from helpers.operaciones_bit_a_bit import rotar_izquierda
-from helpers.utilidades import suma_modular
+from helpers.utilidades import suma_modular, obtener_palabras
 
 md5_block_size = 64
 md5_digest_size = 16
@@ -14,7 +13,6 @@ md5_digest_size = 16
 """
 Defino las permutaciones para las 4 rondas
 """
-
 
 
 class MD5:
@@ -74,8 +72,7 @@ class MD5:
         sine_randomness = [int(x) for x in np.floor(2 ** 32 * sines)]
         msg_chunk = self.buf
         assert len(msg_chunk) == md5_block_size  # 64 bytes, 512 bits
-        palabras_del_bloque = [int.from_bytes(msg_chunk[i:i + 4], byteorder='little') for i in
-                               range(0, md5_block_size, 4)]
+        palabras_del_bloque = obtener_palabras(chunk=msg_chunk, byteorder='little', block_size=md5_block_size)
         self.palabras_por_bloque.append(palabras_del_bloque)
         assert len(palabras_del_bloque) == 16
 
