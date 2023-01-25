@@ -19,3 +19,8 @@ def detectar(lista, condicion):
     for elemento in lista:
         if condicion(elemento):
             return elemento
+
+
+def obtener_palabras(chunk, byteorder, block_size):
+    return [int.from_bytes(chunk[i:i + 4], byteorder=byteorder) for i in
+            range(0, block_size, 4)]
