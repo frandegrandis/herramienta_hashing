@@ -2,13 +2,13 @@ from customtkinter import CTkFrame
 
 from UI.components.caja_de_texto import CajaDeTexto
 from UI.components.selector_pasos_bloques import SelectorPasosBloques
+from dominio.algoritmos.sha1.serializador import serializar_paso_sha1
 from helpers.serializador_md5 import serializar_paso_md5
 
 
 class CajaDeIteracionesDePasosPorBloque(CTkFrame):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.serializar = serializar_paso_md5
         self.selector_pasos_bloques = SelectorPasosBloques(master=self,
                                                            on_change=self.recargar)
         self.selector_pasos_bloques.pack()
@@ -32,3 +32,9 @@ class CajaDeIteracionesDePasosPorBloque(CTkFrame):
 
     def bloques(self):
         return [f"Bloque {i}" for i in range(1, self.debugger.cantidad_bloques() + 1)]
+
+    def serializar_md5(self):
+        self.serializar = serializar_paso_md5
+
+    def serializar_sha1(self):
+        self.serializar = serializar_paso_sha1

@@ -25,8 +25,6 @@ class MostradorHash(CTkTabview):
         self.caja_resultado.mostrar(texto_a_mostrar)
 
     def mostrar_pasos(self, debugger):
-        self.cargar_tabs()
-
         self.caja_resultado.mostrar(debugger.resultado_final())
 
         self.pasos.mostrar(debugger)
@@ -51,3 +49,21 @@ class MostradorHash(CTkTabview):
             return True
         except:
             return False
+
+    def mostrar_pasos_md5(self, debugger):
+        self.cargar_tabs()
+        self.set_up_md5()
+        self.mostrar_pasos(debugger)
+
+    def set_up_md5(self):
+        self.pasos.serializar_md5()
+        self.bloques.serializar_md5()
+
+    def mostrar_pasos_sha1(self, debugger):
+        self.cargar_tabs()
+        self.set_up_sha1()
+        self.mostrar_pasos(debugger)
+
+    def set_up_sha1(self):
+        self.pasos.serializar_sha1()
+        self.bloques.serializar_sha1()
