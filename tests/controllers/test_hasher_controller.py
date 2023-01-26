@@ -56,3 +56,16 @@ class HasherTestCase(TestCase):
         HasherController(debugger_md5=debugger_stub).debugguear_md5(string_a_hashear)
 
         self.assertTrue(debugger_stub.creado_con(string_a_hashear))
+
+    def test_el_debug_de_un_string_con_sha1_retorna_un_debugger(self):
+        debugger = HasherController().debugguear_sha1("hola")
+
+        self.assertTrue(isinstance(debugger, Debugger))
+
+    def test_el_debug_de_un_string_con_sha1_se_realiza_correctamente(self):
+        string_a_hashear = "hola"
+        debugger_stub = DebuggerStub()
+
+        HasherController(debugger_sha1=debugger_stub).debugguear_sha1(string_a_hashear)
+
+        self.assertTrue(debugger_stub.creado_con(string_a_hashear))
