@@ -18,3 +18,7 @@ def bit_string_de(numero):
 
 def hex_string_de(numero):
     return hex(numero)[2::].upper()
+
+
+def crear_linea():
+    return "\n------------------------------------------------------------------------"

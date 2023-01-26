@@ -1,8 +1,9 @@
+from dominio.algoritmos.operacion import Operacion
 from helpers.operaciones_bit_a_bit import bit_not
 from helpers.utilidades import detectar
 
 
-class F:
+class F(Operacion):
     def aplica_a(self, iteracion):
         return iteracion < 21
 
@@ -13,7 +14,7 @@ class F:
         return "F(B, C, D) = (B and C) or ((not B) and D)"
 
 
-class G:
+class G(Operacion):
     def aplica_a(self, iteracion):
         return iteracion >= 21 and iteracion < 41
 
@@ -24,7 +25,7 @@ class G:
         return "G(B, C, D) = (B xor C xor D)"
 
 
-class H:
+class H(Operacion):
     def aplica_a(self, iteracion):
         return iteracion >= 41 and iteracion < 61
 
@@ -35,7 +36,7 @@ class H:
         return "H(B, C, D) = (B xor C xor D)"
 
 
-class I:
+class I(Operacion):
     def aplica_a(self, iteracion):
         return iteracion >= 61 and iteracion < 81
 
@@ -43,7 +44,7 @@ class I:
         return b ^ c ^ d
 
     def to_string(self):
-        return "I(B, C, D) = C xor (B or (not D))"
+        return "I(B, C, D) = (B xor C xor D)"
 
 
 class MD5SelectorDeOperaciones:
