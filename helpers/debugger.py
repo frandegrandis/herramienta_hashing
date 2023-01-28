@@ -53,3 +53,6 @@ class Debugger:
 
     def palabra_en(self, paso, bloque):
         return self.obtener_iteracion(paso=paso,bloque=bloque).palabra_a_sumar
+
+    def cantidad_pasos(self):
+        return len(self.hasher.iteraciones_por_bloque()[0])
