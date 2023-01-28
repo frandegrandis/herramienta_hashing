@@ -3,8 +3,8 @@ from typing import BinaryIO
 
 import numpy as np
 
-from helpers.iteracion_md5 import IteracionMD5
-from helpers.md5_operations import MD5SelectorDeOperaciones
+from dominio.algoritmos.md5.iteracion_md5 import IteracionMD5
+from dominio.algoritmos.md5.md5_operations import MD5SelectorDeOperaciones
 from helpers.utilidades import suma_modular, obtener_palabras
 
 md5_block_size = 64

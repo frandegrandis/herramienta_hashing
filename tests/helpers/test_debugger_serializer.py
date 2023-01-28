@@ -1,7 +1,7 @@
 import unittest
 
 from helpers.debugger import Debugger
-from helpers.md5_operations import F
+from dominio.algoritmos.md5.md5_operations import F
 
 
 def debugger():

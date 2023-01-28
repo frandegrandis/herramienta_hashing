@@ -1,6 +1,6 @@
 import unittest
 
-from dominio.algoritmos.sha1 import SHA1
+from dominio.algoritmos.sha1.sha1_clase import SHA1
 from helpers.utilidades import bytes_de_string
 
 

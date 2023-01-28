@@ -1,8 +1,8 @@
 import io
 import struct
 
-from dominio.algoritmos.iteracion_sha1 import IteracionSHA1
-from dominio.algoritmos.operaciones_sha1 import I, H, F, G
+from dominio.algoritmos.sha1.iteracion_sha1 import IteracionSHA1
+from dominio.algoritmos.sha1.operaciones_sha1 import I, H, F, G
 from helpers.operaciones_bit_a_bit import rotar_izquierda
 from helpers.utilidades import suma_modular, detectar, obtener_palabras
 

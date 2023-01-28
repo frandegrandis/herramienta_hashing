@@ -4,7 +4,7 @@ from UI.components.caja_de_texto import CajaDeTexto
 from UI.components.selector_pasos_bloques import SelectorPasosBloques
 from dominio.algoritmos.sha1.serializador import serializar_paso_sha1
 from helpers.debugger import Debugger
-from helpers.serializador_md5 import serializar_paso_md5
+from dominio.algoritmos.md5.serializador import serializar_paso_md5
 
 
 class CajaDeIteracionesDePasosPorBloque(CTkFrame):

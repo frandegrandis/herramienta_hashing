@@ -1,7 +1,7 @@
 import unittest
 
-from helpers.md5 import MD5
-from helpers.md5_operations import F
+from dominio.algoritmos.md5.md5 import MD5
+from dominio.algoritmos.md5.md5_operations import F
 from helpers.utilidades import bytes_de_string
 
 

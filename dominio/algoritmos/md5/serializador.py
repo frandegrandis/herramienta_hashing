@@ -1,4 +1,4 @@
-from helpers.md5_operations import F, G, H, I
+from dominio.algoritmos.md5.md5_operations import F, G, H, I
 from helpers.utilidades import suma_modular
 from helpers.utilidades_UI import mostrar_32_bits_centrados_con_espacio, nombre_clase_de, hex_string_de, crear_linea
 

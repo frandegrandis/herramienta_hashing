@@ -1,4 +1,4 @@
-from dominio.algoritmos.operaciones_sha1 import F, G, H, I
+from dominio.algoritmos.sha1.operaciones_sha1 import F, G, H, I
 from helpers.debugger import Debugger
 from helpers.operaciones_bit_a_bit import rotar_izquierda
 from helpers.utilidades_UI import nombre_clase_de, mostrar_32_bits_centrados_con_espacio, hex_string_de, crear_linea, \

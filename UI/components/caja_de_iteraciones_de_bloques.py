@@ -3,7 +3,7 @@ from customtkinter import CTkFrame
 from UI.components.caja_de_texto import CajaDeTexto
 from UI.components.selector_pasos_bloques import SelectorPasosBloques
 from dominio.algoritmos.sha1.serializador import serializar_bloque_sha1
-from helpers.serializador_md5 import serializar_bloque_md5
+from dominio.algoritmos.md5.serializador import serializar_bloque_md5
 
 
 class CajaDeIteracionesDeBloques(CTkFrame):

@@ -1,5 +1,5 @@
-from dominio.algoritmos.sha1_clase import SHA1
-from helpers.md5 import MD5
+from dominio.algoritmos.sha1.sha1_clase import SHA1
+from dominio.algoritmos.md5.md5 import MD5
 from helpers.utilidades import bytes_de_string
 
 
