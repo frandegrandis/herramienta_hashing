@@ -18,6 +18,9 @@ class HasherStub:
     def sha256(self):
         self.mensajes["sha256"] = []
         return self
+    def sha512(self):
+        self.mensajes["sha256"] = []
+        return self
 
     def recibio(self, nombre_metodo, parametros=[]):
         return nombre_metodo in self.mensajes and self.mensajes[nombre_metodo] == parametros

@@ -34,3 +34,7 @@ class Hasher:
     @classmethod
     def sha256(cls):
         return cls(hashlib.sha256)
+
+    @classmethod
+    def sha512(cls):
+        return cls(hashlib.sha512)

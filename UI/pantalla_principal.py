@@ -29,6 +29,8 @@ class PantallaPrincipal(CTk):
         boton.pack()
         boton = CTkButton(master=bottom_frame, text="Hash SHA256", command=self.calcular_hash_sha256)
         boton.pack()
+        boton = CTkButton(master=bottom_frame, text="Hash SHA512", command=self.calcular_hash_sha512)
+        boton.pack()
         boton = CTkButton(master=bottom_frame, text="Debug MD5", command=self.debuguear_hash_md5)
         boton.pack()
         boton = CTkButton(master=bottom_frame, text="Debug SHA1", command=self.debuguear_hash_sha1)
@@ -42,6 +44,9 @@ class PantallaPrincipal(CTk):
 
     def calcular_hash_sha256(self):
         self._obtener_hash(HasherController().calcular_hash_sha256)
+
+    def calcular_hash_sha512(self):
+        self._obtener_hash(HasherController().calcular_hash_sha512)
 
     def debuguear_hash_md5(self):
         self.resultado_de_hash.mostrar_pasos_md5(HasherController().debugguear_md5(self.valor_a_hashear()))

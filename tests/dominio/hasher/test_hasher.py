@@ -50,6 +50,14 @@ class HasherTestCase(TestCase):
         self.assertEqual(hash_sha256_de_chau, self.hasher_sha256().hash("chau"))
         return
 
+    def test_obtener_hash_sha512_de_strings_distintos(self):
+        hash_sha512_de_hola = "e83e8535d6f689493e5819bd60aa3e5fdcba940e6d111ab6fb5c34f24f86496bf3726e2bf4ec59d6d2f5a2aeb1e4f103283e7d64e4f49c03b4c4725cb361e773"
+        hash_sha512_de_chau = "12511bcbe20edf362ac825d282987ca255d1f5dbb5c989cfd506151b8443f9bcfba8c522abc418736ad0187e6533da39d6de85086c138d1fda78712637f48094"
+
+        self.assertEqual(hash_sha512_de_hola, self.hasher_sha512().hash("hola"))
+        self.assertEqual(hash_sha512_de_chau, self.hasher_sha512().hash("chau"))
+        return
+
     def test_el_mismo_hasher_sirve_para_strings_distintos(self):
         hash_sha256_de_hola = "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79"
         hash_sha256_de_chau = "2274631b81def59664f20cb9fa010e4cde57f64a263f2874dfde0fe346d59c60"
@@ -69,3 +77,5 @@ class HasherTestCase(TestCase):
 
     def hasher_sha256(self):
         return Hasher.sha256()
+    def hasher_sha512(self):
+        return Hasher.sha512()
