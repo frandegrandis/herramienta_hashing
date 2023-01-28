@@ -20,7 +20,7 @@ class PantallaPrincipal(CTk):
         self.input_a_hashear = InputConAumentoDeBits(master=top_frame)
         self.input_a_hashear.pack(fill="x")
         self.resultado_de_hash = MostradorHash(master=top_frame)
-        self.resultado_de_hash.pack(fill="both", expand = 1)
+        self.resultado_de_hash.pack(fill="both", expand=1)
         bottom_frame = CTkFrame(master=self, fg_color="blue")
         bottom_frame.grid(column=0, row=1, sticky='nsew')
         boton = CTkButton(master=bottom_frame, text="Hash MD5", command=self.calcular_hash_md5)
@@ -30,6 +30,8 @@ class PantallaPrincipal(CTk):
         boton = CTkButton(master=bottom_frame, text="Hash SHA256", command=self.calcular_hash_sha256)
         boton.pack()
         boton = CTkButton(master=bottom_frame, text="Debug MD5", command=self.debuguear_hash_md5)
+        boton.pack()
+        boton = CTkButton(master=bottom_frame, text="Debug SHA1", command=self.debuguear_hash_sha1)
         boton.pack()
 
     def calcular_hash_md5(self):
@@ -42,7 +44,10 @@ class PantallaPrincipal(CTk):
         self._obtener_hash(HasherController().calcular_hash_sha256)
 
     def debuguear_hash_md5(self):
-        self.resultado_de_hash.mostrar_pasos(HasherController().debugguear_md5(self.valor_a_hashear()))
+        self.resultado_de_hash.mostrar_pasos_md5(HasherController().debugguear_md5(self.valor_a_hashear()))
+
+    def debuguear_hash_sha1(self):
+        self.resultado_de_hash.mostrar_pasos_sha1(HasherController().debugguear_sha1(self.valor_a_hashear()))
 
     def configurar_grilla(self):
         alto_pantalla = self.alto_pantalla()

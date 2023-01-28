@@ -15,10 +15,17 @@ class IteracionSHA1(Iteracion):
         self.constante_k = constante_k
 
     def ejecutar(self):
+        a = self.suma_final()
+        b = rotar_izquierda(self.B, 30)
+        return a, self.A, b, self.C, self.D
+
+    def suma_final(self):
         a = self.operacion.aplicar_a(self.B, self.C, self.D)
         a += self.E
         a += rotar_izquierda(self.A, 5)
         a += self.palabra_a_sumar
         a = suma_modular(a, self.constante_k)
-        b = rotar_izquierda(self.B, 30)
-        return a, self.A, b, self.C, self.D
+        return a
+
+    def valores_iniciales(self):
+        return self.A, self.B, self.C, self.D, self.E

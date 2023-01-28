@@ -3,7 +3,8 @@ from helpers.debugger import Debugger
 
 
 class HasherController:
-    def __init__(self, hasher_class=Hasher, debugger_md5=Debugger.md5):
+    def __init__(self, hasher_class=Hasher, debugger_md5=Debugger.md5, debugger_sha1=Debugger.sha1):
+        self.debugger_sha1 = debugger_sha1
         self.hasher = hasher_class
         self.debugger_md5 = debugger_md5
 
@@ -21,3 +22,6 @@ class HasherController:
 
     def debugguear_md5(self, string_a_hashear):
         return self.debugger_md5(string_a_hashear)
+
+    def debugguear_sha1(self, string_a_hashear):
+        return self.debugger_sha1(string_a_hashear)

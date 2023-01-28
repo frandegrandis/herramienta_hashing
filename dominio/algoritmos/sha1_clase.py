@@ -9,7 +9,7 @@ from helpers.utilidades import suma_modular, detectar, obtener_palabras
 sha1_block_size = 64
 
 
-class SHA1(object):
+class SHA1:
     def __init__(self):
         # Initial digest variables
         self._h = (
@@ -20,11 +20,14 @@ class SHA1(object):
             0xC3D2E1F0,
         )
 
+        self.ya_proceso = False
+
         # bytes object with 0 <= len < 64 used to store the end of the message
         # if the message length is not congruent to 64
         self._unprocessed = b''
         # Length in bytes of all data that has been processed so far
         self._message_byte_length = 0
+        self.iteraciones = []
 
         self.operaciones = [F(), G(), H(), I()]
         self.constantes = [0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6]
@@ -50,6 +53,7 @@ class SHA1(object):
             chunk = arg.read(sha1_block_size)
 
         self._unprocessed = chunk
+        self.hexdigest()
         return self
 
     def digest(self):
@@ -61,6 +65,9 @@ class SHA1(object):
         return '%08x%08x%08x%08x%08x' % self._produce_digest()
 
     def _produce_digest(self):
+        if self.ya_proceso:
+            return self._h
+        self.ya_proceso = True
         """Return finalized digest variables for the data processed so far."""
         # Pre-processing:
         message = self._unprocessed
@@ -106,6 +113,7 @@ class SHA1(object):
                                       E=e,
                                       operacion=operacion,
                                       palabra_a_sumar=palabras[i - 1])
+            self.iteraciones.append(iteracion)
             a, b, c, d, e = iteracion.ejecutar()
 
         self.actualizar_estado(a, b, c, d, e)
@@ -148,3 +156,9 @@ class SHA1(object):
 
     def E(self):
         return self._h[4]
+
+    def iteraciones_por_bloque(self):
+        return [self.iteraciones[x:x + 80] for x in range(0, len(self.iteraciones), 80)]
+
+    def cantidad_bloques(self):
+        return len(self.iteraciones_por_bloque())

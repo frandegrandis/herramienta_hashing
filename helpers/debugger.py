@@ -1,3 +1,4 @@
+from dominio.algoritmos.sha1_clase import SHA1
 from helpers.md5 import MD5
 from helpers.utilidades import bytes_de_string
 
@@ -39,3 +40,19 @@ class Debugger:
         hasher = MD5()
         hasher.update(elemento_a_hashear)
         return cls(hasher)
+
+    @classmethod
+    def sha1(cls, elemento_a_hashear):
+        if isinstance(elemento_a_hashear, str):
+            elemento_a_hashear = bytes_de_string(elemento_a_hashear)
+        else:
+            elemento_a_hashear = elemento_a_hashear.read()
+        hasher = SHA1()
+        hasher.update(elemento_a_hashear)
+        return cls(hasher)
+
+    def palabra_en(self, paso, bloque):
+        return self.obtener_iteracion(paso=paso,bloque=bloque).palabra_a_sumar
+
+    def cantidad_pasos(self):
+        return len(self.hasher.iteraciones_por_bloque()[0])
