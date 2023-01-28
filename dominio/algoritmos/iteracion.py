@@ -7,3 +7,6 @@ class Iteracion:
 
     def suma_final(self):
         raise Exception("El mensaje debe ser implementado por la subclase")
+
+    def valores_finales(self):
+        raise Exception("El mensaje debe ser implementado por la subclase")

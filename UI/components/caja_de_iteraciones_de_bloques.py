@@ -22,8 +22,7 @@ class CajaDeIteracionesDeBloques(CTkFrame):
         self.recargar()
 
     def recargar(self):
-        resultado = self.serializar(self.debugger, paso=self.selector_pasos_bloques.paso(),
-                                    bloque=self.selector_pasos_bloques.bloque())
+        resultado = self.serializar(self.debugger, bloque=self.selector_pasos_bloques.bloque())
         self.caja_de_texto.mostrar(resultado)
 
     def bloques(self):

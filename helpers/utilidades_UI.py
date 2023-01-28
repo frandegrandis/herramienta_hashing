@@ -7,17 +7,18 @@ def nombre_clase_de(objeto):
 
 
 def bit_string_de(numero):
-    a = bin(abs(numero))[2::]
-    if len(a) >= 32:
-        return a
-    else:
-        while len(a) < 32:
-            a = "0" + a
-        return a
+    return completar_con_ceros_hasta(32, bin(abs(numero))[2::])
+
+
+def completar_con_ceros_hasta(i, palabra_a_completar):
+    if len(palabra_a_completar) < i:
+        while len(palabra_a_completar) < i:
+            palabra_a_completar = "0" + palabra_a_completar
+    return palabra_a_completar
 
 
 def hex_string_de(numero):
-    return hex(numero)[2::].upper()
+    return completar_con_ceros_hasta(8, hex(numero)[2::].upper())
 
 
 def crear_linea():

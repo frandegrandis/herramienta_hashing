@@ -1,3 +1,4 @@
+from dominio.algoritmos.serializador_de_bloque import serializar_bloque
 from dominio.algoritmos.sha1.operaciones_sha1 import F, G, H, I
 from helpers.debugger import Debugger
 from helpers.operaciones_bit_a_bit import rotar_izquierda
@@ -5,8 +6,8 @@ from helpers.utilidades_UI import nombre_clase_de, mostrar_32_bits_centrados_con
     bit_string_de
 
 
-def serializar_bloque_sha1(debugger, paso, bloque):
-    return "Soy un bloque de sha1"
+def serializar_bloque_sha1(debugger, bloque):
+    return serializar_bloque(debugger, bloque)
 
 
 def calculo_generar_palabra(debugger: Debugger, paso, bloque):
@@ -18,9 +19,9 @@ def calculo_generar_palabra(debugger: Debugger, paso, bloque):
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso - 8, bloque))} = Generada en paso {paso - 8}"
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso - 14, bloque))} = Generada en paso {paso - 14}"
     resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso - 16, bloque))} = Generada en paso {paso - 16}"
-    resultado+= crear_linea()
+    resultado += crear_linea()
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_izquierda(debugger.palabra_en(paso, bloque), 31))} = Se rotará 1 bit a la izq."
-    resultado+= crear_linea()
+    resultado += crear_linea()
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso, bloque))} = Palabra para este paso"
     return resultado
 
@@ -52,15 +53,16 @@ def serializar_paso_sha1(debugger, paso, bloque):
     resultado += f"\nLa palabra B rotada 30 posiciones a la izquierda:\n"
     resultado += f"    {bit_string_de(rotar_izquierda(B, 30))} Es ahora la palabra C"
     resultado += f"\nLa palabra A pasa a ocupar el lugar de B"
+    # TODO: Falta mostrar la actualizacion final!
     return resultado
 
 
 def palabra_a_sumar(bloque, iteracion, paso):
     palabra_a_sumar = f"\n    {mostrar_32_bits_centrados_con_espacio(iteracion.palabra_a_sumar)} = "
     if paso <= 16:
-        palabra_a_sumar+= f"Palabra {paso} del bloque {bloque}"
+        palabra_a_sumar += f"Palabra {paso} del bloque {bloque}"
     else:
-        palabra_a_sumar+= f"Palabra generada"
+        palabra_a_sumar += f"Palabra generada"
     return palabra_a_sumar
 
 

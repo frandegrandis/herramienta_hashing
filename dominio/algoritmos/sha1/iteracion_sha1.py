@@ -29,3 +29,6 @@ class IteracionSHA1(Iteracion):
 
     def valores_iniciales(self):
         return self.A, self.B, self.C, self.D, self.E
+
+    def valores_finales(self):
+        return list(self.ejecutar())
