@@ -45,15 +45,24 @@ def mostrar_operacion_F(B, C, D):
 
 
 def mostrar_operacion_G(B, C, D):
-    pass
+    resultado = f"\n\n    {mostrar_32_bits_centrados_con_espacio(B)} = B"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(C)} = C"
+    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(D)} = D"
+    return resultado
 
 
 def mostrar_operacion_H(B, C, D):
-    pass
+    resultado = f"\n\n    {mostrar_32_bits_centrados_con_espacio(B & C)} = (B and C)"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(B & D)} = (B and D)"
+    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(C & D)} = (C and D)"
+    return resultado
 
 
 def mostrar_operacion_I(B, C, D):
-    pass
+    resultado = f"\n\n    {mostrar_32_bits_centrados_con_espacio(B)} = B"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(C)} = C"
+    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(D)} = D"
+    return resultado
 
 
 def mostrar_operacion_correspondiente(B, C, D, operacion):
