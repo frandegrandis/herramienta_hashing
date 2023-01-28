@@ -1,35 +1,13 @@
+from dominio.algoritmos.serializador_de_bloque import serializar_bloque
 from dominio.algoritmos.sha1.operaciones_sha1 import F, G, H, I
 from helpers.debugger import Debugger
 from helpers.operaciones_bit_a_bit import rotar_izquierda
-from helpers.utilidades import suma_modular
 from helpers.utilidades_UI import nombre_clase_de, mostrar_32_bits_centrados_con_espacio, hex_string_de, crear_linea, \
     bit_string_de
 
 
 def serializar_bloque_sha1(debugger, bloque):
-    iteracion = debugger.obtener_iteracion(paso=1, bloque=bloque)
-    vueltas = ["Primera vuelta:", "Segunda vuelta:", "Tercera vuelta:", "Cuarta vuelta:"]
-    iteraciones_por_vuelta = 20
-    A_inicial, B_inicial, C_inicial, D_inicial, E_inicial = iteracion.valores_iniciales()
-    resultado = f"Valores iniciales:\n"
-    resultado += f"A= {hex_string_de(A_inicial)}\n"
-    resultado += f"B= {hex_string_de(B_inicial)}\n"
-    resultado += f"C= {hex_string_de(C_inicial)}\n"
-    resultado += f"D= {hex_string_de(D_inicial)}\n"
-    resultado += f"E= {hex_string_de(E_inicial)}\n"
-    resultado += f"\nPaso i:\t A B C D E\n\n"
-    for paso in range(1, debugger.cantidad_pasos() + 1):
-        if (paso - 1) % iteraciones_por_vuelta == 0:
-            resultado += vueltas[paso // iteraciones_por_vuelta] + '\n'
-        A, B, C, D, E = map(hex_string_de, debugger.valores_finales(paso, bloque))
-        resultado += f"Paso {paso:^3}: {A} {B} {C} {D} {E}\n"
-    A, B, C, D, E = debugger.valores_finales(debugger.cantidad_pasos(), bloque)
-    resultado += f"\nActualización final: (valores iniciales + valores paso {debugger.cantidad_pasos()})\n"
-    resultado += f"\t  {hex_string_de(A_inicial)} {hex_string_de(B_inicial)} {hex_string_de(C_inicial)} {hex_string_de(D_inicial)} {hex_string_de(E_inicial)}\n"
-    resultado += f"\t+ {hex_string_de(A)} {hex_string_de(B)} {hex_string_de(C)} {hex_string_de(D)} {hex_string_de(E)}\n"
-    resultado += f"\t{'-' * (49)}\n"
-    resultado += f"\t  {hex_string_de(suma_modular(A_inicial, A))} {hex_string_de(suma_modular(B_inicial, B))} {hex_string_de(suma_modular(C_inicial, C))} {hex_string_de(suma_modular(D_inicial, D))} {hex_string_de(suma_modular(E_inicial, E))}"
-    return resultado
+    return serializar_bloque(debugger, bloque)
 
 
 def calculo_generar_palabra(debugger: Debugger, paso, bloque):
@@ -41,9 +19,9 @@ def calculo_generar_palabra(debugger: Debugger, paso, bloque):
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso - 8, bloque))} = Generada en paso {paso - 8}"
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso - 14, bloque))} = Generada en paso {paso - 14}"
     resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso - 16, bloque))} = Generada en paso {paso - 16}"
-    resultado+= crear_linea()
+    resultado += crear_linea()
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_izquierda(debugger.palabra_en(paso, bloque), 31))} = Se rotará 1 bit a la izq."
-    resultado+= crear_linea()
+    resultado += crear_linea()
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso, bloque))} = Palabra para este paso"
     return resultado
 
@@ -82,9 +60,9 @@ def serializar_paso_sha1(debugger, paso, bloque):
 def palabra_a_sumar(bloque, iteracion, paso):
     palabra_a_sumar = f"\n    {mostrar_32_bits_centrados_con_espacio(iteracion.palabra_a_sumar)} = "
     if paso <= 16:
-        palabra_a_sumar+= f"Palabra {paso} del bloque {bloque}"
+        palabra_a_sumar += f"Palabra {paso} del bloque {bloque}"
     else:
-        palabra_a_sumar+= f"Palabra generada"
+        palabra_a_sumar += f"Palabra generada"
     return palabra_a_sumar
 
 

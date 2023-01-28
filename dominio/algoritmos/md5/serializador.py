@@ -1,5 +1,5 @@
 from dominio.algoritmos.md5.md5_operations import F, G, H, I
-from helpers.utilidades import suma_modular
+from dominio.algoritmos.serializador_de_bloque import serializar_bloque
 from helpers.utilidades_UI import mostrar_32_bits_centrados_con_espacio, nombre_clase_de, hex_string_de, crear_linea
 
 
@@ -74,24 +74,6 @@ def mostrar_operacion_correspondiente(B, C, D, operacion, resultado):
 
 
 def serializar_bloque_md5(debugger, bloque):
-    iteracion = debugger.obtener_iteracion(paso=1, bloque=bloque)
-    vueltas = ["Primera vuelta", "Segunda vuelta", "Tercera vuelta", "Cuarta vuelta"]
-    A_inicial, B_inicial, C_inicial, D_inicial = iteracion.valores_iniciales()
-    resultado = f"Valores iniciales:\n"
-    resultado += f"A= {hex_string_de(A_inicial)}\n"
-    resultado += f"B= {hex_string_de(B_inicial)}\n"
-    resultado += f"C= {hex_string_de(C_inicial)}\n"
-    resultado += f"D= {hex_string_de(D_inicial)}\n"
-    resultado += f"\nPaso i:\t A B C D\n\n"
-    for paso in range(1, debugger.cantidad_pasos() + 1):
-        if (paso - 1) % 16 == 0:
-            resultado += vueltas[paso // 16] + '\n'
-        A, B, C, D = map(hex_string_de, debugger.valores_finales(paso, bloque))
-        resultado += f"Paso {paso:^3}: {A} {B} {C} {D}\n"
-    A, B, C, D = debugger.valores_finales(debugger.cantidad_pasos(), bloque)
-    resultado += f"\nActualización final: (valores iniciales + valores paso 64)\n"
-    resultado += f"\t  {hex_string_de(A_inicial)} {hex_string_de(B_inicial)} {hex_string_de(C_inicial)} {hex_string_de(D_inicial)}\n"
-    resultado += f"\t+ {hex_string_de(A)} {hex_string_de(B)} {hex_string_de(C)} {hex_string_de(D)}\n"
-    resultado += f"\t{'-' * (40)}\n"
-    resultado += f"\t  {hex_string_de(suma_modular(A_inicial, A))} {hex_string_de(suma_modular(B_inicial, B))} {hex_string_de(suma_modular(C_inicial, C))} {hex_string_de(suma_modular(D_inicial, D))}"
-    return resultado
+    return serializar_bloque(bloque, debugger)
+
+
