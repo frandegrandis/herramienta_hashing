@@ -57,7 +57,7 @@ def serializar_paso_md5(debugger, paso, bloque):
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(iteracion.suma_final())} Es ahora la palabra B"
     resultado += f"\n\nLa palabra D pasa a ocupar el lugar de A\nLa palabra C pasa a ocupar el lugar de D\nLa " \
                  f"palabra B pasa a ocupar el lugar de C"
-    # TODO: Falta mostrar la actualizacion final!xy[
+    # TODO: Falta mostrar la actualizacion final!
     return resultado
 
 
@@ -73,9 +73,8 @@ def mostrar_operacion_correspondiente(B, C, D, operacion, resultado):
     return resultado
 
 
-def serializar_bloque_md5(debugger, paso, bloque):
+def serializar_bloque_md5(debugger, bloque):
     iteracion = debugger.obtener_iteracion(paso=1, bloque=bloque)
-    cantidad_pasos_md5 = 64
     vueltas = ["Primera vuelta", "Segunda vuelta", "Tercera vuelta", "Cuarta vuelta"]
     A_inicial, B_inicial, C_inicial, D_inicial = iteracion.valores_iniciales()
     resultado = f"Valores iniciales:\n"
@@ -84,12 +83,12 @@ def serializar_bloque_md5(debugger, paso, bloque):
     resultado += f"C= {hex_string_de(C_inicial)}\n"
     resultado += f"D= {hex_string_de(D_inicial)}\n"
     resultado += f"\nPaso i:\t A B C D\n\n"
-    for paso in range(1, cantidad_pasos_md5 + 1):
+    for paso in range(1, debugger.cantidad_pasos() + 1):
         if (paso - 1) % 16 == 0:
             resultado += vueltas[paso // 16] + '\n'
         A, B, C, D = map(hex_string_de, debugger.valores_finales(paso, bloque))
         resultado += f"Paso {paso:^3}: {A} {B} {C} {D}\n"
-    A, B, C, D = debugger.valores_finales(cantidad_pasos_md5, bloque)
+    A, B, C, D = debugger.valores_finales(debugger.cantidad_pasos(), bloque)
     resultado += f"\nActualización final: (valores iniciales + valores paso 64)\n"
     resultado += f"\t  {hex_string_de(A_inicial)} {hex_string_de(B_inicial)} {hex_string_de(C_inicial)} {hex_string_de(D_inicial)}\n"
     resultado += f"\t+ {hex_string_de(A)} {hex_string_de(B)} {hex_string_de(C)} {hex_string_de(D)}\n"
