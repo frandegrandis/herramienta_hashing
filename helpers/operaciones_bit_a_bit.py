@@ -1,5 +1,7 @@
 from bitarray import bitarray
 
+from helpers.utilidades import bytes_de_string
+
 
 def rotar_izquierda(x: int, cantidad_bits_a_rotar: int) -> int:
     """
@@ -30,6 +32,27 @@ def bit_not(x: int) -> int:
 
 
 def bitarray_de_numero(numero):
+    bytes_de_numero = numero.to_bytes(4, 'big')
+    return bitsarray_de_bytes(bytes_de_numero)
+
+
+def bitsarray_de_bytes(bytes_de_numero):
     bits_de_x = bitarray(endian="big")
-    bits_de_x.frombytes(numero.to_bytes(4, 'big'))
+    bits_de_x.frombytes(bytes_de_numero)
     return bits_de_x
+
+
+def bitarray_de_string(string):
+    return bitsarray_de_bytes(bytes_de_string(string))
+
+
+def fill_zeros(bits, length=8, endian='LE'):
+    l = len(bits)
+    if endian == 'LE':
+        for i in range(l, length):
+            bits.append(0)
+    else:
+        while l < length:
+            bits.insert(0, 0)
+            l = len(bits)
+    return bits
