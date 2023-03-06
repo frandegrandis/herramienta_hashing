@@ -60,13 +60,21 @@ def hex_de_bitarray(value):
     return ba2hex(value)
 
 
-def rotr(x, n): return x[-n:] + x[:-n]
+def rotar_derecha(x, n): return x[-n:] + x[:-n]
 
 
 def add(i, j):
     a = ba2int(i)
     b = ba2int(j)
     return bitarray_de_numero(suma_modular(a, b))
+
+
+def ch2(x, y, z):
+    return (x & y) ^ (~x & z)
+
+
+def maj(x, y, z):
+    return (x & y) ^ (x & z) ^ (y & z)
 
 
 def sha256(message):
@@ -78,13 +86,13 @@ def sha256(message):
         for _ in range(48):
             w.append(32 * [0])
         for i in range(16, 64):
-            i3 = rotr(w[i - 15], 7)
-            j2 = rotr(w[i - 15], 18)
+            i3 = rotar_derecha(w[i - 15], 7)
+            j2 = rotar_derecha(w[i - 15], 18)
             x = w[i - 15]
             l = x >> 3
             s0 = i3 ^ j2 ^ l
-            i4 = rotr(w[i - 2], 17)
-            j3 = rotr(w[i - 2], 19)
+            i4 = rotar_derecha(w[i - 2], 17)
+            j3 = rotar_derecha(w[i - 2], 19)
             x1 = w[i - 2]
             l1 = x1 >> 10
             s1 = i4 ^ j3 ^ l1
@@ -98,24 +106,16 @@ def sha256(message):
         g = h6
         h = h7
         for j in range(64):
-            i5 = rotr(e, 6)
-            j4 = rotr(e, 11)
-            l2 = rotr(e, 25)
+            i5 = rotar_derecha(e, 6)
+            j4 = rotar_derecha(e, 11)
+            l2 = rotar_derecha(e, 25)
             S1 = i5 ^ j4 ^ l2
-            i1 = ~e
-            i2 = e & f
-            j1 = i1 & g
-            ch = i2 ^ j1
-            temp1 = add(add(add(add(h, S1), ch), k[j]), w[j])
-            i6 = rotr(a, 2)
-            j5 = rotr(a, 13)
-            l3 = rotr(a, 22)
+            temp1 = add(add(add(add(h, S1), ch2(e, f, g)), k[j]), w[j])
+            i6 = rotar_derecha(a, 2)
+            j5 = rotar_derecha(a, 13)
+            l3 = rotar_derecha(a, 22)
             S0 = i6 ^ j5 ^ l3
-            i7 = a & b
-            j6 = a & c
-            l4 = b & c
-            m = i7 ^ j6 ^ l4
-            temp2 = add(S0, m)
+            temp2 = add(S0, maj(a, b, c))
             h = g
             g = f
             f = e
