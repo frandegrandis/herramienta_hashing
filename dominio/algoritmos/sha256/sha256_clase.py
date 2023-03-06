@@ -77,26 +77,25 @@ def maj(x, y, z):
     return (x & y) ^ (x & z) ^ (y & z)
 
 
+def gamma0(x):
+    return rotar_derecha(x, 2) ^ rotar_derecha(x, 13) ^ rotar_derecha(x, 22)
+
+
+def gamma1(x):
+    return rotar_derecha(x, 6) ^ rotar_derecha(x, 11) ^ rotar_derecha(x, 25)
+
+def sigma0(x):
+    return rotar_derecha(x, 7) ^ rotar_derecha(x, 18) ^ (x >> 3)
+
+def sigma1(x):
+    return rotar_derecha(x, 17) ^ rotar_derecha(x, 19) ^ (x >> 10)
+
 def sha256(message):
     k = initializer(K)
     h0, h1, h2, h3, h4, h5, h6, h7 = initializer(h_hex)
     chunks = preprocessMessage(message)
     for chunk in chunks:
-        w = chunker(chunk, 32)
-        for _ in range(48):
-            w.append(32 * [0])
-        for i in range(16, 64):
-            i3 = rotar_derecha(w[i - 15], 7)
-            j2 = rotar_derecha(w[i - 15], 18)
-            x = w[i - 15]
-            l = x >> 3
-            s0 = i3 ^ j2 ^ l
-            i4 = rotar_derecha(w[i - 2], 17)
-            j3 = rotar_derecha(w[i - 2], 19)
-            x1 = w[i - 2]
-            l1 = x1 >> 10
-            s1 = i4 ^ j3 ^ l1
-            w[i] = add(add(add(w[i - 16], s0), w[i - 7]), s1)
+        word_schedule = generar_word_schedule(chunk)
         a = h0
         b = h1
         c = h2
@@ -106,16 +105,8 @@ def sha256(message):
         g = h6
         h = h7
         for j in range(64):
-            i5 = rotar_derecha(e, 6)
-            j4 = rotar_derecha(e, 11)
-            l2 = rotar_derecha(e, 25)
-            S1 = i5 ^ j4 ^ l2
-            temp1 = add(add(add(add(h, S1), ch2(e, f, g)), k[j]), w[j])
-            i6 = rotar_derecha(a, 2)
-            j5 = rotar_derecha(a, 13)
-            l3 = rotar_derecha(a, 22)
-            S0 = i6 ^ j5 ^ l3
-            temp2 = add(S0, maj(a, b, c))
+            temp1 = add(add(add(add(h, gamma1(e)), ch2(e, f, g)), k[j]), word_schedule[j])
+            temp2 = add(gamma0(a), maj(a, b, c))
             h = g
             g = f
             f = e
@@ -136,6 +127,17 @@ def sha256(message):
     for val in [h0, h1, h2, h3, h4, h5, h6, h7]:
         digest += hex_de_bitarray(val)
     return digest
+
+
+def generar_word_schedule(chunk):
+    word_schedule = chunker(chunk, 32)
+    for _ in range(48):
+        word_schedule.append(32 * [0])
+    for i in range(16, 64):
+        word_schedule[i] = add(
+            add(add(sigma1(word_schedule[i - 2]), word_schedule[i - 7]), sigma0(word_schedule[i - 15])),
+            word_schedule[i - 16])
+    return word_schedule
 
 
 if __name__ == '__main__':
