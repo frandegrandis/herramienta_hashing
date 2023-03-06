@@ -15,14 +15,14 @@ def calculo_generar_palabra(debugger: Debugger, paso, bloque):
         return ""
     resultado = f"\n\nCálculo prévio de una palabra a partir del bloque {bloque}:"
     resultado += f"\nPalabra generada paso {paso} = (XOR de las cuatro palabras usadas en los pasos {paso}-3, {paso}-8, {paso}-14 y {paso}-16) rotado a la izquierda 1 bit"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso - 3, bloque))} = Generada en paso {paso - 3}"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso - 8, bloque))} = Generada en paso {paso - 8}"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso - 14, bloque))} = Generada en paso {paso - 14}"
-    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso - 16, bloque))} = Generada en paso {paso - 16}"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_a_sumar_en(paso - 3, bloque))} = Generada en paso {paso - 3}"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_a_sumar_en(paso - 8, bloque))} = Generada en paso {paso - 8}"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_a_sumar_en(paso - 14, bloque))} = Generada en paso {paso - 14}"
+    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(debugger.palabra_a_sumar_en(paso - 16, bloque))} = Generada en paso {paso - 16}"
     resultado += crear_linea()
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_izquierda(debugger.palabra_en(paso, bloque), 31))} = Se rotará 1 bit a la izq."
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_izquierda(debugger.palabra_a_sumar_en(paso, bloque), 31))} = Se rotará 1 bit a la izq."
     resultado += crear_linea()
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_en(paso, bloque))} = Palabra para este paso"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_a_sumar_en(paso, bloque))} = Palabra para este paso"
     return resultado
 
 

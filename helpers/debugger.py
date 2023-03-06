@@ -51,7 +51,7 @@ class Debugger:
         hasher.update(elemento_a_hashear)
         return cls(hasher)
 
-    def palabra_en(self, paso, bloque):
+    def palabra_a_sumar_en(self, paso, bloque):
         return self.obtener_iteracion(paso=paso,bloque=bloque).palabra_a_sumar
 
     def cantidad_pasos(self):
