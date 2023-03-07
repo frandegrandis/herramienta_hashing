@@ -2,8 +2,8 @@ import unittest
 
 from bitarray import bitarray
 
-from dominio.algoritmos.sha256.sha256_clase import chunker, preprocessMessage, sha256
-from helpers.operaciones_bit_a_bit import bitsarray_de_bytes, fill_zeros
+from dominio.algoritmos.sha256.sha256_clase import SHA256
+from helpers.operaciones_bit_a_bit import bitsarray_de_bytes, bitarray_de_string
 from helpers.utilidades import bytes_de_string
 
 truths_2 = [bitarray('00'), bitarray('10'), bitarray('01'), bitarray('11')]
@@ -28,65 +28,39 @@ result_3_match = [
         "01100010011000110110010001100101011001100110011101101000011000100110001101100100011001010110011001100111011010000110100101100011011001000110010101100110011001110110100001101001011010100110010001100101011001100110011101101000011010010110101001101011011001010110011001100111011010000110100101101010011010110110110001100110011001110110100001101001011010100110101101101100011011010110011101101000011010010110101001101011011011000110110101101110011010000110100101101010011010110110110001101101011011100110111101101001"),
     bitarray(
         "01101010011010110110110001101101011011100110111101110000011010100110101101101100011011010110111001101111011100000111000101101011011011000110110101101110011011110111000001110001011100100110110001101101011011100110111101110000011100010111001001110011011011010110111001101111011100000111000101110010011100110111010001101110011011110111000001110001011100100111001101110100011101011000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001101111000")]
-test_vector_1 = ""
-test_vector_2 = "abc"
-test_vector_3 = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"
-test_vector_4 = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu"
+test_vector_1 = bitarray_de_string("")
+test_vector_2 = bitarray_de_string("abc")
+test_vector_3 = bitarray_de_string("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq")
+test_vector_4 = bitarray_de_string(
+    "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu")
 test_vector_5 = "a" * 1000000
-test_vector_6 = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopqp"  # edge-case: between 448 and 512 bits long message (456)
-test_vector_7 = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopqpqpmomom"  # edge-case: 512 bits
-test_vector_8 = "ibsnqwpzhillptcinmtvamymvixjxaumjddwxsxxjhjhnftynajhsluuctgjytazlcdewsexbjcpumdcfbbbmzwxcmjmnxfqurvaarapdswyatlyvqsxdefmehicwwdnkshzgysaxxenmtpirbhphxyaesgwigdxzqpekouenexqkqgpnzzwyjppc"
+test_vector_6 = bitarray_de_string("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopqp")
+test_vector_7 = bitarray_de_string("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopqpqpmomom")
+test_vector_8 = bitarray_de_string(
+    "ibsnqwpzhillptcinmtvamymvixjxaumjddwxsxxjhjhnftynajhsluuctgjytazlcdewsexbjcpumdcfbbbmzwxcmjmnxfqurvaarapdswyatlyvqsxdefmehicwwdnkshzgysaxxenmtpirbhphxyaesgwigdxzqpekouenexqkqgpnzzwyjppc")
 sha_1 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 sha_2 = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
 sha_3 = "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1"
 sha_4 = "cf5b16a778af8380036ce59e7b0492370b249b11e8f07a51afac45037afee9d1"
 sha_5 = "cdc76e5c9914fb9281a1c7e284d73e67f1809a48a497200e046d39ccc7112cd0"
-sha_6 = "3234a5b08b1112a6cb90bf9920ca1863535c9380a65633e5442befda64f84a6f"  # hashlib result
-sha_7 = "19c638400f16d98b8d955a0bfe853cb11c33a987389ac2311b9c0ba2cd1efa34"  # hashlib result
+sha_6 = "3234a5b08b1112a6cb90bf9920ca1863535c9380a65633e5442befda64f84a6f"
+sha_7 = "19c638400f16d98b8d955a0bfe853cb11c33a987389ac2311b9c0ba2cd1efa34"
 sha_8 = '6540979c2b56a3f4b17dada9a3d1fba7161d0e10f2c2d87b0b6486377bf88ecc'
 
 
 class TESTS(unittest.TestCase):
-    # utils
-
-    # helper
-
-    def test_chunker(self):
-        """test if chunks correctly"""
-        result = chunker(hello, 8)
-        match = [bitarray("01101000"), bitarray("01100101"), bitarray("01101100"), bitarray("01101100"),
-                 bitarray("01101111")]
-        self.assertEqual(match, result)
-
-    def test_fill_zeros(self):
-        """test if fills zeros"""
-        result_big = fill_zeros(bitarray("1"), 3, 'BE')
-        result_lil = fill_zeros(bitarray("1"), 3)
-        self.assertEqual(result_big, bitarray("001"))
-        self.assertEqual(result_lil, bitarray("100"))
-
-    def test_preprocess(self):
-        """see if message is preprocessed correctly"""
-        result_1 = preprocessMessage('hello')
-        result_2 = preprocessMessage('abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq')
-        result_3 = preprocessMessage(
-            'bcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu')
-        self.assertEqual(result_1, result_1_match)
-        self.assertEqual(result_2, result_2_match)
-        self.assertEqual(result_3, result_3_match)
-
     # hash
 
     def test_sha256(self):
         """test if sha256 hashes correctly"""
-        r_1 = sha256(test_vector_1)
-        r_2 = sha256(test_vector_2)
-        r_3 = sha256(test_vector_3)
-        r_4 = sha256(test_vector_4)
+        r_1 = self.sha256_a(test_vector_1)
+        r_2 = self.sha256_a(test_vector_2)
+        r_3 = self.sha256_a(test_vector_3)
+        r_4 = self.sha256_a(test_vector_4)
         # r_5 = sha256(test_vector_5)
-        r_6 = sha256(test_vector_6)
-        r_7 = sha256(test_vector_7)
-        r_8 = sha256(test_vector_8)
+        r_6 = self.sha256_a(test_vector_6)
+        r_7 = self.sha256_a(test_vector_7)
+        r_8 = self.sha256_a(test_vector_8)
         self.assertEqual(r_1, sha_1)
         self.assertEqual(r_2, sha_2)
         self.assertEqual(r_3, sha_3)
@@ -95,6 +69,11 @@ class TESTS(unittest.TestCase):
         self.assertEqual(r_6, sha_6)
         self.assertEqual(r_7, sha_7)
         self.assertEqual(r_8, sha_8)
+
+    def sha256_a(self, text_vector):
+        hasher = SHA256()
+        hasher.update(text_vector)
+        return hasher.hexdigest()
 
 
 if __name__ == '__main__':

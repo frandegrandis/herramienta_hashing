@@ -1,10 +1,7 @@
-from bitarray import bitarray
-from bitarray.util import ba2int, ba2hex
+from helpers.operaciones_bit_a_bit import bitarray_de_numero, rotar_derecha, \
+    hex_de_bitarray, suma_modular_de_bitarrays, bitsarray_de_bytes
 
-from helpers.operaciones_bit_a_bit import bitarray_de_numero, bitarray_de_string, fill_zeros
-from helpers.utilidades import suma_modular
-
-h_hex = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19]
+valores_iniciales = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19]
 
 K = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4,
      0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe,
@@ -16,57 +13,6 @@ K = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x9
      0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
      0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7,
      0xc67178f2]
-
-
-def chunker(bits, chunk_length=8):
-    chunked = []
-    for b in range(0, len(bits), chunk_length):
-        chunked.append(bits[b:b + chunk_length])
-    return chunked
-
-
-def preprocessMessage(message):
-    bits = bitarray_de_string(message)
-    length = len(bits)
-    message_len = bitarray([int(b) for b in bin(length)[2:].zfill(64)])
-    if length < 448:
-        bits.append(1)
-        bits = fill_zeros(bits, 448, 'LE')
-        bits = bits + message_len
-        return [bits]
-    elif 448 <= length <= 512:
-        bits.append(1)
-        bits = fill_zeros(bits, 1024, 'LE')
-        bits[-64:] = message_len
-        return chunker(bits, 512)
-    else:
-        bits.append(1)
-        while (len(bits) + 64) % 512 != 0:
-            bits.append(0)
-        bits = bits + message_len
-        return chunker(bits, 512)
-
-
-def initializer(values):
-    binaries = [bitarray_de_numero(v) for v in values]
-    words = []
-    for binary in binaries:
-        word = binary
-        words.append(fill_zeros(word, 32, 'BE'))
-    return words
-
-
-def hex_de_bitarray(value):
-    return ba2hex(value)
-
-
-def rotar_derecha(x, n): return x[-n:] + x[:-n]
-
-
-def add(i, j):
-    a = ba2int(i)
-    b = ba2int(j)
-    return bitarray_de_numero(suma_modular(a, b))
 
 
 def ch2(x, y, z):
@@ -84,66 +30,77 @@ def gamma0(x):
 def gamma1(x):
     return rotar_derecha(x, 6) ^ rotar_derecha(x, 11) ^ rotar_derecha(x, 25)
 
+
 def sigma0(x):
     return rotar_derecha(x, 7) ^ rotar_derecha(x, 18) ^ (x >> 3)
+
 
 def sigma1(x):
     return rotar_derecha(x, 17) ^ rotar_derecha(x, 19) ^ (x >> 10)
 
-def sha256(message):
-    k = initializer(K)
-    h0, h1, h2, h3, h4, h5, h6, h7 = initializer(h_hex)
-    chunks = preprocessMessage(message)
-    for chunk in chunks:
-        word_schedule = generar_word_schedule(chunk)
-        a = h0
-        b = h1
-        c = h2
-        d = h3
-        e = h4
-        f = h5
-        g = h6
-        h = h7
-        for j in range(64):
-            temp1 = add(add(add(add(h, gamma1(e)), ch2(e, f, g)), k[j]), word_schedule[j])
-            temp2 = add(gamma0(a), maj(a, b, c))
-            h = g
-            g = f
-            f = e
-            e = add(d, temp1)
-            d = c
-            c = b
-            b = a
-            a = add(temp1, temp2)
-        h0 = add(h0, a)
-        h1 = add(h1, b)
-        h2 = add(h2, c)
-        h3 = add(h3, d)
-        h4 = add(h4, e)
-        h5 = add(h5, f)
-        h6 = add(h6, g)
-        h7 = add(h7, h)
-    digest = ''
-    for val in [h0, h1, h2, h3, h4, h5, h6, h7]:
-        digest += hex_de_bitarray(val)
-    return digest
 
+class SHA256:
+    def __init__(self):
+        self.constantes = [bitarray_de_numero(v) for v in K]
+        self.h = [bitarray_de_numero(v1) for v1 in valores_iniciales]
 
-def generar_word_schedule(chunk):
-    word_schedule = chunker(chunk, 32)
-    for _ in range(48):
-        word_schedule.append(32 * [0])
-    for i in range(16, 64):
-        word_schedule[i] = add(
-            add(add(sigma1(word_schedule[i - 2]), word_schedule[i - 7]), sigma0(word_schedule[i - 15])),
-            word_schedule[i - 16])
-    return word_schedule
+    def update(self, bytes_a_hashear):
+        chunks = self.preprocessMessage(bytes_a_hashear)
+        for chunk in chunks:
+            word_schedule = self.generar_word_schedule(chunk)
+            a, b, c, d, e, f, g, h = self.h
+            for j in range(64):
+                temp1 = suma_modular_de_bitarrays(suma_modular_de_bitarrays(
+                    suma_modular_de_bitarrays(suma_modular_de_bitarrays(h, gamma1(e)), ch2(e, f, g)),
+                    self.constantes[j]),
+                    word_schedule[j])
+                temp2 = suma_modular_de_bitarrays(gamma0(a), maj(a, b, c))
+                h = g
+                g = f
+                f = e
+                e = suma_modular_de_bitarrays(d, temp1)
+                d = c
+                c = b
+                b = a
+                a = suma_modular_de_bitarrays(temp1, temp2)
+            self.h[0] = suma_modular_de_bitarrays(self.h[0], a)
+            self.h[1] = suma_modular_de_bitarrays(self.h[1], b)
+            self.h[2] = suma_modular_de_bitarrays(self.h[2], c)
+            self.h[3] = suma_modular_de_bitarrays(self.h[3], d)
+            self.h[4] = suma_modular_de_bitarrays(self.h[4], e)
+            self.h[5] = suma_modular_de_bitarrays(self.h[5], f)
+            self.h[6] = suma_modular_de_bitarrays(self.h[6], g)
+            self.h[7] = suma_modular_de_bitarrays(self.h[7], h)
+        return
 
+    def hexdigest(self):
+        digest = ''
+        for val in self.h:
+            digest += hex_de_bitarray(val)
+        return digest
 
-if __name__ == '__main__':
-    verdict = 'y'
-    while verdict == 'y':
-        input_message = input('Type or copy your message here: ')
-        print('Your message: ', input_message)
-        print('Hash: ', sha256(input_message))
-        verdict = input('Do you want to tryte another text? (y/n): ').lower()
+    def preprocessMessage(self, message):
+        bits = bitsarray_de_bytes(message)
+        message_len = bitarray_de_numero(len(bits), 8)
+        bits.append(1)
+        while (len(bits) + 64) % 512 != 0:
+            bits.append(0)
+        bits = bits + message_len
+        return self.chunker(bits, 512)
+
+    def chunker(self, bits, chunk_length=8):
+        chunked = []
+        for b in range(0, len(bits), chunk_length):
+            chunked.append(bits[b:b + chunk_length])
+        return chunked
+
+    def generar_word_schedule(self, chunk):
+        word_schedule = self.chunker(chunk, 32)
+        for _ in range(48):
+            word_schedule.append(32 * [0])
+        for i in range(16, 64):
+            word_schedule[i] = suma_modular_de_bitarrays(
+                suma_modular_de_bitarrays(suma_modular_de_bitarrays(sigma1(word_schedule[i - 2]), word_schedule[i - 7]),
+                                          sigma0(word_schedule[i - 15])),
+                word_schedule[i - 16])
+        return word_schedule

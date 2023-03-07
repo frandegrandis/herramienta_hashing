@@ -1,6 +1,7 @@
 from bitarray import bitarray
+from bitarray.util import ba2hex
 
-from helpers.utilidades import bytes_de_string
+from helpers.utilidades import bytes_de_string, suma_modular
 
 
 def rotar_izquierda(x: int, cantidad_bits_a_rotar: int) -> int:
@@ -31,8 +32,8 @@ def bit_not(x: int) -> int:
     return bitarray_a_numero(~bitarray_de_numero(x))
 
 
-def bitarray_de_numero(numero):
-    bytes_de_numero = numero.to_bytes(4, 'big')
+def bitarray_de_numero(numero, cantidad_de_bytes=4):
+    bytes_de_numero = numero.to_bytes(cantidad_de_bytes, 'big')
     return bitsarray_de_bytes(bytes_de_numero)
 
 
@@ -46,13 +47,14 @@ def bitarray_de_string(string):
     return bitsarray_de_bytes(bytes_de_string(string))
 
 
-def fill_zeros(bits, length=8, endian='LE'):
-    l = len(bits)
-    if endian == 'LE':
-        for i in range(l, length):
-            bits.append(0)
-    else:
-        while l < length:
-            bits.insert(0, 0)
-            l = len(bits)
-    return bits
+def rotar_derecha(x, n): return x[-n:] + x[:-n]
+
+
+def hex_de_bitarray(value):
+    return ba2hex(value)
+
+
+def suma_modular_de_bitarrays(i, j):
+    a = bitarray_a_numero(i)
+    b = bitarray_a_numero(j)
+    return bitarray_de_numero(suma_modular(a, b))
