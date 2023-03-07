@@ -34,6 +34,16 @@ class HasherTestCase(TestCase):
         self.assertTrue(hasher_stub.recibio("sha1"))
         self.assertTrue(hasher_stub.recibio("hash", parametros=[valor_a_hashear]))
 
+    def test_hashea_un_string_con_sha512_y_retorna_el_resultado(self):
+        valor_de_hash = "un valor hasheado"
+        hasher_stub = HasherStub(valor_de_hash)
+        controller = HasherController(hasher_stub)
+        valor_a_hashear = "hola"
+
+        self.assertEqual(controller.calcular_hash_sha512(valor_a_hashear), valor_de_hash)
+        self.assertTrue(hasher_stub.recibio("sha256"))
+        self.assertTrue(hasher_stub.recibio("hash", parametros=[valor_a_hashear]))
+
     def test_hashea_un_string_con_sha256_y_retorna_el_resultado(self):
         valor_de_hash = "un valor hasheado"
         hasher_stub = HasherStub(valor_de_hash)

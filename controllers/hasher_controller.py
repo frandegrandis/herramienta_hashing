@@ -25,3 +25,7 @@ class HasherController:
 
     def debugguear_sha1(self, string_a_hashear):
         return self.debugger_sha1(string_a_hashear)
+
+    def calcular_hash_sha512(self, valor_a_hashear):
+        hasher = self.hasher.sha512()
+        return hasher.hash(valor_a_hashear)
