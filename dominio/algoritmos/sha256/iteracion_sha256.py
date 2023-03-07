@@ -16,6 +16,11 @@ class IteracionSHA256:
         self.constante_a_usar = constante_a_usar
 
     def valores_finales(self):
+        a, b, c, d, e, f, g, h = self.ejecutar()
+
+        return [a,b,c,d,e,f,g,h]
+
+    def ejecutar(self):
         temp1 = suma_modular_de_bitarrays(suma_modular_de_bitarrays(
             suma_modular_de_bitarrays(suma_modular_de_bitarrays(self.h, gamma1(self.e)), ch2(self.e, self.f, self.g)),
             self.constante_a_usar),
@@ -29,5 +34,4 @@ class IteracionSHA256:
         c = self.b
         b = self.a
         a = suma_modular_de_bitarrays(temp1, temp2)
-
-        return [a,b,c,d,e,f,g,h]
+        return a, b, c, d, e, f, g, h

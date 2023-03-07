@@ -1,3 +1,4 @@
+import dominio.algoritmos.sha256.constantes_sha256
 from dominio.algoritmos.md5.md5_operations import F, G, H, I
 from dominio.algoritmos.serializador_de_bloque import serializar_bloque
 from helpers.utilidades_UI import mostrar_32_bits_centrados_con_espacio, nombre_clase_de, hex_string_de, crear_linea
@@ -31,10 +32,10 @@ def mostrar_operacion_F(B, C, D, resultado):
 def serializar_paso_md5(debugger, paso, bloque):
     iteracion = debugger.obtener_iteracion(paso=paso, bloque=bloque)
     operacion = iteracion.operacion
-    A = iteracion.valores_iniciales()[0]
-    B = iteracion.valores_iniciales()[1]
-    C = iteracion.valores_iniciales()[2]
-    D = iteracion.valores_iniciales()[3]
+    A = dominio.algoritmos.sha256.constantes_sha256.valores_iniciales()[0]
+    B = dominio.algoritmos.sha256.constantes_sha256.valores_iniciales()[1]
+    C = dominio.algoritmos.sha256.constantes_sha256.valores_iniciales()[2]
+    D = dominio.algoritmos.sha256.constantes_sha256.valores_iniciales()[3]
     resultado = operacion.to_string() + "\n"
     resultado += f"B´= B + ((A + {nombre_clase_de(operacion)}(B, C, D) + M[i] + K[j]) <<< S)"
     resultado += "\nA´= D; D´:= C; C´:= B"

@@ -1,3 +1,4 @@
+import dominio.algoritmos.sha256.constantes_sha256
 from dominio.algoritmos.serializador_de_bloque import serializar_bloque
 from dominio.algoritmos.sha1.operaciones_sha1 import F, G, H, I
 from helpers.debugger import Debugger
@@ -29,7 +30,7 @@ def calculo_generar_palabra(debugger: Debugger, paso, bloque):
 def serializar_paso_sha1(debugger, paso, bloque):
     iteracion = debugger.obtener_iteracion(paso=paso, bloque=bloque)
     operacion = iteracion.operacion
-    A, B, C, D, E = iteracion.valores_iniciales()
+    A, B, C, D, E = dominio.algoritmos.sha256.constantes_sha256.valores_iniciales()
     resultado = operacion.to_string() + "\n"
     resultado += f"A´= E + {nombre_clase_de(operacion)}(B, C, D) + (A <<< 5) + M[i] + K[j]\n"
     resultado += "E´= D; D´= C; C´= (B <<< 30); B´= A\n"

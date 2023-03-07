@@ -1,3 +1,4 @@
+import dominio.algoritmos.sha256.constantes_sha256
 from dominio.algoritmos.sha1.sha1_clase import SHA1
 from dominio.algoritmos.md5.md5 import MD5
 from helpers.utilidades import bytes_de_string
@@ -11,7 +12,7 @@ class Debugger:
         return self.hasher.palabras_del_bloque(bloque)
 
     def valores_iniciales(self, paso, bloque):
-        return self.obtener_iteracion(bloque, paso).valores_iniciales()
+        return dominio.algoritmos.sha256.constantes_sha256.valores_iniciales()
 
     def obtener_iteracion(self, bloque, paso):
         return self.hasher.iteraciones_por_bloque()[bloque - 1][paso - 1]
