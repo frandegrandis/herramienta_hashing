@@ -1,6 +1,5 @@
 import unittest
 
-import dominio.algoritmos.sha256.constantes_sha256
 from helpers.debugger import Debugger
 from dominio.algoritmos.md5.md5_operations import F
 
@@ -30,7 +29,7 @@ class DebuggerTest(unittest.TestCase):
     def test_obtengo_los_valores_iniciales_paso_particular(self):
         serializer = debugger()
 
-        self.assertEqual(valores_iniciales_paso_3(), dominio.algoritmos.sha256.constantes_sha256.valores_iniciales(paso=3, bloque=1))
+        self.assertEqual(valores_iniciales_paso_3(), serializer.valores_iniciales(paso=3, bloque=1))
 
     def test_obtengo_la_operacion_paso_particular(self):
         serializer = debugger()
