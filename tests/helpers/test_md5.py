@@ -1,5 +1,6 @@
 import unittest
 
+import dominio.algoritmos.sha256.constantes_sha256
 from dominio.algoritmos.md5.md5 import MD5
 from dominio.algoritmos.md5.md5_operations import F
 from helpers.utilidades import bytes_de_string
@@ -34,7 +35,7 @@ class TestMD5(unittest.TestCase):
         hasher.update(bytes_de_string("Hola"))
         iteracion = hasher.iteraciones[1]
 
-        self.assertEqual([0x10325476, 0x5b578b25, 0xefcdab89, 0x98badcfe], iteracion.valores_iniciales())
+        self.assertEqual([0x10325476, 0x5b578b25, 0xefcdab89, 0x98badcfe], dominio.algoritmos.sha256.constantes_sha256.valores_iniciales())
         self.assertTrue(isinstance(iteracion.operacion, F))
         self.assertEqual(128, iteracion.palabra_a_sumar)
         self.assertEqual(0xe8c7b756, iteracion.constante_s)
