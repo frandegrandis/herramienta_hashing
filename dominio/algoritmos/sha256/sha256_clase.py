@@ -1,5 +1,6 @@
-from helpers.operaciones_bit_a_bit import bitarray_de_numero, rotar_derecha, \
-    hex_de_bitarray, suma_modular_de_bitarrays, bitsarray_de_bytes
+from dominio.algoritmos.sha256.iteracion_sha256 import IteracionSHA256
+from dominio.algoritmos.sha256.operaciones import sigma0, sigma1
+from helpers.operaciones_bit_a_bit import bitarray_de_numero, hex_de_bitarray, suma_modular_de_bitarrays, bitsarray_de_bytes
 
 valores_iniciales = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19]
 
@@ -15,34 +16,11 @@ K = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x9
      0xc67178f2]
 
 
-def ch2(x, y, z):
-    return (x & y) ^ (~x & z)
-
-
-def maj(x, y, z):
-    return (x & y) ^ (x & z) ^ (y & z)
-
-
-def gamma0(x):
-    return rotar_derecha(x, 2) ^ rotar_derecha(x, 13) ^ rotar_derecha(x, 22)
-
-
-def gamma1(x):
-    return rotar_derecha(x, 6) ^ rotar_derecha(x, 11) ^ rotar_derecha(x, 25)
-
-
-def sigma0(x):
-    return rotar_derecha(x, 7) ^ rotar_derecha(x, 18) ^ (x >> 3)
-
-
-def sigma1(x):
-    return rotar_derecha(x, 17) ^ rotar_derecha(x, 19) ^ (x >> 10)
-
-
 class SHA256:
     def __init__(self):
         self.constantes = [bitarray_de_numero(v) for v in K]
         self.h = [bitarray_de_numero(v1) for v1 in valores_iniciales]
+        self.iteraciones = []
 
     def update(self, bytes_a_hashear):
         chunks = self.preprocessMessage(bytes_a_hashear)
@@ -50,19 +28,20 @@ class SHA256:
             word_schedule = self.generar_word_schedule(chunk)
             a, b, c, d, e, f, g, h = self.h
             for j in range(64):
-                temp1 = suma_modular_de_bitarrays(suma_modular_de_bitarrays(
-                    suma_modular_de_bitarrays(suma_modular_de_bitarrays(h, gamma1(e)), ch2(e, f, g)),
-                    self.constantes[j]),
-                    word_schedule[j])
-                temp2 = suma_modular_de_bitarrays(gamma0(a), maj(a, b, c))
-                h = g
-                g = f
-                f = e
-                e = suma_modular_de_bitarrays(d, temp1)
-                d = c
-                c = b
-                b = a
-                a = suma_modular_de_bitarrays(temp1, temp2)
+                iteracion = IteracionSHA256(
+                    a=a,
+                    b=b,
+                    c=c,
+                    d=d,
+                    e=e,
+                    f=f,
+                    g=g,
+                    h=h,
+                    constante_a_usar=self.constantes[j],
+                    palabra_a_sumar=word_schedule[j]
+                )
+                a, b, c, d, e, f, g, h = iteracion.valores_finales()
+                self.iteraciones.append(iteracion)
             self.h[0] = suma_modular_de_bitarrays(self.h[0], a)
             self.h[1] = suma_modular_de_bitarrays(self.h[1], b)
             self.h[2] = suma_modular_de_bitarrays(self.h[2], c)
