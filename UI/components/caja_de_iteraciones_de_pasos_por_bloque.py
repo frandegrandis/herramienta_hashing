@@ -3,6 +3,7 @@ from customtkinter import CTkFrame
 from UI.components.caja_de_texto import CajaDeTexto
 from UI.components.selector_pasos_bloques import SelectorPasosBloques
 from dominio.algoritmos.sha1.serializador import serializar_paso_sha1
+from dominio.algoritmos.sha256.serializador import serializar_paso_sha256
 from helpers.debugger import Debugger
 from dominio.algoritmos.md5.serializador import serializar_paso_md5
 
@@ -39,3 +40,6 @@ class CajaDeIteracionesDePasosPorBloque(CTkFrame):
 
     def serializar_sha1(self):
         self.serializar = serializar_paso_sha1
+
+    def serializar_sha256(self):
+        self.serializar = serializar_paso_sha256

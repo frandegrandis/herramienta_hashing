@@ -67,3 +67,12 @@ class MostradorHash(CTkTabview):
     def set_up_sha1(self):
         self.pasos.serializar_sha1()
         self.bloques.serializar_sha1()
+
+    def mostrar_pasos_sha256(self, debugger):
+        self.cargar_tabs()
+        self.set_up_sha256()
+        self.mostrar_pasos(debugger)
+
+    def set_up_sha256(self):
+        self.pasos.serializar_sha256()
+        self.bloques.serializar_sha256()

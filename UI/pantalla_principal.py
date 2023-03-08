@@ -57,7 +57,7 @@ class PantallaPrincipal(CTk):
         self.resultado_de_hash.mostrar_pasos_sha1(HasherController().debugguear_sha1(self.valor_a_hashear()))
 
     def debuguear_hash_sha256(self):
-        self.resultado_de_hash.mostrar_pasos_sha1(HasherController().debugguear_sha256(self.valor_a_hashear()))
+        self.resultado_de_hash.mostrar_pasos_sha256(HasherController().debugguear_sha256(self.valor_a_hashear()))
 
     def configurar_grilla(self):
         alto_pantalla = self.alto_pantalla()

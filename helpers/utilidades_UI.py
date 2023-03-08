@@ -1,3 +1,8 @@
+import bitarray
+
+from helpers.operaciones_bit_a_bit import bitarray_a_numero
+
+
 def mostrar_32_bits_centrados_con_espacio(B):
     return f"{bit_string_de(B):^40}"
 
@@ -18,6 +23,8 @@ def completar_con_ceros_hasta(i, palabra_a_completar):
 
 
 def hex_string_de(numero):
+    if isinstance(numero, bitarray.bitarray):
+        numero = bitarray_a_numero(numero)
     return completar_con_ceros_hasta(8, hex(numero)[2::].upper())
 
 

@@ -36,3 +36,6 @@ class IteracionSHA256(Iteracion):
         b = self.a
         a = suma_modular_de_bitarrays(temp1, temp2)
         return a, b, c, d, e, f, g, h
+
+    def valores_iniciales(self):
+        return [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]

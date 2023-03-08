@@ -4,6 +4,7 @@ from UI.components.caja_de_texto import CajaDeTexto
 from UI.components.selector_pasos_bloques import SelectorPasosBloques
 from dominio.algoritmos.sha1.serializador import serializar_bloque_sha1
 from dominio.algoritmos.md5.serializador import serializar_bloque_md5
+from dominio.algoritmos.sha256.serializador import serializar_bloque_sha256
 
 
 class CajaDeIteracionesDeBloques(CTkFrame):
@@ -33,5 +34,8 @@ class CajaDeIteracionesDeBloques(CTkFrame):
 
     def serializar_sha1(self):
         self.serializar = serializar_bloque_sha1
+
+    def serializar_sha256(self):
+        self.serializar = serializar_bloque_sha256
 
 
