@@ -6,7 +6,7 @@ from helpers.utilidades import bytes_de_string, suma_modular
 
 def rotar_izquierda(x: int, cantidad_bits_a_rotar: int) -> int:
     """
-    Rota los bits de x en y posiciones, ver test para ejemplos
+    Rota los bits de x en y posiciones, ver tests para ejemplos
     pensado unicamente para 32 bits
     """
     bits_de_x = bitarray_de_numero(x)
@@ -26,7 +26,7 @@ def bitarray_a_numero(aux):
 
 def bit_not(x: int) -> int:
     """
-    El complemento bit a bit,  ver test para ejemplos
+    El complemento bit a bit,  ver tests para ejemplos
     pensado para 32 bits.
     """
     return bitarray_a_numero(~bitarray_de_numero(x))

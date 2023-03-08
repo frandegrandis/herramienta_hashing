@@ -1,8 +1,9 @@
+from dominio.algoritmos.iteracion import Iteracion
 from dominio.algoritmos.sha256.operaciones import ch2, maj, gamma0, gamma1
 from helpers.operaciones_bit_a_bit import suma_modular_de_bitarrays
 
 
-class IteracionSHA256:
+class IteracionSHA256(Iteracion):
     def __init__(self, a, b, c, d, e, f, g, h, constante_a_usar, palabra_a_sumar):
         self.palabra_a_sumar = palabra_a_sumar
         self.g = g
