@@ -1,4 +1,3 @@
-import dominio.algoritmos.sha256.constantes_sha256
 from helpers.utilidades import suma_modular
 from helpers.utilidades_UI import hex_string_de
 
@@ -7,7 +6,7 @@ def serializar_bloque(bloque, debugger):
     iteracion = debugger.obtener_iteracion(paso=1, bloque=bloque)
     vueltas = ["Primera vuelta:", "Segunda vuelta:", "Tercera vuelta:", "Cuarta vuelta:"]
     iteraciones_por_vuelta = debugger.cantidad_pasos() // len(vueltas)
-    valores_iniciales = dominio.algoritmos.sha256.constantes_sha256.valores_iniciales()
+    valores_iniciales = iteracion.valores_iniciales()
     cantidad_variables = len(valores_iniciales)
     resultado = f"Valores iniciales:\n"
     resultado += mostrar_introduccion(valores_iniciales) + "\n\n"
