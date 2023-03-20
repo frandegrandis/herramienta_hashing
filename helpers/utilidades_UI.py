@@ -12,6 +12,8 @@ def nombre_clase_de(objeto):
 
 
 def bit_string_de(numero):
+    if isinstance(numero, bitarray.bitarray):
+        numero = bitarray_a_numero(numero)
     return completar_con_ceros_hasta(32, bin(abs(numero))[2::])
 
 
