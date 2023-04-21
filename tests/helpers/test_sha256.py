@@ -8,7 +8,7 @@ test_vector_2 = bitarray_de_string("abc")
 test_vector_3 = bitarray_de_string("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq")
 test_vector_4 = bitarray_de_string(
     "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu")
-test_vector_5 = "a" * 1000000
+test_vector_5 = bitarray_de_string("a" * 1000000)
 test_vector_6 = bitarray_de_string("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopqp")
 test_vector_7 = bitarray_de_string("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopqpqpmomom")
 test_vector_8 = bitarray_de_string(
@@ -32,7 +32,7 @@ class TESTS(unittest.TestCase):
         r_2 = self.sha256_a(test_vector_2)
         r_3 = self.sha256_a(test_vector_3)
         r_4 = self.sha256_a(test_vector_4)
-        # r_5 = sha256(test_vector_5)
+        # r_5 = self.sha256_a(test_vector_5)
         r_6 = self.sha256_a(test_vector_6)
         r_7 = self.sha256_a(test_vector_7)
         r_8 = self.sha256_a(test_vector_8)
