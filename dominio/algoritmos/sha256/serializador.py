@@ -101,6 +101,8 @@ def serializar_paso_sha256(debugger, paso, bloque):
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_a_sumar_en(paso, bloque))} = Palabra a sumar"
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(iteracion.t1())} = T1"
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(iteracion.t2())} = T2"
+
+    resultado+= "\n"
     # Calculo de palabra a sumar
     #resultado += calculo_generar_palabra(debugger, paso, bloque)
 

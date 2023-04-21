@@ -9,7 +9,7 @@ from dominio.algoritmos.md5.serializador import serializar_paso_md5
 
 
 class CajaDeIteracionesDePasosPorBloque(CTkFrame):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, serializer, debugger, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.selector_pasos_bloques = SelectorPasosBloques(master=self,
                                                            on_change=self.recargar)
@@ -18,15 +18,18 @@ class CajaDeIteracionesDePasosPorBloque(CTkFrame):
         self.caja_de_texto = CajaDeTexto(self)
         self.caja_de_texto.pack(fill='both', expand=1)
 
+        self.serializar = serializer
+        self.mostrar(debugger)
+
     def mostrar(self, hasher_debugger):
-        self.debugger:Debugger = hasher_debugger
+        self.debugger: Debugger = hasher_debugger
         self.selector_pasos_bloques.cambiar_pasos(self.pasos())
         self.selector_pasos_bloques.cambiar_bloques(self.bloques())
         self.recargar()
 
     def recargar(self):
         resultado = self.serializar(self.debugger, paso=self.selector_pasos_bloques.paso(),
-                                        bloque=self.selector_pasos_bloques.bloque())
+                                    bloque=self.selector_pasos_bloques.bloque())
         self.caja_de_texto.mostrar(resultado)
 
     def pasos(self):
@@ -43,3 +46,15 @@ class CajaDeIteracionesDePasosPorBloque(CTkFrame):
 
     def serializar_sha256(self):
         self.serializar = serializar_paso_sha256
+
+    @classmethod
+    def sha256(cls, master, debugger):
+        return cls(master=master, serializer=serializar_paso_sha256, debugger=debugger)
+
+    @classmethod
+    def sha1(cls, master, debugger):
+        return cls(master=master, serializer=serializar_paso_sha1, debugger=debugger)
+
+    @classmethod
+    def md5(cls, master, debugger):
+        return cls(master=master, serializer=serializar_paso_md5, debugger=debugger)
