@@ -97,17 +97,20 @@ def serializar_paso_sha256(debugger, paso, bloque):
     resultado += f"\nF = {mostrar_32_bits_centrados_con_espacio(F)} = {hex_string_de(F)}"
     resultado += f"\nG = {mostrar_32_bits_centrados_con_espacio(G)} = {hex_string_de(G)}"
     resultado += f"\nH = {mostrar_32_bits_centrados_con_espacio(H)} = {hex_string_de(H)}"
-    resultado += "\n"
+    resultado += "\nUsando:"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(debugger.palabra_a_sumar_en(paso, bloque))} = Palabra a sumar"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(iteracion.t1())} = T1"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(iteracion.t2())} = T2"
     # Calculo de palabra a sumar
-    resultado += calculo_generar_palabra(debugger, paso, bloque)
+    #resultado += calculo_generar_palabra(debugger, paso, bloque)
 
     # Calculo de T1
-    resultado += calculo_de_T1(iteracion=iteracion, paso=paso)
+    #resultado += calculo_de_T1(iteracion=iteracion, paso=paso)
 
     # Calculo de T2:
-    resultado += calculo_de_T2(iteracion=iteracion)
+    #resultado += calculo_de_T2(iteracion=iteracion)
 
-    resultado += "\n"
+    #resultado += "\n"
 
     # Muestro resultados
     resultado += la_palabra_a_pasa_al_lugar_de_b("G", "H")
