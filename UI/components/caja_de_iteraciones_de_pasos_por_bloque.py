@@ -3,7 +3,7 @@ from customtkinter import CTkFrame
 from UI.components.caja_de_texto import CajaDeTexto
 from UI.components.selector_pasos_bloques import SelectorPasosBloques
 from dominio.algoritmos.sha1.serializador import serializar_paso_sha1
-from dominio.algoritmos.sha256.serializador import serializar_paso_sha256
+from dominio.algoritmos.sha256.serializador import serializar_paso_sha256_resumido, serializar_paso_sha256_completo
 from helpers.debugger import Debugger
 from dominio.algoritmos.md5.serializador import serializar_paso_md5
 
@@ -45,11 +45,11 @@ class CajaDeIteracionesDePasosPorBloque(CTkFrame):
         self.serializar = serializar_paso_sha1
 
     def serializar_sha256(self):
-        self.serializar = serializar_paso_sha256
+        self.serializar = serializar_paso_sha256_resumido
 
     @classmethod
     def sha256(cls, master, debugger):
-        return cls(master=master, serializer=serializar_paso_sha256, debugger=debugger)
+        return cls(master=master, serializer=serializar_paso_sha256_completo, debugger=debugger)
 
     @classmethod
     def sha1(cls, master, debugger):
@@ -58,3 +58,7 @@ class CajaDeIteracionesDePasosPorBloque(CTkFrame):
     @classmethod
     def md5(cls, master, debugger):
         return cls(master=master, serializer=serializar_paso_md5, debugger=debugger)
+
+    @classmethod
+    def sha256_resumido(cls, master, debugger):
+        return cls(master=master, serializer=serializar_paso_sha256_resumido, debugger=debugger)

@@ -7,6 +7,7 @@ from UI.components.caja_de_iteraciones_de_bloques import CajaDeIteracionesDeBloq
 Resultado = "Resultado"
 PorBloques = "Debug por bloques"
 PorPasos = "Debug por pasos"
+PorPasosResumido = "Debug por pasos resumidos"
 
 
 class MostradorHash(CTkTabview):
@@ -44,11 +45,12 @@ class MostradorHash(CTkTabview):
     def mostrar_pasos_sha256(self, debugger):
         self._borrar_tabs()
 
-        self._cargar_tabs([PorPasos, PorBloques])
+        self._cargar_tabs([PorPasos, PorBloques, PorPasosResumido])
 
         CajaDeIteracionesDePasosPorBloque.sha256(master=self.tab(PorPasos), debugger=debugger).pack(fill="both",
                                                                                                     expand=1)
         CajaDeIteracionesDeBloques.sha256(master=self.tab(PorBloques), debugger=debugger).pack(fill="both", expand=1)
+        CajaDeIteracionesDePasosPorBloque.sha256_resumido(master=self.tab(PorPasosResumido), debugger=debugger).pack(fill="both", expand=1)
 
         self.caja_resultado.mostrar(debugger.resultado_final())
 
@@ -57,9 +59,9 @@ class MostradorHash(CTkTabview):
             self.add(tab)
 
     def _borrar_tabs(self):
-        try:
-            self.delete(PorPasos)
-            self.delete(PorBloques)
-            self.delete(PorPasosResumido)
-        except:
-            pass
+        posibles_tabs = [PorPasos, PorBloques, PorPasosResumido]
+        for tab in posibles_tabs:
+            try:
+                self.delete(tab)
+            except:
+                pass
