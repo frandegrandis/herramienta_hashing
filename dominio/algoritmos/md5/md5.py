@@ -3,6 +3,7 @@ from typing import BinaryIO
 
 import numpy as np
 
+from dominio.algoritmo import Algoritmo
 from dominio.algoritmos.md5.iteracion_md5 import IteracionMD5
 from dominio.algoritmos.md5.md5_operations import MD5SelectorDeOperaciones
 from helpers.utilidades import suma_modular, obtener_palabras
@@ -15,7 +16,7 @@ Defino las permutaciones para las 4 rondas
 """
 
 
-class MD5:
+class MD5(Algoritmo):
     def __init__(self):
         self.length: int = 0
         self.state: tuple[int, int, int, int] = (0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476)
@@ -28,8 +29,6 @@ class MD5:
         return b''.join(x.to_bytes(length=4, byteorder='little') for x in self.state)
 
     def process(self, stream: BinaryIO) -> None:
-        assert self.n_filled_bytes < len(self.buf)
-
         view = memoryview(self.buf)  # Utilizado para trabajar a nivel de bytes
         while bytes_read := stream.read(md5_block_size - self.n_filled_bytes):
             view[self.n_filled_bytes:self.n_filled_bytes + len(bytes_read)] = bytes_read
@@ -44,8 +43,6 @@ class MD5:
                     self.n_filled_bytes = 0
 
     def finalize(self) -> None:
-        assert self.n_filled_bytes < md5_block_size
-
         self.length += self.n_filled_bytes
         self.buf[self.n_filled_bytes] = 0b10000000
         self.n_filled_bytes += 1
@@ -71,10 +68,8 @@ class MD5:
         sines = np.abs(np.sin(np.arange(64) + 1))
         sine_randomness = [int(x) for x in np.floor(2 ** 32 * sines)]
         msg_chunk = self.buf
-        assert len(msg_chunk) == md5_block_size  # 64 bytes, 512 bits
         palabras_del_bloque = obtener_palabras(chunk=msg_chunk, byteorder='little', block_size=md5_block_size)
         self.palabras_por_bloque.append(palabras_del_bloque)
-        assert len(palabras_del_bloque) == 16
 
         a, b, c, d = self.state
 
@@ -100,9 +95,6 @@ class MD5:
     def hexdigest(self):
         return self.digest().hex()
 
-    def iteraciones_por_bloque(self):
-        return [self.iteraciones[x:x+64] for x in range(0, len(self.iteraciones), 64)]
-
     def palabras_del_bloque(self, n):
         return self.palabras_por_bloque[n - 1]
 
@@ -115,5 +107,5 @@ class MD5:
         permutaciones = round_1_perm + round_2_perm + round_3_perm + round_4_perm
         return permutaciones[paso]
 
-    def cantidad_bloques(self):
-        return len(self.iteraciones_por_bloque())
+    def cantidad_de_pasos_por_bloque(self):
+        return 64

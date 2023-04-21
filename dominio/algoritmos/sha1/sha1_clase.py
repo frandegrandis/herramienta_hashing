@@ -1,6 +1,7 @@
 import io
 import struct
 
+from dominio.algoritmo import Algoritmo
 from dominio.algoritmos.sha1.iteracion_sha1 import IteracionSHA1
 from dominio.algoritmos.sha1.operaciones_sha1 import I, H, F, G
 from helpers.operaciones_bit_a_bit import rotar_izquierda
@@ -9,7 +10,7 @@ from helpers.utilidades import suma_modular, detectar, obtener_palabras
 sha1_block_size = 64
 
 
-class SHA1:
+class SHA1(Algoritmo):
     def __init__(self):
         # Initial digest variables
         self._h = (
@@ -93,8 +94,6 @@ class SHA1:
         return self._h
 
     def _process_chunk(self, chunk):
-        """Process a chunk of data and return the new digest variables."""
-        assert len(chunk) == sha1_block_size
 
         palabras = obtener_palabras(chunk=chunk, byteorder='big', block_size=sha1_block_size)
 
@@ -157,8 +156,5 @@ class SHA1:
     def E(self):
         return self._h[4]
 
-    def iteraciones_por_bloque(self):
-        return [self.iteraciones[x:x + 80] for x in range(0, len(self.iteraciones), 80)]
-
-    def cantidad_bloques(self):
-        return len(self.iteraciones_por_bloque())
+    def cantidad_de_pasos_por_bloque(self):
+        return 80
