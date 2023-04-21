@@ -7,63 +7,61 @@ from UI.components.caja_de_iteraciones_de_bloques import CajaDeIteracionesDeBloq
 Resultado = "Resultado"
 PorBloques = "Debug por bloques"
 PorPasos = "Debug por pasos"
+PorPasosResumido = "Debug por pasos resumidos"
 
 
 class MostradorHash(CTkTabview):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.pasos = None
-        self.tab_de_pasos = None
         self.add(Resultado)
         self.caja_resultado = CajaDeTexto(master=self.tab(Resultado))
         self.caja_resultado.pack(fill="both", expand=1)
 
     def mostrar_texto(self, texto_a_mostrar):
-        if self.debo_borrar_tabs():
-            self.delete(PorPasos)
-            self.delete(PorBloques)
+        self._borrar_tabs()
+
         self.caja_resultado.mostrar(texto_a_mostrar)
 
-    def mostrar_pasos(self, debugger):
+    def mostrar_pasos_md5(self, debugger):
+        self._borrar_tabs()
+
+        self._cargar_tabs([PorPasos, PorBloques])
+
+        CajaDeIteracionesDePasosPorBloque.md5(master=self.tab(PorPasos), debugger=debugger).pack(fill="both", expand=1)
+        CajaDeIteracionesDeBloques.md5(master=self.tab(PorBloques), debugger=debugger).pack(fill="both", expand=1)
+
         self.caja_resultado.mostrar(debugger.resultado_final())
 
-        self.pasos.mostrar(debugger)
-
-        self.bloques.mostrar(debugger)
-
-    def cargar_tabs(self):
-        if self.debo_mostrar_tabs():
-            self.tab_de_pasos = self.add(PorPasos)
-            self.pasos = CajaDeIteracionesDePasosPorBloque(master=self.tab(PorPasos))
-            self.pasos.pack(fill="both", expand=1)
-            self.add(PorBloques)
-            self.bloques = CajaDeIteracionesDeBloques(master=self.tab(PorBloques))
-            self.bloques.pack(fill="both", expand=1)
-
-    def debo_mostrar_tabs(self):
-        return not self.debo_borrar_tabs()
-
-    def debo_borrar_tabs(self):
-        try:
-            self.tab(PorBloques)
-            return True
-        except:
-            return False
-
-    def mostrar_pasos_md5(self, debugger):
-        self.cargar_tabs()
-        self.set_up_md5()
-        self.mostrar_pasos(debugger)
-
-    def set_up_md5(self):
-        self.pasos.serializar_md5()
-        self.bloques.serializar_md5()
-
     def mostrar_pasos_sha1(self, debugger):
-        self.cargar_tabs()
-        self.set_up_sha1()
-        self.mostrar_pasos(debugger)
+        self._borrar_tabs()
 
-    def set_up_sha1(self):
-        self.pasos.serializar_sha1()
-        self.bloques.serializar_sha1()
+        self._cargar_tabs([PorPasos, PorBloques])
+
+        CajaDeIteracionesDeBloques.sha1(master=self.tab(PorBloques), debugger=debugger).pack(fill="both", expand=1)
+        CajaDeIteracionesDePasosPorBloque.sha1(master=self.tab(PorPasos), debugger=debugger).pack(fill="both", expand=1)
+
+        self.caja_resultado.mostrar(debugger.resultado_final())
+
+    def mostrar_pasos_sha256(self, debugger):
+        self._borrar_tabs()
+
+        self._cargar_tabs([PorPasos, PorBloques, PorPasosResumido])
+
+        CajaDeIteracionesDePasosPorBloque.sha256(master=self.tab(PorPasos), debugger=debugger).pack(fill="both",
+                                                                                                    expand=1)
+        CajaDeIteracionesDeBloques.sha256(master=self.tab(PorBloques), debugger=debugger).pack(fill="both", expand=1)
+        CajaDeIteracionesDePasosPorBloque.sha256_resumido(master=self.tab(PorPasosResumido), debugger=debugger).pack(fill="both", expand=1)
+
+        self.caja_resultado.mostrar(debugger.resultado_final())
+
+    def _cargar_tabs(self, tabs_a_cargar):
+        for tab in tabs_a_cargar:
+            self.add(tab)
+
+    def _borrar_tabs(self):
+        posibles_tabs = [PorPasos, PorBloques, PorPasosResumido]
+        for tab in posibles_tabs:
+            try:
+                self.delete(tab)
+            except:
+                pass

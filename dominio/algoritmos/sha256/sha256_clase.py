@@ -1,10 +1,11 @@
+from dominio.algoritmo import Algoritmo
 from dominio.algoritmos.sha256.constantes_sha256 import valores_iniciales, K
 from dominio.algoritmos.sha256.iteracion_sha256 import IteracionSHA256
 from dominio.algoritmos.sha256.operaciones import sigma0, sigma1
 from helpers.operaciones_bit_a_bit import bitarray_de_numero, hex_de_bitarray, suma_modular_de_bitarrays, bitsarray_de_bytes
 
 
-class SHA256:
+class SHA256(Algoritmo):
     def __init__(self):
         self.constantes = [bitarray_de_numero(v) for v in K]
         self.h = [bitarray_de_numero(v1) for v1 in valores_iniciales]
@@ -71,3 +72,6 @@ class SHA256:
                                           sigma0(word_schedule[i - 15])),
                 word_schedule[i - 16])
         return word_schedule
+
+    def cantidad_de_pasos_por_bloque(self):
+        return 64

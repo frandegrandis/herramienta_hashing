@@ -1,13 +1,17 @@
-import dominio.algoritmos.sha256.constantes_sha256
+from helpers.operaciones_bit_a_bit import suma_modular_de_bitarrays
 from helpers.utilidades import suma_modular
 from helpers.utilidades_UI import hex_string_de
 
 
-def serializar_bloque(bloque, debugger):
+def serializar_bloque_de_numeros(bloque, debugger):
+    return serializar_bloque(bloque, suma_modular, debugger)
+
+
+def serializar_bloque(bloque, calcular_suma_modular, debugger):
     iteracion = debugger.obtener_iteracion(paso=1, bloque=bloque)
     vueltas = ["Primera vuelta:", "Segunda vuelta:", "Tercera vuelta:", "Cuarta vuelta:"]
     iteraciones_por_vuelta = debugger.cantidad_pasos() // len(vueltas)
-    valores_iniciales = dominio.algoritmos.sha256.constantes_sha256.valores_iniciales()
+    valores_iniciales = iteracion.valores_iniciales()
     cantidad_variables = len(valores_iniciales)
     resultado = f"Valores iniciales:\n"
     resultado += mostrar_introduccion(valores_iniciales) + "\n\n"
@@ -22,7 +26,7 @@ def serializar_bloque(bloque, debugger):
     resultado += f"\t  "
     resultado += f"{renglon_hex_de_(valores_iniciales)}\n\t+ "
     resultado += f"{renglon_hex_de_(valores_finales)}\n\t{'-' * (4 + cantidad_variables * 9)}\n"  # 2 caracteres antes de las variables + 8 caracteres por variable + 1 espacio entre cada variable + 2 espacios al final
-    actualizacion_final = [suma_modular(x, y) for x, y in zip(valores_iniciales, valores_finales)]
+    actualizacion_final = [calcular_suma_modular(x, y) for x, y in zip(valores_iniciales, valores_finales)]
     resultado += f"\t  "
     resultado += renglon_hex_de_(actualizacion_final)
     return resultado
@@ -45,3 +49,7 @@ def renglon_hex_de_(valores):
     for i in valores:
         a += hex_string_de(i) + " "
     return a
+
+
+def serializar_bloque_por_bits(bloque, debugger):
+    return serializar_bloque(bloque=bloque, debugger= debugger, calcular_suma_modular=suma_modular_de_bitarrays)

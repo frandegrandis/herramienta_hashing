@@ -27,7 +27,7 @@ class TESTS(unittest.TestCase):
     # hash
 
     def test_sha256(self):
-        """test if sha256 hashes correctly"""
+        """tests if sha256 hashes correctly"""
         r_1 = self.sha256_a(test_vector_1)
         r_2 = self.sha256_a(test_vector_2)
         r_3 = self.sha256_a(test_vector_3)

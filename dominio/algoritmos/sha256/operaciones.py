@@ -1,7 +1,7 @@
 from helpers.operaciones_bit_a_bit import rotar_derecha
 
 
-def ch2(x, y, z):
+def ch(x, y, z):
     return (x & y) ^ (~x & z)
 
 

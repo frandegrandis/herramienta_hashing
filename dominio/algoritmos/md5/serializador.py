@@ -1,5 +1,5 @@
 from dominio.algoritmos.md5.md5_operations import F, G, H, I
-from dominio.algoritmos.serializador_de_bloque import serializar_bloque
+from dominio.algoritmos.serializador_de_bloque import serializar_bloque_de_numeros
 from helpers.utilidades_UI import mostrar_32_bits_centrados_con_espacio, nombre_clase_de, hex_string_de, crear_linea
 
 
@@ -74,6 +74,6 @@ def mostrar_operacion_correspondiente(B, C, D, operacion, resultado):
 
 
 def serializar_bloque_md5(debugger, bloque):
-    return serializar_bloque(bloque, debugger)
+    return serializar_bloque_de_numeros(bloque, debugger)
 
 

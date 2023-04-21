@@ -72,6 +72,11 @@ class HasherTestCase(TestCase):
 
         self.assertTrue(isinstance(debugger, Debugger))
 
+    def test_el_debug_de_un_string_con_sha256_retorna_un_debugger(self):
+        debugger = HasherController().debugguear_sha1("hola")
+
+        self.assertTrue(isinstance(debugger, Debugger))
+
     def test_el_debug_de_un_string_con_sha1_se_realiza_correctamente(self):
         string_a_hashear = "hola"
         debugger_stub = DebuggerStub()

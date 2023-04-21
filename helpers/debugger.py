@@ -1,5 +1,6 @@
 from dominio.algoritmos.sha1.sha1_clase import SHA1
 from dominio.algoritmos.md5.md5 import MD5
+from dominio.algoritmos.sha256.sha256_clase import SHA256
 from helpers.utilidades import bytes_de_string
 
 
@@ -51,7 +52,17 @@ class Debugger:
         hasher.update(elemento_a_hashear)
         return cls(hasher)
 
-    def palabra_en(self, paso, bloque):
+    @classmethod
+    def sha256(cls, elemento_a_hashear):
+        if isinstance(elemento_a_hashear, str):
+            elemento_a_hashear = bytes_de_string(elemento_a_hashear)
+        else:
+            elemento_a_hashear = elemento_a_hashear.read()
+        hasher = SHA256()
+        hasher.update(elemento_a_hashear)
+        return cls(hasher)
+
+    def palabra_a_sumar_en(self, paso, bloque):
         return self.obtener_iteracion(paso=paso,bloque=bloque).palabra_a_sumar
 
     def cantidad_pasos(self):
