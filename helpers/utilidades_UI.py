@@ -6,15 +6,18 @@ from helpers.operaciones_bit_a_bit import bitarray_a_numero
 def mostrar_32_bits_centrados_con_espacio(B):
     return f"{bit_string_de(B):^40}"
 
+def mostrar_64_bits_centrados_con_espacio(B):
+    return f"{bit_string_de(B, 64):^40}"
+
 
 def nombre_clase_de(objeto):
     return objeto.__class__.__name__
 
 
-def bit_string_de(numero):
+def bit_string_de(numero, cantidad_de_bits=32):
     if isinstance(numero, bitarray.bitarray):
         numero = bitarray_a_numero(numero)
-    return completar_con_ceros_hasta(32, bin(abs(numero))[2::])
+    return completar_con_ceros_hasta(cantidad_de_bits, bin(abs(numero))[2::])
 
 
 def completar_con_ceros_hasta(i, palabra_a_completar):
