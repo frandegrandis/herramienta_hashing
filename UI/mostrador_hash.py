@@ -73,7 +73,7 @@ class MostradorHash(CTkTabview):
 
         CajaDeIteracionesDePasosPorBloque.sha512(master=self.tab(PorPasos), debugger=debugger).pack(fill="both",
                                                                                                     expand=1)
-        # CajaDeIteracionesDeBloques.sha512(master=self.tab(PorBloques), debugger=debugger).pack(fill="both", expand=1)
-        # CajaDeIteracionesDePasosPorBloque.sha512_resumido(master=self.tab(PorPasosResumido), debugger=debugger).pack(fill="both", expand=1)
+        CajaDeIteracionesDeBloques.sha512(master=self.tab(PorBloques), debugger=debugger).pack(fill="both", expand=1)
+        CajaDeIteracionesDePasosPorBloque.sha512_resumido(master=self.tab(PorPasosResumido), debugger=debugger).pack(fill="both", expand=1)
 
         self.caja_resultado.mostrar(debugger.resultado_final())

@@ -44,7 +44,7 @@ def serializar_paso_sha512_resumido(debugger, paso, bloque):
 
 
 def serializar_bloque_sha512(debugger, bloque):
-    return serializar_bloque_de_numeros(bloque, debugger)
+    return serializar_bloque_de_numeros(bloque, debugger, cantidad_de_bits = 64)
 
 
 def calculo_generar_palabra(debugger: Debugger, paso, bloque):
@@ -118,14 +118,14 @@ def introduccion(A, B, C, D, E, F, G, H):
     resultado += "A partir del paso 16 W[n] = W[n] = Sigma1(W[n -2]) + W[n-7] + Sigma0(W[n-15]) + W[n-16]\n"
 
     # valores iniciales
-    resultado += f"\nA = {mostrar_64_bits_centrados_con_espacio(A)} = {hex_string_de(A)}"
-    resultado += f"\nB = {mostrar_64_bits_centrados_con_espacio(B)} = {hex_string_de(B)}"
-    resultado += f"\nC = {mostrar_64_bits_centrados_con_espacio(C)} = {hex_string_de(C)}"
-    resultado += f"\nD = {mostrar_64_bits_centrados_con_espacio(D)} = {hex_string_de(D)}"
-    resultado += f"\nE = {mostrar_64_bits_centrados_con_espacio(E)} = {hex_string_de(E)}"
-    resultado += f"\nF = {mostrar_64_bits_centrados_con_espacio(F)} = {hex_string_de(F)}"
-    resultado += f"\nG = {mostrar_64_bits_centrados_con_espacio(G)} = {hex_string_de(G)}"
-    resultado += f"\nH = {mostrar_64_bits_centrados_con_espacio(H)} = {hex_string_de(H)}"
+    resultado += f"\nA = {mostrar_64_bits_centrados_con_espacio(A)} = {hex_string_de(A, 16)}"
+    resultado += f"\nB = {mostrar_64_bits_centrados_con_espacio(B)} = {hex_string_de(B, 16)}"
+    resultado += f"\nC = {mostrar_64_bits_centrados_con_espacio(C)} = {hex_string_de(C, 16)}"
+    resultado += f"\nD = {mostrar_64_bits_centrados_con_espacio(D)} = {hex_string_de(D, 16)}"
+    resultado += f"\nE = {mostrar_64_bits_centrados_con_espacio(E)} = {hex_string_de(E, 16)}"
+    resultado += f"\nF = {mostrar_64_bits_centrados_con_espacio(F)} = {hex_string_de(F, 16)}"
+    resultado += f"\nG = {mostrar_64_bits_centrados_con_espacio(G)} = {hex_string_de(G, 16)}"
+    resultado += f"\nH = {mostrar_64_bits_centrados_con_espacio(H)} = {hex_string_de(H, 16)}"
     return resultado
 
 

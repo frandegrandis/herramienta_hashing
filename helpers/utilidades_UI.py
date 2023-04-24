@@ -27,11 +27,11 @@ def completar_con_ceros_hasta(i, palabra_a_completar):
     return palabra_a_completar
 
 
-def hex_string_de(numero):
+def hex_string_de(numero, tamanio_de_palabra_hexa=8):
     if isinstance(numero, bitarray.bitarray):
         numero = bitarray_a_numero(numero)
-    return completar_con_ceros_hasta(8, hex(numero)[2::].upper())
+    return completar_con_ceros_hasta(tamanio_de_palabra_hexa, hex(numero)[2::].upper())
 
 
 def crear_linea():
-    return "\n------------------------------------------------------------------------"
+    return f"\n{'-' * 100}"

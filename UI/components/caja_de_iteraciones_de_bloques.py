@@ -5,6 +5,7 @@ from UI.components.selector_pasos_bloques import SelectorPasosBloques
 from dominio.algoritmos.sha1.serializador import serializar_bloque_sha1
 from dominio.algoritmos.md5.serializador import serializar_bloque_md5
 from dominio.algoritmos.sha256.serializador import serializar_bloque_sha256
+from dominio.algoritmos.sha512.serializador import serializar_bloque_sha512
 
 
 class CajaDeIteracionesDeBloques(CTkFrame):
@@ -52,3 +53,7 @@ class CajaDeIteracionesDeBloques(CTkFrame):
     @classmethod
     def md5(cls, master, debugger):
         return cls(master=master, serializer=serializar_bloque_md5, debugger=debugger)
+
+    @classmethod
+    def sha512(cls, master, debugger):
+        return cls(master=master, serializer=serializar_bloque_sha512, debugger=debugger)

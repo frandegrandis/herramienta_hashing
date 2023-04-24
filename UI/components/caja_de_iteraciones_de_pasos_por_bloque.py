@@ -4,7 +4,7 @@ from UI.components.caja_de_texto import CajaDeTexto
 from UI.components.selector_pasos_bloques import SelectorPasosBloques
 from dominio.algoritmos.sha1.serializador import serializar_paso_sha1
 from dominio.algoritmos.sha256.serializador import serializar_paso_sha256_resumido, serializar_paso_sha256_completo
-from dominio.algoritmos.sha512.serializador import serializar_paso_sha512_completo
+from dominio.algoritmos.sha512.serializador import serializar_paso_sha512_completo, serializar_paso_sha512_resumido
 from helpers.debugger import Debugger
 from dominio.algoritmos.md5.serializador import serializar_paso_md5
 
@@ -67,3 +67,8 @@ class CajaDeIteracionesDePasosPorBloque(CTkFrame):
     @classmethod
     def sha512(cls, master, debugger):
         return cls(master=master, serializer=serializar_paso_sha512_completo, debugger= debugger)
+
+    @classmethod
+    def sha512_resumido(cls, master, debugger):
+        return cls(master=master, serializer=serializar_paso_sha512_resumido, debugger= debugger)
+
