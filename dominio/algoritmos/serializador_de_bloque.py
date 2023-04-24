@@ -1,4 +1,3 @@
-from helpers.operaciones_bit_a_bit import suma_modular_de_bitarrays
 from helpers.utilidades import suma_modular
 from helpers.utilidades_UI import hex_string_de
 
@@ -49,7 +48,3 @@ def renglon_hex_de_(valores):
     for i in valores:
         a += hex_string_de(i) + " "
     return a
-
-
-def serializar_bloque_por_bits(bloque, debugger):
-    return serializar_bloque(bloque=bloque, debugger= debugger, calcular_suma_modular=suma_modular_de_bitarrays)

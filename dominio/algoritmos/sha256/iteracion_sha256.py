@@ -1,6 +1,6 @@
 from dominio.algoritmos.iteracion import Iteracion
 from dominio.algoritmos.sha256.operaciones import ch, maj, gamma0, gamma1
-from helpers.operaciones_bit_a_bit import suma_modular
+from helpers.utilidades import suma_modular
 
 
 class IteracionSHA256(Iteracion):
@@ -36,7 +36,8 @@ class IteracionSHA256(Iteracion):
         return suma_modular(gamma0(self.a), maj(self.a, self.b, self.c))
 
     def t1(self):
-        return suma_modular(self.h + gamma1(self.e) + ch(self.e,self.f,self.g) + self.constante_a_usar, self.palabra_a_sumar)
+        return suma_modular(self.h + gamma1(self.e) + ch(self.e, self.f, self.g) + self.constante_a_usar,
+                            self.palabra_a_sumar)
 
     def valores_iniciales(self):
         return [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]

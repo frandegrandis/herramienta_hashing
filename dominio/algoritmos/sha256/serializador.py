@@ -1,4 +1,4 @@
-from dominio.algoritmos.serializador_de_bloque import serializar_bloque_por_bits
+from dominio.algoritmos.serializador_de_bloque import serializar_bloque_de_numeros
 from dominio.algoritmos.sha256.operaciones import gamma1, ch, gamma0, maj, sigma1, sigma0
 from helpers.debugger import Debugger
 from helpers.operaciones_bit_a_bit import rotar_derecha
@@ -43,7 +43,7 @@ def serializar_paso_sha256_resumido(debugger, paso, bloque):
 
 
 def serializar_bloque_sha256(debugger, bloque):
-    return serializar_bloque_por_bits(bloque, debugger)
+    return serializar_bloque_de_numeros(bloque, debugger)
 
 
 def calculo_generar_palabra(debugger: Debugger, paso, bloque):

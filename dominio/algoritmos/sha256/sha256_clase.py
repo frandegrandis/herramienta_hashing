@@ -6,7 +6,7 @@ from dominio.algoritmo import Algoritmo
 from dominio.algoritmos.sha256.constantes_sha256 import valores_iniciales, K
 from dominio.algoritmos.sha256.iteracion_sha256 import IteracionSHA256
 from dominio.algoritmos.sha256.operaciones import sigma0, sigma1
-from helpers.operaciones_bit_a_bit import suma_modular
+from helpers.utilidades import suma_modular
 
 
 class SHA256(Algoritmo):
