@@ -133,9 +133,9 @@ def la_palabra_a_pasa_al_lugar_de_b(palabra_a, palabra_b):
 
 def calculo_gamma0(A):
     resultado = f"\n Gamma0:"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A,2))} A rotado a derecha 2 bits"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A,2))} A rotado a derecha 13 bits"
-    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A,2))} A rotado a derecha 22 bits"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} A rotado a derecha 2 bits"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} A rotado a derecha 13 bits"
+    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} A rotado a derecha 22 bits"
     resultado += crear_linea()
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(gamma0(A))}\n"
     return resultado
