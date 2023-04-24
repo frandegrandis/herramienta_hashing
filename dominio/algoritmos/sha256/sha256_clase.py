@@ -11,14 +11,13 @@ from helpers.operaciones_bit_a_bit import suma_modular
 
 class SHA256(Algoritmo):
     def __init__(self):
-        self.constantes =  K
-        self.h = [i for i in valores_iniciales]
+        self.constantes = K
+        self.h = list(valores_iniciales)
         self.iteraciones = []
 
-    def update(self, message):
-        if type(message) is not str:
-            raise TypeError('Given message should be a string.')
-        bytes_a_hashear = bytearray(message, encoding='utf-8')
+    def update(self, bytes_a_hashear: [str, bytearray]):
+        if type(bytes_a_hashear) is str:
+            bytes_a_hashear = bytearray(bytes_a_hashear, encoding='utf-8')
 
         padding_len = 63 - (len(bytes_a_hashear) + 8) % 64
         ending = struct.pack('!Q', len(bytes_a_hashear) << 3)
@@ -66,7 +65,7 @@ class SHA256(Algoritmo):
 
         # Calcula 48 palabras adicionales
         for i in range(16, 64):
-            words[i] = ((words[i - 16] + sigma0(words[i - 15]) + words[i - 7] + sigma1(words[i - 2])) & 0xFFFFFFFF)
+            words[i] = suma_modular(words[i - 16] + sigma0(words[i - 15]) + words[i - 7], sigma1(words[i - 2]))
 
         return words
 

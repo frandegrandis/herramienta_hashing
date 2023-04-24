@@ -17,9 +17,7 @@ class IteracionSHA256(Iteracion):
         self.constante_a_usar = constante_a_usar
 
     def valores_finales(self):
-        a, b, c, d, e, f, g, h = self.ejecutar()
-
-        return [a,b,c,d,e,f,g,h]
+        return self.ejecutar()
 
     def ejecutar(self):
         temp1 = self.t1()
