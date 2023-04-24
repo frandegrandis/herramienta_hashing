@@ -1,7 +1,7 @@
 from dominio.algoritmos.serializador_de_bloque import serializar_bloque_de_numeros
 from dominio.algoritmos.sha256.operaciones import gamma1, ch, gamma0, maj, sigma1, sigma0
 from helpers.debugger import Debugger
-from helpers.operaciones_bit_a_bit import rotar_derecha_bitarray
+from helpers.operaciones_bit_a_bit import rotar_derecha
 from helpers.utilidades_UI import mostrar_32_bits_centrados_con_espacio, hex_string_de, crear_linea
 
 def serializar_paso_sha256_completo(debugger, paso, bloque):
@@ -133,9 +133,9 @@ def la_palabra_a_pasa_al_lugar_de_b(palabra_a, palabra_b):
 
 def calculo_gamma0(A):
     resultado = f"\n Gamma0:"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha_bitarray(A, 2))} A rotado a derecha 2 bits"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha_bitarray(A, 2))} A rotado a derecha 13 bits"
-    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha_bitarray(A, 2))} A rotado a derecha 22 bits"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} A rotado a derecha 2 bits"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} A rotado a derecha 13 bits"
+    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} A rotado a derecha 22 bits"
     resultado += crear_linea()
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(gamma0(A))}\n"
     return resultado
@@ -146,9 +146,9 @@ def calculo_sigma0(debugger, paso, bloque):
         return ""
     A = debugger.palabra_a_sumar_en(paso, bloque)
     resultado = f"\n sigma0:"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha_bitarray(A, 2))} w[{paso} - 15] rotado a derecha 7 bits"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha_bitarray(A, 2))} w[{paso} - 15] rotado a derecha 18 bits"
-    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha_bitarray(A, 2))} w[{paso} - 15] >> 3"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} w[{paso} - 15] rotado a derecha 7 bits"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} w[{paso} - 15] rotado a derecha 18 bits"
+    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} w[{paso} - 15] >> 3"
     resultado += crear_linea()
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(sigma0(A))}\n"
     return resultado
@@ -156,9 +156,9 @@ def calculo_sigma0(debugger, paso, bloque):
 
 def calculo_gamma1(X):
     resultado = f"\n Gamma1:"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha_bitarray(X, 6))} E rotado a derecha 6 bits"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha_bitarray(X, 11))} E rotado a derecha 11 bits"
-    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha_bitarray(X, 25))} E rotado a derecha 25 bits"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(X, 6))} E rotado a derecha 6 bits"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(X, 11))} E rotado a derecha 11 bits"
+    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha(X, 25))} E rotado a derecha 25 bits"
     resultado += crear_linea()
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(gamma1(X))}\n"
     return resultado
@@ -169,9 +169,9 @@ def calculo_sigma1(debugger, paso, bloque):
         return ""
     A = debugger.palabra_a_sumar_en(paso, bloque)
     resultado = f"\n sigma1:"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha_bitarray(A, 2))} w[{paso} - 2] rotado a derecha 17 bits"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha_bitarray(A, 2))} w[{paso} - 2] rotado a derecha 19 bits"
-    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha_bitarray(A, 2))} w[{paso} - 2] >> 10"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} w[{paso} - 2] rotado a derecha 17 bits"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} w[{paso} - 2] rotado a derecha 19 bits"
+    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} w[{paso} - 2] >> 10"
     resultado += crear_linea()
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(sigma1(A))}\n"
     return resultado

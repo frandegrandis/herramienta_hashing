@@ -47,11 +47,9 @@ def bitarray_de_string(string):
     return bitsarray_de_bytes(bytes_de_string(string))
 
 
-def rotar_derecha_bitarray(x, n):
-    return (x >> n) | (x << (32 - n)) & 0xFFFFFFFF
+def rotar_derecha(x, n, cantidad_de_bits=32):
+    return (x >> n) | (x << (cantidad_de_bits - n)) & ((2 ** cantidad_de_bits) - 1)
 
-def rotar_derecha(n: int, bits: int) -> int:
-    return (n >> bits) | (n << (64 - bits)) & 0xFFFFFFFFFFFFFFFF
 
 def hex_de_bitarray(value):
     return ba2hex(value)
