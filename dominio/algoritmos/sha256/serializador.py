@@ -65,8 +65,8 @@ def calculo_de_T1(iteracion, paso):
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(H)} = H"
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(gamma1(E))} = gamma1(E)"
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(ch(E, F, G))} = ch(E,F,G)"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(iteracion.palabra_a_sumar)} = k[{paso}]"
-    resultado += f"\n+   {mostrar_32_bits_centrados_con_espacio(iteracion.constante_a_usar)} = w[{paso}]"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(iteracion.palabra_a_sumar)} = w[{paso}]"
+    resultado += f"\n+   {mostrar_32_bits_centrados_con_espacio(iteracion.constante_a_usar)} = k[{paso}]"
     resultado += crear_linea()
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(iteracion.t1())} = T1"
     return resultado
