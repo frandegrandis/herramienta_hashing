@@ -44,14 +44,11 @@ class SHA256(Algoritmo):
                 )
                 a, b, c, d, e, f, g, h = iteracion.valores_finales()
                 self.iteraciones.append(iteracion)
-            self.h[0] = suma_modular(self.h[0], a)
-            self.h[1] = suma_modular(self.h[1], b)
-            self.h[2] = suma_modular(self.h[2], c)
-            self.h[3] = suma_modular(self.h[3], d)
-            self.h[4] = suma_modular(self.h[4], e)
-            self.h[5] = suma_modular(self.h[5], f)
-            self.h[6] = suma_modular(self.h[6], g)
-            self.h[7] = suma_modular(self.h[7], h)
+
+            self.h = [
+                suma_modular(x, y)
+                for x, y in zip(self.h, (a, b, c, d, e, f, g, h))
+            ]
         return
 
     def hexdigest(self):
@@ -62,8 +59,6 @@ class SHA256(Algoritmo):
     def generar_word_schedule(self, chunk):
         words = [0] * 64
         words[0:16] = struct.unpack('!16I', chunk)
-
-        # Calcula 48 palabras adicionales
         for i in range(16, 64):
             words[i] = suma_modular(words[i - 16] + sigma0(words[i - 15]) + words[i - 7], sigma1(words[i - 2]))
 
