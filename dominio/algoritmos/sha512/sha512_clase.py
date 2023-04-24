@@ -67,3 +67,6 @@ class SHA512(Algoritmo):
         message_array.append(0x80)
         message_array.extend([0] * padding_len)
         message_array.extend(bytearray(ending))
+
+    def cantidad_de_pasos_por_bloque(self):
+        return 80

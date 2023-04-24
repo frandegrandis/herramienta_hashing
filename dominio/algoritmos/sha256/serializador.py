@@ -134,8 +134,8 @@ def la_palabra_a_pasa_al_lugar_de_b(palabra_a, palabra_b):
 def calculo_gamma0(A):
     resultado = f"\n Gamma0:"
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} A rotado a derecha 2 bits"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} A rotado a derecha 13 bits"
-    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} A rotado a derecha 22 bits"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 13))} A rotado a derecha 13 bits"
+    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 22))} A rotado a derecha 22 bits"
     resultado += crear_linea()
     resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(gamma0(A))}\n"
     return resultado
@@ -144,13 +144,13 @@ def calculo_gamma0(A):
 def calculo_sigma0(debugger, paso, bloque):
     if paso < 16:
         return ""
-    A = debugger.palabra_a_sumar_en(paso, bloque)
     resultado = f"\n sigma0:"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} w[{paso} - 15] rotado a derecha 7 bits"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} w[{paso} - 15] rotado a derecha 18 bits"
-    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} w[{paso} - 15] >> 3"
+    numero_a_rotar = debugger.palabra_a_sumar_en(paso - 15, bloque)
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(numero_a_rotar, 7))} w[{paso} - 15] rotado a derecha 7 bits"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(numero_a_rotar, 18))} w[{paso} - 15] rotado a derecha 18 bits"
+    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(numero_a_rotar >> 3)} w[{paso} - 15] >> 3"
     resultado += crear_linea()
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(sigma0(A))}\n"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(sigma0(numero_a_rotar))}\n"
     return resultado
 
 
@@ -167,13 +167,13 @@ def calculo_gamma1(X):
 def calculo_sigma1(debugger, paso, bloque):
     if paso < 16:
         return ""
-    A = debugger.palabra_a_sumar_en(paso, bloque)
     resultado = f"\n sigma1:"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} w[{paso} - 2] rotado a derecha 17 bits"
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} w[{paso} - 2] rotado a derecha 19 bits"
-    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio(rotar_derecha(A, 2))} w[{paso} - 2] >> 10"
+    numero_a_rotar = debugger.palabra_a_sumar_en(paso-2, bloque)
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(numero_a_rotar, 17))} w[{paso} - 2] rotado a derecha 17 bits"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(rotar_derecha(numero_a_rotar, 19))} w[{paso} - 2] rotado a derecha 19 bits"
+    resultado += f"\nXOR {mostrar_32_bits_centrados_con_espacio((numero_a_rotar >> 10))} w[{paso} - 2] >> 10"
     resultado += crear_linea()
-    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(sigma1(A))}\n"
+    resultado += f"\n    {mostrar_32_bits_centrados_con_espacio(sigma1(numero_a_rotar))}\n"
     return resultado
 
 

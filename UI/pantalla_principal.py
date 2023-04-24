@@ -23,20 +23,14 @@ class PantallaPrincipal(CTk):
         self.resultado_de_hash.pack(fill="both", expand=1)
         bottom_frame = CTkFrame(master=self, fg_color="blue")
         bottom_frame.grid(column=0, row=1, sticky='nsew')
-        boton = CTkButton(master=bottom_frame, text="Hash MD5", command=self.calcular_hash_md5)
-        boton.pack()
-        boton = CTkButton(master=bottom_frame, text="Hash SHA1", command=self.calcular_hash_sha1)
-        boton.pack()
-        boton = CTkButton(master=bottom_frame, text="Hash SHA256", command=self.calcular_hash_sha256)
-        boton.pack()
-        boton = CTkButton(master=bottom_frame, text="Hash SHA512", command=self.calcular_hash_sha512)
-        boton.pack()
-        boton = CTkButton(master=bottom_frame, text="Debug MD5", command=self.debuguear_hash_md5)
-        boton.pack()
-        boton = CTkButton(master=bottom_frame, text="Debug SHA1", command=self.debuguear_hash_sha1)
-        boton.pack()
-        boton = CTkButton(master=bottom_frame, text="Debug SHA256", command=self.debuguear_hash_sha256)
-        boton.pack()
+        CTkButton(master=bottom_frame, text="Hash MD5", command=self.calcular_hash_md5).pack()
+        CTkButton(master=bottom_frame, text="Hash SHA1", command=self.calcular_hash_sha1).pack()
+        CTkButton(master=bottom_frame, text="Hash SHA256", command=self.calcular_hash_sha256).pack()
+        CTkButton(master=bottom_frame, text="Hash SHA512", command=self.calcular_hash_sha512).pack()
+        CTkButton(master=bottom_frame, text="Debug MD5", command=self.debuguear_hash_md5).pack()
+        CTkButton(master=bottom_frame, text="Debug SHA1", command=self.debuguear_hash_sha1).pack()
+        CTkButton(master=bottom_frame, text="Debug SHA256", command=self.debuguear_hash_sha256).pack()
+        CTkButton(master=bottom_frame, text="Debug SHA512", command=self.debuguear_hash_sha512).pack()
 
     def calcular_hash_md5(self):
         self._obtener_hash(HasherController().calcular_hash_md5)
@@ -58,6 +52,9 @@ class PantallaPrincipal(CTk):
 
     def debuguear_hash_sha256(self):
         self.resultado_de_hash.mostrar_pasos_sha256(HasherController().debugguear_sha256(self.valor_a_hashear()))
+
+    def debuguear_hash_sha512(self):
+        self.resultado_de_hash.mostrar_pasos_sha512(HasherController().debugguear_sha512(self.valor_a_hashear()))
 
     def configurar_grilla(self):
         alto_pantalla = self.alto_pantalla()

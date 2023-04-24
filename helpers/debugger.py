@@ -1,6 +1,7 @@
 from dominio.algoritmos.sha1.sha1_clase import SHA1
 from dominio.algoritmos.md5.md5 import MD5
 from dominio.algoritmos.sha256.sha256_clase import SHA256
+from dominio.algoritmos.sha512.sha512_clase import SHA512
 from helpers.utilidades import bytes_de_string
 
 
@@ -59,6 +60,16 @@ class Debugger:
         else:
             elemento_a_hashear = elemento_a_hashear.read()
         hasher = SHA256()
+        hasher.update(bytearray(elemento_a_hashear))
+        return cls(hasher)
+
+    @classmethod
+    def sha512(cls, elemento_a_hashear):
+        if isinstance(elemento_a_hashear, str):
+            elemento_a_hashear = bytes_de_string(elemento_a_hashear)
+        else:
+            elemento_a_hashear = elemento_a_hashear.read()
+        hasher = SHA512()
         hasher.update(bytearray(elemento_a_hashear))
         return cls(hasher)
 

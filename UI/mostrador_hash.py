@@ -65,3 +65,15 @@ class MostradorHash(CTkTabview):
                 self.delete(tab)
             except:
                 pass
+
+    def mostrar_pasos_sha512(self, debugger):
+        self._borrar_tabs()
+
+        self._cargar_tabs([PorPasos, PorBloques, PorPasosResumido])
+
+        CajaDeIteracionesDePasosPorBloque.sha512(master=self.tab(PorPasos), debugger=debugger).pack(fill="both",
+                                                                                                    expand=1)
+        CajaDeIteracionesDeBloques.sha512(master=self.tab(PorBloques), debugger=debugger).pack(fill="both", expand=1)
+        CajaDeIteracionesDePasosPorBloque.sha512_resumido(master=self.tab(PorPasosResumido), debugger=debugger).pack(fill="both", expand=1)
+
+        self.caja_resultado.mostrar(debugger.resultado_final())
