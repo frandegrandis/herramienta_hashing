@@ -59,7 +59,7 @@ class Debugger:
         else:
             elemento_a_hashear = elemento_a_hashear.read()
         hasher = SHA256()
-        hasher.update(elemento_a_hashear)
+        hasher.update(bytearray(elemento_a_hashear))
         return cls(hasher)
 
     def palabra_a_sumar_en(self, paso, bloque):

@@ -1,19 +1,32 @@
+import struct
+
+import binascii
+
 from dominio.algoritmo import Algoritmo
 from dominio.algoritmos.sha256.constantes_sha256 import valores_iniciales, K
 from dominio.algoritmos.sha256.iteracion_sha256 import IteracionSHA256
 from dominio.algoritmos.sha256.operaciones import sigma0, sigma1
-from helpers.operaciones_bit_a_bit import bitarray_de_numero, hex_de_bitarray, suma_modular_de_bitarrays, bitsarray_de_bytes
+from helpers.utilidades import suma_modular
 
 
 class SHA256(Algoritmo):
     def __init__(self):
-        self.constantes = [bitarray_de_numero(v) for v in K]
-        self.h = [bitarray_de_numero(v1) for v1 in valores_iniciales]
+        self.constantes = K
+        self.h = list(valores_iniciales)
         self.iteraciones = []
 
-    def update(self, bytes_a_hashear):
-        chunks = self.preprocessMessage(bytes_a_hashear)
-        for chunk in chunks:
+    def update(self, bytes_a_hashear: [str, bytearray]):
+        if type(bytes_a_hashear) is str:
+            bytes_a_hashear = bytearray(bytes_a_hashear, encoding='utf-8')
+
+        padding_len = 63 - (len(bytes_a_hashear) + 8) % 64
+        ending = struct.pack('!Q', len(bytes_a_hashear) << 3)
+        bytes_a_hashear.append(0x80)
+        bytes_a_hashear.extend([0] * padding_len)
+        bytes_a_hashear.extend(bytearray(ending))
+
+        for chunk_start in range(0, len(bytes_a_hashear), 64):
+            chunk = bytes_a_hashear[chunk_start:chunk_start + 64]
             word_schedule = self.generar_word_schedule(chunk)
             a, b, c, d, e, f, g, h = self.h
             for j in range(64):
@@ -31,47 +44,30 @@ class SHA256(Algoritmo):
                 )
                 a, b, c, d, e, f, g, h = iteracion.valores_finales()
                 self.iteraciones.append(iteracion)
-            self.h[0] = suma_modular_de_bitarrays(self.h[0], a)
-            self.h[1] = suma_modular_de_bitarrays(self.h[1], b)
-            self.h[2] = suma_modular_de_bitarrays(self.h[2], c)
-            self.h[3] = suma_modular_de_bitarrays(self.h[3], d)
-            self.h[4] = suma_modular_de_bitarrays(self.h[4], e)
-            self.h[5] = suma_modular_de_bitarrays(self.h[5], f)
-            self.h[6] = suma_modular_de_bitarrays(self.h[6], g)
-            self.h[7] = suma_modular_de_bitarrays(self.h[7], h)
+            self.h[0] = suma_modular(self.h[0], a)
+            self.h[1] = suma_modular(self.h[1], b)
+            self.h[2] = suma_modular(self.h[2], c)
+            self.h[3] = suma_modular(self.h[3], d)
+            self.h[4] = suma_modular(self.h[4], e)
+            self.h[5] = suma_modular(self.h[5], f)
+            self.h[6] = suma_modular(self.h[6], g)
+            self.h[7] = suma_modular(self.h[7], h)
         return
 
     def hexdigest(self):
-        digest = ''
-        for val in self.h:
-            digest += hex_de_bitarray(val)
-        return digest
-
-    def preprocessMessage(self, message):
-        bits = bitsarray_de_bytes(message)
-        largo_en_bits = bitarray_de_numero(len(bits), 8)
-        bits.append(1)
-        while (len(bits) + 64) % 512 != 0:
-            bits.append(0)
-        bits = bits + largo_en_bits
-        return self.chunker(bits, 512)
-
-    def chunker(self, bits, chunk_length=8):
-        chunked = []
-        for b in range(0, len(bits), chunk_length):
-            chunked.append(bits[b:b + chunk_length])
-        return chunked
+        return binascii.hexlify(
+            b''.join(struct.pack('!I', element) for element in self.h),
+        ).decode('utf-8')
 
     def generar_word_schedule(self, chunk):
-        word_schedule = self.chunker(chunk, 32)
-        for _ in range(48):
-            word_schedule.append(32 * [0])
+        words = [0] * 64
+        words[0:16] = struct.unpack('!16I', chunk)
+
+        # Calcula 48 palabras adicionales
         for i in range(16, 64):
-            word_schedule[i] = suma_modular_de_bitarrays(
-                suma_modular_de_bitarrays(suma_modular_de_bitarrays(sigma1(word_schedule[i - 2]), word_schedule[i - 7]),
-                                          sigma0(word_schedule[i - 15])),
-                word_schedule[i - 16])
-        return word_schedule
+            words[i] = suma_modular(words[i - 16] + sigma0(words[i - 15]) + words[i - 7], sigma1(words[i - 2]))
+
+        return words
 
     def cantidad_de_pasos_por_bloque(self):
         return 64
