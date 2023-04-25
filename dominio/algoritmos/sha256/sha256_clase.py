@@ -28,8 +28,6 @@ class SHA256(Algoritmo):
         bytes_a_hashear.extend([0] * padding_len)
         bytes_a_hashear.extend(bytearray(ending))
         self.palabras = bytes_a_hashear
-        a = bitarray()
-        a.frombytes(bytes_a_hashear)
 
         for chunk_start in range(0, len(bytes_a_hashear), 64):
             chunk = bytes_a_hashear[chunk_start:chunk_start + 64]
