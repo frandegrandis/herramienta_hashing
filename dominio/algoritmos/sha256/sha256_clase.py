@@ -78,3 +78,6 @@ class SHA256(Algoritmo):
         for i in range(0,len(self.palabras),4):
             palabras.append(int.from_bytes(self.palabras[i: i+4], byteorder="big", signed=False))
         return palabras
+
+    def tamanio_de_palbra_en_bytes(self):
+        return 4

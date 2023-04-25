@@ -14,3 +14,6 @@ class Algoritmo:
 
     def palabras_hasheadas(self):
         raise Exception("El mensaje debe ser implementado por la subclase")
+
+    def tamanio_de_palbra_en_bytes(self):
+        raise Exception("El mensaje debe ser implementado por la subclase")

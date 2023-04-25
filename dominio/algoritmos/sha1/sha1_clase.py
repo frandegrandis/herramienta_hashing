@@ -163,3 +163,6 @@ class SHA1(Algoritmo):
 
     def palabras_hasheadas(self):
         return self.palabras
+
+    def tamanio_de_palbra_en_bytes(self):
+        return 4

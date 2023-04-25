@@ -81,7 +81,7 @@ class Debugger:
         return len(self.hasher.iteraciones_por_bloque()[0])
 
     def tamanio_de_palbra_en_bytes(self):
-        return 4
+        return self.hasher.tamanio_de_palbra_en_bytes()
 
     def bytearray_inicial(self):
         return self.mensaje_a_hashear

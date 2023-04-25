@@ -88,7 +88,7 @@ class MD5(Algoritmo):
             suma_modular(self.state[3], d),
         )
 
-    def update(self, s: bytes) -> bytes: #actually, este update hashea y no es lo que representa! #FIXME
+    def update(self, s: bytes) -> bytes:  # actually, este update hashea y no es lo que representa! #FIXME
         self.process(BytesIO(s))
         self.finalize()
         return self.digest()
@@ -113,3 +113,6 @@ class MD5(Algoritmo):
 
     def palabras_hasheadas(self):
         return list(concatenate(self.palabras_por_bloque).flat)
+
+    def tamanio_de_palbra_en_bytes(self):
+        return 4
