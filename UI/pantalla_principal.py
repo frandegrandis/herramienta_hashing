@@ -11,26 +11,29 @@ class PantallaPrincipal(CTk):
         super().__init__()
 
         self.title("Hashing")
-        self.minsize(1080, 600)
+        self.minsize(1280, 720)
 
         self.configurar_grilla()
 
-        top_frame = CTkFrame(master=self, fg_color="green")
+        top_frame = CTkFrame(master=self)
         top_frame.grid(column=0, row=0, sticky='nsew')
         self.input_a_hashear = InputConAumentoDeBits(master=top_frame)
         self.input_a_hashear.pack(fill="x")
         self.resultado_de_hash = MostradorHash(master=top_frame)
         self.resultado_de_hash.pack(fill="both", expand=1)
-        bottom_frame = CTkFrame(master=self, fg_color="blue")
-        bottom_frame.grid(column=0, row=1, sticky='nsew')
-        CTkButton(master=bottom_frame, text="Hash MD5", command=self.calcular_hash_md5).pack()
-        CTkButton(master=bottom_frame, text="Hash SHA1", command=self.calcular_hash_sha1).pack()
-        CTkButton(master=bottom_frame, text="Hash SHA256", command=self.calcular_hash_sha256).pack()
-        CTkButton(master=bottom_frame, text="Hash SHA512", command=self.calcular_hash_sha512).pack()
-        CTkButton(master=bottom_frame, text="Debug MD5", command=self.debuguear_hash_md5).pack()
-        CTkButton(master=bottom_frame, text="Debug SHA1", command=self.debuguear_hash_sha1).pack()
-        CTkButton(master=bottom_frame, text="Debug SHA256", command=self.debuguear_hash_sha256).pack()
-        CTkButton(master=bottom_frame, text="Debug SHA512", command=self.debuguear_hash_sha512).pack()
+        self.botonera()
+
+    def botonera(self):
+        bottom_frame = CTkFrame(master=self)
+        bottom_frame.grid(column=0, row=1)
+        CTkButton(master=bottom_frame, text="Hash MD5", command=self.calcular_hash_md5).grid(column=0, row=0, padx=20, pady=10)
+        CTkButton(master=bottom_frame, text="Hash SHA1", command=self.calcular_hash_sha1).grid(column=1, row=0, padx=20, pady=10)
+        CTkButton(master=bottom_frame, text="Hash SHA256", command=self.calcular_hash_sha256).grid(column=2, row=0, padx=20, pady=10)
+        CTkButton(master=bottom_frame, text="Hash SHA512", command=self.calcular_hash_sha512).grid(column=3, row=0, padx=20, pady=10)
+        CTkButton(master=bottom_frame, text="Debug MD5", command=self.debuguear_hash_md5).grid(column=0, row=1, padx=20, pady=10)
+        CTkButton(master=bottom_frame, text="Debug SHA1", command=self.debuguear_hash_sha1).grid(column=1, row=1, padx=20, pady=10)
+        CTkButton(master=bottom_frame, text="Debug SHA256", command=self.debuguear_hash_sha256).grid(column=2, row=1, padx=20, pady=10)
+        CTkButton(master=bottom_frame, text="Debug SHA512", command=self.debuguear_hash_sha512).grid(column=3, row=1, padx=20, pady=10)
 
     def calcular_hash_md5(self):
         self._obtener_hash(HasherController().calcular_hash_md5)
@@ -57,12 +60,8 @@ class PantallaPrincipal(CTk):
         self.resultado_de_hash.mostrar_pasos_sha512(HasherController().debugguear_sha512(self.valor_a_hashear()))
 
     def configurar_grilla(self):
-        alto_pantalla = self.alto_pantalla()
-        maxima_particion_de_pantalla = 10
-        parte_superior_pantalla = 8 / maxima_particion_de_pantalla
-        parte_inferior_pantalla = 1 / maxima_particion_de_pantalla
-        self.grid_rowconfigure(0, weight=ceil(alto_pantalla * parte_superior_pantalla))
-        self.grid_rowconfigure(1, weight=ceil(alto_pantalla * parte_inferior_pantalla))
+        self.grid_rowconfigure(0, weight=9)
+        self.grid_rowconfigure(1)
         self.grid_columnconfigure((0), weight=1)
 
     def alto_pantalla(self):

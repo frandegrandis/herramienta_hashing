@@ -2,6 +2,8 @@ import struct
 
 import binascii
 
+from bitarray import bitarray
+
 from dominio.algoritmo import Algoritmo
 from dominio.algoritmos.sha256.constantes_sha256 import valores_iniciales, K
 from dominio.algoritmos.sha256.iteracion_sha256 import IteracionSHA256
@@ -14,6 +16,7 @@ class SHA256(Algoritmo):
         self.constantes = K
         self.h = list(valores_iniciales)
         self.iteraciones = []
+        self.palabras = None
 
     def update(self, bytes_a_hashear: [str, bytearray]):
         if type(bytes_a_hashear) is str:
@@ -24,6 +27,7 @@ class SHA256(Algoritmo):
         bytes_a_hashear.append(0x80)
         bytes_a_hashear.extend([0] * padding_len)
         bytes_a_hashear.extend(bytearray(ending))
+        self.palabras = bytes_a_hashear
 
         for chunk_start in range(0, len(bytes_a_hashear), 64):
             chunk = bytes_a_hashear[chunk_start:chunk_start + 64]
@@ -66,3 +70,13 @@ class SHA256(Algoritmo):
 
     def cantidad_de_pasos_por_bloque(self):
         return 64
+
+    def palabras_hasheadas(self):
+        palabras = []
+        step = self.tamanio_de_palbra_en_bytes()
+        for i in range(0, len(self.palabras), step):
+            palabras.append(int.from_bytes(self.palabras[i: i + step], byteorder="big", signed=False))
+        return palabras
+
+    def tamanio_de_palbra_en_bytes(self):
+        return 4

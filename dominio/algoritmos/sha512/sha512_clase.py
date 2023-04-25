@@ -14,6 +14,7 @@ class SHA512(Algoritmo):
         self.h = list(initial_hash)
         self.constantes = round_constants
         self.iteraciones = []
+        self.palabras = None
 
     def update(self, string):
         if type(string) is str:
@@ -67,6 +68,17 @@ class SHA512(Algoritmo):
         message_array.append(0x80)
         message_array.extend([0] * padding_len)
         message_array.extend(bytearray(ending))
+        self.palabras = message_array
 
     def cantidad_de_pasos_por_bloque(self):
         return 80
+
+    def palabras_hasheadas(self):
+        palabras = []
+        step = self.tamanio_de_palbra_en_bytes()
+        for i in range(0, len(self.palabras), step):
+            palabras.append(int.from_bytes(self.palabras[i: i + step], byteorder="big", signed=False))
+        return palabras
+
+    def tamanio_de_palbra_en_bytes(self):
+        return 8

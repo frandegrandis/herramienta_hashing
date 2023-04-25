@@ -32,6 +32,7 @@ class SHA1(Algoritmo):
 
         self.operaciones = [F(), G(), H(), I()]
         self.constantes = [0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6]
+        self.palabras = []
 
     def update(self, arg):
         """Update the current digest.
@@ -96,6 +97,7 @@ class SHA1(Algoritmo):
     def _process_chunk(self, chunk):
 
         palabras = obtener_palabras(chunk=chunk, byteorder='big', block_size=sha1_block_size)
+        self.palabras.extend(palabras)
 
         self.agregar_palabras(palabras)
 
@@ -158,3 +160,9 @@ class SHA1(Algoritmo):
 
     def cantidad_de_pasos_por_bloque(self):
         return 80
+
+    def palabras_hasheadas(self):
+        return self.palabras
+
+    def tamanio_de_palbra_en_bytes(self):
+        return 4

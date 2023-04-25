@@ -6,7 +6,8 @@ from helpers.utilidades import bytes_de_string
 
 
 class Debugger:
-    def __init__(self, hasher_a_serializar):
+    def __init__(self, hasher_a_serializar, mensaje_a_hashear):
+        self.mensaje_a_hashear = mensaje_a_hashear
         self.hasher = hasher_a_serializar
 
     def palabras(self, bloque):
@@ -41,7 +42,7 @@ class Debugger:
             elemento_a_hashear = elemento_a_hashear.read()
         hasher = MD5()
         hasher.update(elemento_a_hashear)
-        return cls(hasher)
+        return cls(hasher, elemento_a_hashear)
 
     @classmethod
     def sha1(cls, elemento_a_hashear):
@@ -51,7 +52,7 @@ class Debugger:
             elemento_a_hashear = elemento_a_hashear.read()
         hasher = SHA1()
         hasher.update(elemento_a_hashear)
-        return cls(hasher)
+        return cls(hasher, elemento_a_hashear)
 
     @classmethod
     def sha256(cls, elemento_a_hashear):
@@ -61,7 +62,7 @@ class Debugger:
             elemento_a_hashear = elemento_a_hashear.read()
         hasher = SHA256()
         hasher.update(bytearray(elemento_a_hashear))
-        return cls(hasher)
+        return cls(hasher, elemento_a_hashear)
 
     @classmethod
     def sha512(cls, elemento_a_hashear):
@@ -71,10 +72,19 @@ class Debugger:
             elemento_a_hashear = elemento_a_hashear.read()
         hasher = SHA512()
         hasher.update(bytearray(elemento_a_hashear))
-        return cls(hasher)
+        return cls(hasher, elemento_a_hashear)
 
     def palabra_a_sumar_en(self, paso, bloque):
         return self.obtener_iteracion(paso=paso,bloque=bloque).palabra_a_sumar
 
     def cantidad_pasos(self):
         return len(self.hasher.iteraciones_por_bloque()[0])
+
+    def tamanio_de_palbra_en_bytes(self):
+        return self.hasher.tamanio_de_palbra_en_bytes()
+
+    def bytearray_inicial(self):
+        return self.mensaje_a_hashear
+
+    def bytearray_con_padding(self):
+        return self.hasher.palabras_hasheadas()

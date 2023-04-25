@@ -2,10 +2,12 @@ from io import BytesIO
 from typing import BinaryIO
 
 import numpy as np
+from numpy import concatenate
 
 from dominio.algoritmo import Algoritmo
 from dominio.algoritmos.md5.iteracion_md5 import IteracionMD5
 from dominio.algoritmos.md5.md5_operations import MD5SelectorDeOperaciones
+from helpers.operaciones_bit_a_bit import bitarray_de_numero
 from helpers.utilidades import suma_modular, obtener_palabras
 
 md5_block_size = 64
@@ -87,7 +89,7 @@ class MD5(Algoritmo):
             suma_modular(self.state[3], d),
         )
 
-    def update(self, s: bytes) -> bytes: #actually, este update hashea y no es lo que representa! #FIXME
+    def update(self, s: bytes) -> bytes:  # actually, este update hashea y no es lo que representa! #FIXME
         self.process(BytesIO(s))
         self.finalize()
         return self.digest()
@@ -109,3 +111,10 @@ class MD5(Algoritmo):
 
     def cantidad_de_pasos_por_bloque(self):
         return 64
+
+    def palabras_hasheadas(self):
+        palabras = list(concatenate(self.palabras_por_bloque).flat)
+        return [bitarray_de_numero(int(x), endianess="little") for x in palabras]
+
+    def tamanio_de_palbra_en_bytes(self):
+        return 4

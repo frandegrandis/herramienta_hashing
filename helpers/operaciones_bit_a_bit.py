@@ -32,8 +32,8 @@ def bit_not(x: int) -> int:
     return bitarray_a_numero(~bitarray_de_numero(x))
 
 
-def bitarray_de_numero(numero, cantidad_de_bytes=4):
-    bytes_de_numero = numero.to_bytes(cantidad_de_bytes, 'big')
+def bitarray_de_numero(numero, cantidad_de_bytes=4, endianess='big'):
+    bytes_de_numero = numero.to_bytes(cantidad_de_bytes, endianess)
     return bitsarray_de_bytes(bytes_de_numero)
 
 

@@ -29,9 +29,9 @@ class InputConAumentoDeBits(CTkFrame):
                                          command=self.subtract_button_callback)
         self.subtract_button.grid(row=0, column=0, padx=(3, 0), pady=3)
 
-        self.entry = CTkEntry(self, width=width - (2 * height), height=height - 6, border_width=0)
+        self.entry = CTkEntry(self, border_width=0)
         self.entry.bind(Events.on_change.value, self._archivo_deseleccionado)
-        self.entry.grid(row=0, column=1, columnspan=1, padx=3, pady=3, sticky="ew")
+        self.entry.grid(row=0, column=1, columnspan=1, padx=3, pady=10, sticky="ew")
 
         self.add_button = CTkButton(self, text="+1 bit", width=height - 6, height=height - 6,
                                     command=self.add_button_callback)
@@ -39,7 +39,7 @@ class InputConAumentoDeBits(CTkFrame):
 
         self.boton_archivo = CTkButton(self, text="Archivo", width=height - 6, height=height - 6,
                                        command=self.cargar_archivo)
-        self.boton_archivo.grid(row=0, column=3, padx=(0, 3), pady=3)
+        self.boton_archivo.grid(row=0, column=3, padx=(3, 3), pady=3)
 
         # default value
         self.entry.insert(0, "")
