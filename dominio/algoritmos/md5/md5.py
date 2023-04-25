@@ -7,6 +7,7 @@ from numpy import concatenate
 from dominio.algoritmo import Algoritmo
 from dominio.algoritmos.md5.iteracion_md5 import IteracionMD5
 from dominio.algoritmos.md5.md5_operations import MD5SelectorDeOperaciones
+from helpers.operaciones_bit_a_bit import bitarray_de_numero
 from helpers.utilidades import suma_modular, obtener_palabras
 
 md5_block_size = 64
@@ -112,7 +113,8 @@ class MD5(Algoritmo):
         return 64
 
     def palabras_hasheadas(self):
-        return list(concatenate(self.palabras_por_bloque).flat)
+        palabras = list(concatenate(self.palabras_por_bloque).flat)
+        return [bitarray_de_numero(int(x), endianess="little") for x in palabras]
 
     def tamanio_de_palbra_en_bytes(self):
         return 4
