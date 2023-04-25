@@ -2,6 +2,7 @@ from io import BytesIO
 from typing import BinaryIO
 
 import numpy as np
+from numpy import concatenate
 
 from dominio.algoritmo import Algoritmo
 from dominio.algoritmos.md5.iteracion_md5 import IteracionMD5
@@ -109,3 +110,6 @@ class MD5(Algoritmo):
 
     def cantidad_de_pasos_por_bloque(self):
         return 64
+
+    def palabras_hasheadas(self):
+        return list(concatenate(self.palabras_por_bloque).flat)

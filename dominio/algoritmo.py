@@ -11,3 +11,6 @@ class Algoritmo:
 
     def cantidad_bloques(self):
         return len(self.iteraciones_por_bloque())
+
+    def palabras_hasheadas(self):
+        raise Exception("El mensaje debe ser implementado por la subclase")

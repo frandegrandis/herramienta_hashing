@@ -32,10 +32,10 @@ class IteracionSHA512(Iteracion):
         return a, b, c, d, e, f, g, h
 
     def t2(self):
-        return gamma0(self.a) + maj(self.a, self.b, self.c)
+        return suma_modular(gamma0(self.a), maj(self.a, self.b, self.c), modulo=2**64)
 
     def t1(self):
-        return self.h + gamma1(self.e) + ch(self.e, self.f, self.g) + self.constante_a_usar + self.palabra_a_sumar
+        return suma_modular(self.h + gamma1(self.e) + ch(self.e, self.f, self.g) + self.constante_a_usar, self.palabra_a_sumar, modulo=2**64)
 
     def valores_iniciales(self):
         return [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
