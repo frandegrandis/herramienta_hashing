@@ -37,6 +37,7 @@ def serializar_padding(debugger: Debugger):
 
     resultado += "Luego de aplicar el padding obtenemos:\n"
     i=1
+    # FIXME: MD5 esta andando mal
     for palabra in palabras_despues_del_padding:
         if i < 10:
             resultado+= f"Palabra 0{i} = {mostrar_bits(palabra)}\n"
