@@ -1,5 +1,4 @@
 from customtkinter import CTk, CTkFrame, CTkButton
-from math import ceil
 
 from UI.components.input_con_aumento_de_bits import InputConAumentoDeBits
 from UI.mostrador_hash import MostradorHash
