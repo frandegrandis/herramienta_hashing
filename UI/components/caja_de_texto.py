@@ -18,3 +18,13 @@ class CajaDeTexto(CTkTextbox):
 
     def vaciar(self):
         super().delete("0.0", "end")
+
+    def append(self, texto_a_mostrar):
+        texto_actual = self.get("0.0","end")
+        hay_que_limpiar = not any(funcion_de_hash in texto_actual for funcion_de_hash in ["MD5", "SHA1", "SHA256", "SHA512"])
+        if self.get("0.0") == '\n' or hay_que_limpiar:
+            self.mostrar(texto_a_mostrar)
+            return
+        self.configure(state='normal')
+        super().insert("end","\n" + texto_a_mostrar)
+        self.configure(state='disabled')

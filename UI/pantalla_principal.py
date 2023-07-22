@@ -10,7 +10,7 @@ class PantallaPrincipal(CTk):
     def __init__(self):
         super().__init__()
 
-        self.title("Hashing")
+        self.title("Remake CriptoRes")
         self.minsize(1280, 720)
 
         self.configurar_grilla()
@@ -36,16 +36,16 @@ class PantallaPrincipal(CTk):
         CTkButton(master=bottom_frame, text="Debug SHA512", command=self.debuguear_hash_sha512).grid(column=3, row=1, padx=20, pady=10)
 
     def calcular_hash_md5(self):
-        self._obtener_hash(HasherController().calcular_hash_md5)
+        self._obtener_hash(HasherController().calcular_hash_md5, "MD5")
 
     def calcular_hash_sha1(self):
-        self._obtener_hash(HasherController().calcular_hash_sha1)
+        self._obtener_hash(HasherController().calcular_hash_sha1, "SHA1")
 
     def calcular_hash_sha256(self):
-        self._obtener_hash(HasherController().calcular_hash_sha256)
+        self._obtener_hash(HasherController().calcular_hash_sha256, "SHA256")
 
     def calcular_hash_sha512(self):
-        self._obtener_hash(HasherController().calcular_hash_sha512)
+        self._obtener_hash(HasherController().calcular_hash_sha512, "SHA512")
 
     def debuguear_hash_md5(self):
         self.resultado_de_hash.mostrar_pasos_md5(HasherController().debugguear_md5(self.valor_a_hashear()))
@@ -67,9 +67,9 @@ class PantallaPrincipal(CTk):
     def alto_pantalla(self):
         return self.winfo_width()
 
-    def _obtener_hash(self, calculo_hash):
+    def _obtener_hash(self, calculo_hash, algoritmo):
         valor_a_hashear = self.valor_a_hashear()
-        self.resultado_de_hash.mostrar_texto(calculo_hash(valor_a_hashear))
+        self.resultado_de_hash.append_texto(f"Aplicando {algoritmo} sobre {valor_a_hashear}: {calculo_hash(valor_a_hashear)}")
 
     def valor_a_hashear(self):
         if self.input_a_hashear.archivo_seleccionado:

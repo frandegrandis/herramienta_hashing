@@ -90,3 +90,8 @@ class MostradorHash(CTkTabview):
             fill="both", expand=1)
 
         self.caja_resultado.mostrar(debugger.resultado_final())
+
+    def append_texto(self, texto_a_mostrar):
+        self._borrar_tabs()
+
+        self.caja_resultado.append(texto_a_mostrar)
