@@ -1,9 +1,13 @@
-from customtkinter import CTk, CTkFrame, CTkButton
+import pathlib
+
+from PIL import Image
+from customtkinter import CTk, CTkFrame, CTkButton, CTkImage
 
 from UI.components.input_con_aumento_de_bits import InputConAumentoDeBits
 from UI.mostrador_hash import MostradorHash
 from controllers.hasher_controller import HasherController
 
+PATH = pathlib.Path(__file__).parent.parent.resolve()
 
 class PantallaPrincipal(CTk):
     def __init__(self):
@@ -25,6 +29,10 @@ class PantallaPrincipal(CTk):
     def botonera(self):
         bottom_frame = CTkFrame(master=self)
         bottom_frame.grid(column=0, row=1)
+        logo_uca = CTkImage(light_image=Image.open(f"{PATH}/UI/resources/Isologotipo_UCA_azul.png"),
+                            dark_image=Image.open(f"{PATH}/UI/resources/Isologotipo_UCA_azul.png"),
+                            size=(30,30)
+        )
         CTkButton(master=bottom_frame, text="Hash MD5", command=self.calcular_hash_md5).grid(column=0, row=0, padx=20, pady=10)
         CTkButton(master=bottom_frame, text="Hash SHA1", command=self.calcular_hash_sha1).grid(column=1, row=0, padx=20, pady=10)
         CTkButton(master=bottom_frame, text="Hash SHA256", command=self.calcular_hash_sha256).grid(column=2, row=0, padx=20, pady=10)
@@ -33,6 +41,7 @@ class PantallaPrincipal(CTk):
         CTkButton(master=bottom_frame, text="Debug SHA1", command=self.debuguear_hash_sha1).grid(column=1, row=1, padx=20, pady=10)
         CTkButton(master=bottom_frame, text="Debug SHA256", command=self.debuguear_hash_sha256).grid(column=2, row=1, padx=20, pady=10)
         CTkButton(master=bottom_frame, text="Debug SHA512", command=self.debuguear_hash_sha512).grid(column=3, row=1, padx=20, pady=10)
+        CTkButton(master=bottom_frame, text="Creditos", command=self.mostrar_creditos, image=logo_uca).grid(column=4, row=0, padx=20, pady=10, rowspan=2)
 
     def calcular_hash_md5(self):
         self._obtener_hash(HasherController().calcular_hash_md5, "MD5")
@@ -76,3 +85,6 @@ class PantallaPrincipal(CTk):
         else:
             valor_a_hashear = self.input_a_hashear.get()
         return valor_a_hashear
+
+    def mostrar_creditos(self):
+        self.resultado_de_hash.mostrar_texto("Este programa fue realizado como trabajo final de la carrera Ingeniería Informática por el alumno Francisco De Grandis, siendo sus tutores los profesores Germán Bollmann y Marcelo Cipriano.\nBuenos Aires, Julio 2023")
