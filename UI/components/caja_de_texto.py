@@ -11,13 +11,13 @@ class CajaDeTexto(CTkTextbox):
         self.configure(state='disabled')
 
     def mostrar(self, texto_a_mostrar):
-        self.configure(state='normal')
         self.vaciar()
-        super().insert("0.0", texto_a_mostrar)
-        self.configure(state='disabled')
+        self.insert("0.0", texto_a_mostrar)
 
     def vaciar(self):
+        self.configure(state='normal')
         super().delete("0.0", "end")
+        self.configure(state='disabled')
 
     def append(self, texto_a_mostrar):
         texto_actual = self.get("0.0","end")
@@ -25,6 +25,4 @@ class CajaDeTexto(CTkTextbox):
         if self.get("0.0") == '\n' or hay_que_limpiar:
             self.mostrar(texto_a_mostrar)
             return
-        self.configure(state='normal')
-        super().insert("end","\n" + texto_a_mostrar)
-        self.configure(state='disabled')
+        self.insert("end","\n" + texto_a_mostrar)
