@@ -77,7 +77,10 @@ class PantallaPrincipal(CTk):
 
     def _obtener_hash(self, calculo_hash, algoritmo):
         valor_a_hashear = self.valor_a_hashear()
-        self.resultado_de_hash.append_texto(f"Aplicando {algoritmo} sobre {valor_a_hashear}: {calculo_hash(valor_a_hashear)}")
+        if isinstance(valor_a_hashear, str):
+            self.resultado_de_hash.append_texto(f"Aplicando {algoritmo} sobre {valor_a_hashear}: {calculo_hash(valor_a_hashear)}")
+        else:
+            self.resultado_de_hash.append_texto(f"Aplicando {algoritmo} sobre {valor_a_hashear.name}: {calculo_hash(valor_a_hashear)}")
 
     def valor_a_hashear(self):
         if self.input_a_hashear.archivo_seleccionado:
