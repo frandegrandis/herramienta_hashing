@@ -1,4 +1,5 @@
 import pathlib
+import platform
 
 from PIL import Image
 from customtkinter import CTk, CTkFrame, CTkButton, CTkImage
@@ -6,6 +7,7 @@ from customtkinter import CTk, CTkFrame, CTkButton, CTkImage
 from UI.components.input_con_aumento_de_bits import InputConAumentoDeBits
 from UI.mostrador_hash import MostradorHash
 from controllers.hasher_controller import HasherController
+from UI.Estado import Estado
 
 PATH = pathlib.Path(__file__).parent.parent.resolve()
 
@@ -17,6 +19,8 @@ class PantallaPrincipal(CTk):
         self.minsize(1280, 720)
 
         self.configurar_grilla()
+
+        self.configurar_atajos()
 
         top_frame = CTkFrame(master=self)
         top_frame.grid(column=0, row=0, sticky='nsew')
@@ -91,3 +95,17 @@ class PantallaPrincipal(CTk):
 
     def mostrar_creditos(self):
         self.resultado_de_hash.mostrar_texto("Este programa fue realizado como trabajo final de la carrera Ingeniería Informática por el alumno Francisco De Grandis, siendo sus tutores los profesores Germán Bollmann y Marcelo Cipriano.\nBuenos Aires, Julio 2023")
+
+    def agrandar_letra(self, _):
+        Estado.agrandar_letra()
+
+    def achicar_letra(self, _):
+        Estado.achicar_letra()
+
+    def configurar_atajos(self):
+        if platform.uname().system == "Darwin":
+            self.bind('<Command-equal>', self.agrandar_letra)
+            self.bind('<Command-minus>', self.achicar_letra)
+        else:
+            self.bind('<Control-equal>', self.agrandar_letra)
+            self.bind('<Control-minus>', self.achicar_letra)
